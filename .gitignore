@@ -1,2 +1,4 @@
 # Ignore mac finder meta-files
-.DS_Store
+.DS_Store/.idea/scopes/scope_settings.xml
+# Ignore IDE's settings-dir
+.idea
