@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,7 +8,7 @@
 <body>
 <h1>Example of a table that may be converted to a timeline by YAT.js</h1>
 
-<ul id="yat-table-1-skipmenu">
+<ul id="yat-table1-skipmenu">
     <li><a href="#yat-table1-skiptarget">Tabelle überspringen</a></li>
     <li><a href="#yat-table1-target1">In der Tabelle zum 1. Jänner 2010 springen</a></li>
     <li><a href="#yat-table1-target2">In der Tabelle zum 1. Jänner 2011 springen</a></li>
@@ -16,7 +16,9 @@
 </ul>
 
 <table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline">
-    <caption>Tabellarische Zeitleiste, die 528 historische Ereignisse enthält. <a href="#yat-table1-skipmenu">Zum Sprungmenü</a></caption>
+    <caption>Tabellarische Zeitleiste, die 528 historische Ereignisse enthält.
+        <a href="#yat-table1-skipmenu">Zum Sprungmenü</a>
+    </caption>
     <thead>
     <tr>
         <th>Termin</th>
@@ -24,7 +26,6 @@
         <th>Inhalt</th>
         <th>Kategorie</th>
         <th>Tags</th>
-        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -36,7 +37,6 @@
         </td>
         <td>Allgemein</td>
         <td>Eingetragen, Tag2</td>
-        <td></td>
     </tr>
     <tr>
         <th id="yat-table1-target2">1. Jänner 2011</th>
@@ -46,7 +46,6 @@
         </td>
         <td>Allgemein</td>
         <td>Eingetragen, Tag2</td>
-        <td></td>
     </tr>
     <tr>
         <th id="yat-table1-target3">1. Jänner 2012</th>
@@ -56,11 +55,10 @@
         </td>
         <td>Allgemein</td>
         <td>Eingetragen</td>
-        <td></td>
     </tr>
-    <tr>
-        <th>13. Februar 2012</th>
-        <td>Lorem Ipsum dolor sit amet</td>
+    <tr class="important">
+        <th><strong>13. Februar 2012</strong></th>
+        <td><strong>Lorem Ipsum dolor sit amet</strong></td>
         <td>
             <h3>Der Titel des Eintrags</h3>
 
@@ -71,7 +69,6 @@
         </td>
         <td>Speziell</td>
         <td>Tag2</td>
-        <td class="important">wichtig</td>
     </tr>
 
     </tbody>
