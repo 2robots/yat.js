@@ -22,6 +22,7 @@
       content: null
       category: null
       tags: null
+      important: null
 
     callbacks:
       alterItems: (elements) ->
@@ -44,10 +45,13 @@
         else
           []
 
+      alterImportant: (element) ->
+        return false
+
       beforeInit: null
       afterInit: null
 
-    attributes: ['shorttitle', 'date', 'content', 'category', 'tags']
+    attributes: ['shorttitle', 'date', 'content', 'category', 'tags', 'important']
 
 
   # The actual plugin constructor
@@ -89,6 +93,10 @@
 
         cb_name = 'alter' + t.ucfirst(i)
         val = $(child).find(@options.selectors[i])
+
+        # if we can't find any child, we try the selector on ourself
+        if val.length == 0
+          val = $(child).filter(@options.selectors[i])
         # if the dom object(s) is/are avaiable
         if val.length > 0 && @options.callbacks[cb_name] != undefined
           # get the output of the alter-callback
@@ -98,7 +106,7 @@
 
       console.log("REGISTER CHILD");
       # THIS OS OUR OBJECT TO PASS TO THE BACKBONE APP
-      # console.log obj;
+      #console.log obj;
 
 
 

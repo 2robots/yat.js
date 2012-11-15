@@ -12,7 +12,8 @@
         date: null,
         content: null,
         category: null,
-        tags: null
+        tags: null,
+        important: null
       },
       callbacks: {
         alterItems: function(elements) {
@@ -37,10 +38,13 @@
             return [];
           }
         },
+        alterImportant: function(element) {
+          return false;
+        },
         beforeInit: null,
         afterInit: null
       },
-      attributes: ['shorttitle', 'date', 'content', 'category', 'tags']
+      attributes: ['shorttitle', 'date', 'content', 'category', 'tags', 'important']
     };
     YatWrapper = (function() {
 
@@ -77,6 +81,9 @@
           i = _ref[n];
           cb_name = 'alter' + t.ucfirst(i);
           val = $(child).find(this.options.selectors[i]);
+          if (val.length === 0) {
+            val = $(child).filter(this.options.selectors[i]);
+          }
           if (val.length > 0 && this.options.callbacks[cb_name] !== void 0) {
             obj[i] = this.options.callbacks[cb_name](val);
           } else {
