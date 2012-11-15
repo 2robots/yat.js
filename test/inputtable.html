@@ -4,6 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>YAT.js - Table that is converted to a timeline</title>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/yat.js"></script>
+
 </head>
 <body>
 <h1>Example of a table that may be converted to a timeline by YAT.js</h1>
@@ -15,7 +19,7 @@
     <li><a href="#yat-table1-target3">In der Tabelle zum 1. Jänner 2012 springen</a></li>
 </ul>
 
-<table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline">
+<table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline" id="yat-table1">
     <caption>Tabellarische Zeitleiste, die 528 historische Ereignisse enthält. <a href="#yat-table1-skipmenu">Zum Sprungmenü</a></caption>
     <thead>
     <tr>
@@ -29,39 +33,39 @@
     </thead>
     <tbody>
     <tr>
-        <th id="yat-table1-target1">1. Jänner 2010</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th class="date" id="yat-table1-target1">1. Jänner 2010</th>
+        <td class="title">Lorem Ipsum dolor sit amet</td>
+        <td class="content">
             <h3>Der Titel des ersten Eintrags 2010</h3>
         </td>
-        <td>Allgemein</td>
-        <td>Eingetragen, Tag2</td>
-        <td></td>
+        <td class="date">Allgemein</td>
+        <td class="category">Eingetragen, Tag2</td>
+        <td class="tags"></td>
     </tr>
     <tr>
-        <th id="yat-table1-target2">1. Jänner 2011</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th class="date" id="yat-table1-target2">1. Jänner 2011</th>
+        <td class="title">Lorem Ipsum dolor sit amet</td>
+        <td class="content">
             <h3>Der Titel des ersten Eintrags 2011</h3>
         </td>
-        <td>Allgemein</td>
-        <td>Eingetragen, Tag2</td>
+        <td class="category">Allgemein</td>
+        <td class="tags">Eingetragen, Tag2</td>
         <td></td>
     </tr>
     <tr>
-        <th id="yat-table1-target3">1. Jänner 2012</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th class="date" id="yat-table1-target3">1. Jänner 2012</th>
+        <td class="title">Lorem Ipsum dolor sit amet</td>
+        <td class="content">
             <h3>Der Titel des ersten Eintrags 2012</h3>
         </td>
-        <td>Allgemein</td>
-        <td>Eingetragen</td>
+        <td class="category">Allgemein</td>
+        <td class="tags">Eingetragen</td>
         <td></td>
     </tr>
     <tr>
-        <th>13. Februar 2012</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th class="date">13. Februar 2012</th>
+        <td class="title">Lorem Ipsum dolor sit amet</td>
+        <td class="content">
             <h3>Der Titel des Eintrags</h3>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
@@ -69,13 +73,30 @@
                 commodi consequat.
             </p>
         </td>
-        <td>Speziell</td>
-        <td>Tag2</td>
+        <td class="category">Speziell</td>
+        <td class="tags">Tag2</td>
         <td class="important">wichtig</td>
     </tr>
 
     </tbody>
 </table>
 <div id="yat-table1-skiptarget"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#yat-table1").yat(
+        {
+            items: "tbody tr",
+            category: "td.category",
+            content: "td.content",
+            date: "th.date",
+            shorttitle: "td.title",
+            tags: "td.tags"
+        });
+    });
+</script>
+
+
 </body>
 </html>
