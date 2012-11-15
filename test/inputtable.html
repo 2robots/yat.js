@@ -4,6 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>YAT.js - Table that is converted to a timeline</title>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/yat.js"></script>
+
 </head>
 <body>
 <h1>Example of a table that may be converted to a timeline by YAT.js</h1>
@@ -94,5 +98,27 @@
     </tbody>
 </table>
 <div id="yat-table1-skiptarget"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#yat-table1").yat(
+                {
+                    items: "tbody tr",
+                    category: "td.yat-category",
+                    content: "td.yat-content",
+                    date: "th.yat-date",
+                    shorttitle: "td.yat-title",
+                    tags: "td.yat-tags",
+                    important: "tr"
+                }, {
+                    alterImportant: function (element) {
+                        return element.hasClass("important");
+                    }
+                });
+    });
+</script>
+
+
 </body>
 </html>
