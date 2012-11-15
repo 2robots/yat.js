@@ -10,12 +10,32 @@
 
 <ul id="yat-table1-skipmenu">
     <li><a href="#yat-table1-skiptarget">Tabelle überspringen</a></li>
+    <li><a href="#yat-table1-filters">Zu Filtermöglichkeiten der Tabelle springen</a></li>
     <li><a href="#yat-table1-target1">In der Tabelle zum 1. Jänner 2010 springen</a></li>
     <li><a href="#yat-table1-target2">In der Tabelle zum 1. Jänner 2011 springen</a></li>
     <li><a href="#yat-table1-target3">In der Tabelle zum 1. Jänner 2012 springen</a></li>
 </ul>
 
-<table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline">
+<form id="yat-table1-filters" action="" method="post">
+    <fieldset>
+        <legend>Filter</legend>
+        <label for="yat-table1-filters-category">Kategorie</label>
+        <select id="yat-table1-filters-category">
+            <option>Keine Kategorie gewählt</option>
+            <option>Allgemein</option>
+            <option>Speziell</option>
+        </select>
+        <label for="yat-table1-filters-tags">Tags</label>
+        <select id="yat-table1-filters-tags" multiple="multiple">
+            <option>Eingetragen</option>
+            <option>Tag2</option>
+            <option>Tag3</option>
+        </select>
+        <input type="submit" value="Filtern" />
+    </fieldset>
+</form>
+
+<table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline" id="yat-table1">
     <caption>Tabellarische Zeitleiste, die 528 historische Ereignisse enthält.
         <a href="#yat-table1-skipmenu">Zum Sprungmenü</a>
     </caption>
@@ -30,36 +50,36 @@
     </thead>
     <tbody>
     <tr>
-        <th id="yat-table1-target1">1. Jänner 2010</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th id="yat-table1-target1" class="yat-date">1. Jänner 2010</th>
+        <td class="yat-title">Lorem Ipsum dolor sit amet</td>
+        <td class="yat-content">
             <h3>Der Titel des ersten Eintrags 2010</h3>
         </td>
-        <td>Allgemein</td>
-        <td>Eingetragen, Tag2</td>
+        <td class="yat-category">Allgemein</td>
+        <td class="yat-tags">Eingetragen, Tag2</td>
     </tr>
     <tr>
-        <th id="yat-table1-target2">1. Jänner 2011</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th id="yat-table1-target2" class="yat-date">1. Jänner 2011</th>
+        <td class="yat-title">Lorem Ipsum dolor sit amet</td>
+        <td class="yat-content">
             <h3>Der Titel des ersten Eintrags 2011</h3>
         </td>
-        <td>Allgemein</td>
-        <td>Eingetragen, Tag2</td>
+        <td class="yat-category">Allgemein</td>
+        <td class="yat-tags">Eingetragen, Tag3</td>
     </tr>
     <tr>
-        <th id="yat-table1-target3">1. Jänner 2012</th>
-        <td>Lorem Ipsum dolor sit amet</td>
-        <td>
+        <th id="yat-table1-target3" class="yat-date">1. Jänner 2012</th>
+        <td class="yat-title">Lorem Ipsum dolor sit amet</td>
+        <td class="yat-content">
             <h3>Der Titel des ersten Eintrags 2012</h3>
         </td>
-        <td>Allgemein</td>
-        <td>Eingetragen</td>
+        <td class="yat-category">Allgemein</td>
+        <td class="yat-tags">Eingetragen</td>
     </tr>
     <tr class="important">
-        <th><strong>13. Februar 2012</strong></th>
-        <td><strong>Lorem Ipsum dolor sit amet</strong></td>
-        <td>
+        <th class="yat-date"><strong>13. Februar 2012</strong></th>
+        <td class="yat-title"><strong>Lorem Ipsum dolor sit amet</strong></td>
+        <td class="yat-content">
             <h3>Der Titel des Eintrags</h3>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
@@ -67,8 +87,8 @@
                 commodi consequat.
             </p>
         </td>
-        <td>Speziell</td>
-        <td>Tag2</td>
+        <td class="yat-category">Speziell</td>
+        <td class="yat-tags">Tag2</td>
     </tr>
 
     </tbody>
