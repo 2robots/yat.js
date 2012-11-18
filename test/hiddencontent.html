@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <style type="text/css">
+        .timeline {
+            width: 100%;
+            height: 300px;
+            border: 1px solid gray;
+        }
+
+        .element {
+            width: 200px;
+            height: 280px;
+            overflow: hidden;
+            margin: 10px;
+            vertical-align: top;
+            border: 1px solid black;
+            display: inline-block;
+        }
+
+        #log {
+            margin-top: 30px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="timeline">
+    <div class="element">
+        <div class="content">
+            Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
+            commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id
+            est laborum.<br/>
+            Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
+            commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id
+            est laborum.
+        </div>
+    </div>
+    <div class="element">
+        <div class="content">
+            Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
+            commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id
+            est laborum.
+        </div>
+    </div>
+</div>
+
+<div id="log">LOG<br/></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.timeline .element').each(function (index, el) {
+            el = $(el);
+            var content = el.find('.content');
+            $('#log').append('content fits: ' + (el.height() >= content.height()) + '<br/>');
+        });
+    });
+</script>
+</body>
+</html>
