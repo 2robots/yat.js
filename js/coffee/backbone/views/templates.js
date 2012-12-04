@@ -4,7 +4,13 @@
   window.yat = window.yat || {};
 
   window.yat.templates = {
-    item: _.template('<h1><%= shorttitle %></h1><p><%= content %></p>')
+    item: _.template('<h1><%= shorttitle %></h1><p><%= content %></p>'),
+    timelineOverview: _.template('<div class="yat-timeline-overview">\
+   <ol class="yat-years"></ol>\
+   <div class="yat-current-position">Aktueller Ausschnitt</div>\
+   </div>\
+   <!-- .yat-timeline-overview ends here -->'),
+    timelineOverviewYear: _.template('<li><span><%= year %></span></li>')
   };
 
 }).call(this);

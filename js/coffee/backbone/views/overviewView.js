@@ -5,7 +5,7 @@
 
   window.yat = window.yat || {};
 
-  window.yat.ItemView = (function(_super) {
+  window.yat.OverviewView = (function(_super) {
 
     __extends(_Class, _super);
 
@@ -14,13 +14,11 @@
     }
 
     _Class.prototype.initialize = function() {
-      this.inDom = false;
       return this.render();
     };
 
     _Class.prototype.render = function() {
-      this.inDom = true;
-      return this.$el.html(window.yat.templates.item(this.model.toJSON()));
+      return this.$el.html(window.yat.templates.timelineOverview);
     };
 
     return _Class;
