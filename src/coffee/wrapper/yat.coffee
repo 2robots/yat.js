@@ -56,9 +56,10 @@
 
   # The actual plugin constructor
   class YatWrapper
+    items = []
 
     # wrapper constructor
-    constructor: (@element, selectors, callbacks, attributes) ->
+    constructor: (@element, selectors, @containerElement, callbacks, attributes) ->
       @options = {}
       @options.selectors = $.extend {}, defaults.selectors, selectors
       @options.callbacks = $.extend {}, defaults.callbacks, callbacks
@@ -72,15 +73,17 @@
     init: ->
       t = @
 
-      @initBackbone()
-
       # get all chhildren
       $(@element).find(@options.selectors.items).each (i,v) ->
          t.registerChild(v);
 
+      @initBackbone()
+
     # initialize Backbone App
     initBackbone: ->
       console.log("INIT BACKBONE");
+      $(@element).hide()
+      new window.yat.App {items: items, containerElement: @containerElement}
 
     # register each child element
     registerChild: (child) ->
@@ -105,6 +108,7 @@
           obj[i] = undefined
 
       console.log("REGISTER CHILD");
+      items.push obj
       # THIS OS OUR OBJECT TO PASS TO THE BACKBONE APP
       #console.log obj;
 
