@@ -20,13 +20,17 @@
     _Class.prototype.render = function() {
       var that;
       that = this;
+      this.navigation = $(window.yat.templates.timelineNavigation());
+      this.overview = new window.yat.OverviewView({
+        model: this.model.getStartEnd()
+      });
+      this.navigation.append(this.overview.$el);
+      that.$el.append(this.navigation);
       return this.model.each(function(item) {
         var view;
-        view = new window.yat.ItemView({
+        return view = new window.yat.ItemView({
           model: item
         });
-        console.log(that.$el);
-        return that.$el.append(view.$el);
       });
     };
 

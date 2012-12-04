@@ -14,10 +14,12 @@
     }
 
     _Class.prototype.initialize = function() {
+      this.inDom = false;
       return this.render();
     };
 
     _Class.prototype.render = function() {
+      this.inDom = true;
       return this.$el.html(window.yat.templates.item(this.model.toJSON()));
     };
 
