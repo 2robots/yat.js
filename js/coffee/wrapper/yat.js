@@ -47,9 +47,13 @@
       attributes: ['shorttitle', 'date', 'content', 'category', 'tags', 'important']
     };
     YatWrapper = (function() {
+      var items;
 
-      function YatWrapper(element, selectors, callbacks, attributes) {
+      items = [];
+
+      function YatWrapper(element, selectors, containerElement, callbacks, attributes) {
         this.element = element;
+        this.containerElement = containerElement;
         this.options = {};
         this.options.selectors = $.extend({}, defaults.selectors, selectors);
         this.options.callbacks = $.extend({}, defaults.callbacks, callbacks);
@@ -62,14 +66,19 @@
       YatWrapper.prototype.init = function() {
         var t;
         t = this;
-        this.initBackbone();
-        return $(this.element).find(this.options.selectors.items).each(function(i, v) {
+        $(this.element).find(this.options.selectors.items).each(function(i, v) {
           return t.registerChild(v);
         });
+        return this.initBackbone();
       };
 
       YatWrapper.prototype.initBackbone = function() {
-        return console.log("INIT BACKBONE");
+        console.log("INIT BACKBONE");
+        $(this.element).hide();
+        return new window.yat.App({
+          items: items,
+          containerElement: this.containerElement
+        });
       };
 
       YatWrapper.prototype.registerChild = function(child) {
@@ -90,7 +99,8 @@
             obj[i] = void 0;
           }
         }
-        return console.log("REGISTER CHILD");
+        console.log("REGISTER CHILD");
+        return items.push(obj);
       };
 
       YatWrapper.prototype.ucfirst = function(str) {

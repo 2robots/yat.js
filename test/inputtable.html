@@ -6,7 +6,15 @@
     <title>YAT.js - Table that is converted to a timeline</title>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/yat.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+  <script type="text/javascript" src="../js/yat.js"></script>
+    <script type="text/javascript" src="../js/coffee/backbone/views/templates.js"></script>
+    <script type="text/javascript" src="../js/coffee/backbone/views/itemView.js"></script>
+    <script type="text/javascript" src="../js/coffee/backbone/views/timelineView.js"></script>
+    <script type="text/javascript" src="../js/coffee/backbone/models/item.js"></script>
+    <script type="text/javascript" src="../js/coffee/backbone/collections/items.js"></script>
+  <script type="text/javascript" src="../js/coffee/backbone/app.js"></script>
 
 </head>
 <body>
@@ -97,6 +105,7 @@
 
     </tbody>
 </table>
+<div id="yat-table1-timeline"></div>
 <div id="yat-table1-skiptarget"></div>
 
 
@@ -111,7 +120,9 @@
                     shorttitle: "td.yat-title",
                     tags: "td.yat-tags",
                     important: "tr"
-                }, {
+                },
+                "#yat-table1-timeline",
+                {
                     alterImportant: function (element) {
                         return element.hasClass("important");
                     }
