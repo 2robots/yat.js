@@ -38,6 +38,7 @@
     background: #eee;
     border: 1px solid #ccc;
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
 
     .yat-elements {
       width: 200%;
@@ -52,7 +53,6 @@
         width: 300px;
         background: white;
         border: 1px solid #ccc;
-        box-shadow: 0 0 5px 0 #aaa;
         margin: 20px 50px;
         height: $height - $navigation-height - 62px;
         overflow: hidden;

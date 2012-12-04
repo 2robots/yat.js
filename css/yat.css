@@ -44,7 +44,8 @@
     bottom: 150px;
     background: #eee;
     border: 1px solid #ccc;
-    overflow-x: scroll; }
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; }
     .yat-timeline .yat-viewport .yat-elements {
       width: 200%;
       margin: 0;
@@ -57,7 +58,6 @@
         width: 300px;
         background: white;
         border: 1px solid #ccc;
-        box-shadow: 0 0 5px 0 #aaa;
         margin: 20px 50px;
         height: 288px;
         overflow: hidden;

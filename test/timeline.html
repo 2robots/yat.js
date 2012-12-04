@@ -92,18 +92,46 @@
 
 
 <script type="text/javascript">
+
+
+    counter = 1;
+
     $(document).ready(function(){
 
         var n = 1000;
         var c = $(".yat-viewport .yat-elements");
         c.offset({left: 0});
         var child = c.children().first();
-        var width = 442;
+        var width = 422;
 
+        c.css("width", width * 6);
+
+        var scroll_counter = 0;
+
+        /* ios */
+        c.parent().bind("touchmove", function(){
+            if(scroll_counter * width + c.offset().left < 0) {
+
+                setTimeout(function(){
+                    for(var a = 0; a < 20; a++) {
+                        addOne(width);
+                        scroll_counter++;
+                    }
+                }, 1);
+            }
+        });
+
+        /* real modern browsers */
         c.parent().scroll(function(){
-            if(width + c.offset().left < 0) {
-                c.offset({left: 0});
-                removeOne(width);
+            if((scroll_counter * width + 5) + c.offset().left < 0) {
+                addOne(width);
+                scroll_counter++;
+
+                addOne(width);
+                scroll_counter++;
+
+                addOne(width);
+                scroll_counter++;
             }
         });
     });
@@ -116,9 +144,12 @@
 
     function addOne(width) {
         var c = $(".yat-viewport .yat-elements");
-        var child = c.children().first();
-        c.append(child);
-        c.css({ "width": c.css("width") - width });
+
+        c.css({ "width": parseInt(c.css("width"), 10) + width });
+
+        c.append(c.children().last().clone());
+        c.children().last().find("h3").text(counter);
+        counter++;
     }
 
 </script>
