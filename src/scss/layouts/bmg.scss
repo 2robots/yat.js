@@ -1,0 +1,170 @@
+/**
+ * yat.js
+ *
+ * Easy jQuery Timeline-Tool.
+ *
+ * Source: https://github.com/2robots/yat.js
+ * Authors: Benjamin Freundorfer, Franz Wilding
+ * Licence: GPL v3
+ *
+ * This is an example of a custom template.
+ * In most usecases you should only need to edit this configuration file.
+ */
+
+@import 'compass/css3';
+
+/**
+ * COLORS
+ */
+$white: white;
+$blue: blue;
+
+$grey1: #ccc;
+$grey2: #666;
+
+/**
+ * BASIC LAYOUT SETTINGS
+ *
+ * Viewport height = height - navigation-height.
+ */
+$height: 550px;
+
+@mixin basic-styles() {
+  border: 1px solid $white;
+  @include box-shadow(0 0 5px 0 $grey1);
+
+  .yat-timeline-inner1 {
+    @include box-shadow(inset 0px 0px 50px 0px lighten($grey1, 5%));
+  }
+}
+
+
+
+
+/**
+ * NAVIGATION SETTINGS
+ */
+$navigation-height: 150px;
+@mixin navigation-styles() {
+  .yat-elements {
+    li {
+      a {
+        background: $white;
+        border: 1px solid $grey1;
+        padding: 2px 5px;
+        display: block;
+        float: left;
+        text-decoration: none;
+        color: $grey2;
+        margin: 20px;
+      }
+    }
+  }
+
+  .yat-inner {
+    left: 30px;
+    right: 30px;
+  }
+}
+
+
+/**
+ * TIMELINE OVERVIEW SETTINGS
+ */
+$timeline-overview-height: 30px;
+
+@mixin timeline-overview-styles() {
+  ol {
+    li {
+      span {
+        border-bottom: 10px solid $grey1;
+        height: 15px;
+        display: block;
+        margin-right: 1px;
+      }
+    }
+  }
+
+  .yat-current-position {
+    height: 10px;
+    border-top: 10px solid $grey2;
+    margin-top: 15px;
+    text-indent: -9999px;
+    overflow: hidden;
+    cursor: move;
+    background: url("../img/arrow_bottom.png") no-repeat center top;
+  }
+}
+
+
+/**
+ * VIEWPORT SETTINGS
+ */
+
+$viewport-element-outer-height: 82px;
+
+@mixin viewport-styles() {
+  .yat-inner {
+    left: 30px;
+    right: 30px;
+  }
+}
+
+@mixin viewport-element-styles() {
+  width: 300px;
+  padding: 10px;
+  margin: 30px 15px;
+  border: 1px solid $grey1;
+  background: $white;
+}
+
+@mixin navlinks-styles() {
+
+  .yat-left, .yat-right {
+    width: 50px;
+    top: 30px;
+    bottom: 30px;
+    background: url("../img/grad_left.png") repeat-y;
+
+    a {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      text-indent: -9999px;
+      overflow: hidden;
+      background: url("../img/arrow_big_left.png") no-repeat left center;
+    }
+  }
+
+  .yat-left {
+    left: 20px;
+  }
+
+  .yat-right {
+    right: 20px;
+    background: url("../img/grad_right.png") repeat-y;
+
+    a {
+      background-image: url("../img/arrow_big_right.png");
+      background-position: center right;
+    }
+  }
+}
+
+/**
+ * After settings, we include the main yat sass styles.
+ */
+@import "../yat";
+
+
+
+
+
+
+
+
+
+
+

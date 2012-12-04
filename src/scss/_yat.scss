@@ -6,23 +6,23 @@
  * Source: https://github.com/2robots/yat.js
  * Authors: Benjamin Freundorfer, Franz Wilding
  * Licence: GPL v3
-
- * Note that when compiling with coffeescript, the plugin is wrapped in another
- * anonymous function. We do not need to pass in undefined as well, since
- * coffeescript uses (void 0) instead.
  */
-
-
-/* Includes */
-@import "config"; // General Configuration
-
 
  /* General Layout */
 .yat-timeline {
   height: $height;
-  width: $width;
-  background: $background;
   position: relative;
+  -webkit-overflow-scrolling: touch;
+
+  .yat-timeline-inner1 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  @include basic-styles();
 
   .yat-viewport, .yat-navigation {
     position: absolute;
@@ -48,35 +48,52 @@
       display: block;
       list-style: none;
       float: left;
-      position: relative;
+      position: absolute;
+      overflow: hidden;
     }
+  }
+
+  .yat-navlinks {
+    .yat-left, .yat-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: auto;
+      display: block;
+    }
+
+    .yat-right {
+      left: auto;
+      right: 0;
+    }
+
+    @include navlinks-styles();
   }
 
   .yat-viewport {
     bottom: $navigation-height;
-    background: $color3;
-    border: 1px solid $color2;
-    -webkit-overflow-scrolling: touch;
 
     .yat-elements {
+
+      top: 0;
+      bottom: 60px;
+
       li {
-        width: 300px;
-        background: white;
-        border: 1px solid #ccc;
-        margin: 20px 50px;
-        height: $height - $navigation-height - 62px;
+        height: $height - $navigation-height - $viewport-element-outer-height - 10px;
         overflow: hidden;
-        padding: 10px;
         float: left;
+
+        @include viewport-element-styles();
       }
     }
+
+    @include viewport-styles();
   }
 
   .yat-navigation {
     top: auto;
     height: $navigation-height;
-    background: $color3;
-    border: 1px solid $color2;
 
     .yat-timeline-overview {
       position: absolute;
@@ -97,8 +114,6 @@
           span {
             display: block;
             height: $timeline-overview-height;
-            background: $color2;
-            margin-right: 1px;
           }
 
           &.last {
@@ -109,9 +124,9 @@
         }
       }
 
+      @include timeline-overview-styles();
+
       .yat-current-position {
-        background: $color1;
-        color: $background;
         width: 100px;
         position: absolute;
         top: 0;
@@ -124,16 +139,15 @@
       .yat-elements {
         li {
           float: left;
-          margin: 20px;
           display: block;
           a {
             display: block;
-            background: $background;
-            border: 1px solid $color2;
             float: left;
           }
         }
       }
     }
+
+    @include navigation-styles();
   }
 }
