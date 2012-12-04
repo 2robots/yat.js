@@ -11,9 +11,7 @@ window.yat = window.yat || {};
 # The item is one "event" at a specific time on the timeline
 window.yat.templates =
    item: _.template('<h1><%= shorttitle %></h1><p><%= content %></p>')
-   timelineOverview: _.template('<div class="yat-timeline-overview">
-   <ol class="yat-years"></ol>
-   <div class="yat-current-position">Aktueller Ausschnitt</div>
-   </div>
-   <!-- .yat-timeline-overview ends here -->')
+   timelineNavigation: _.template('<div class="yat-navigation"></div>')
+   timelineOverview: _.template('<ol class="yat-years"></ol>')
    timelineOverviewYear: _.template('<li><span><%= year %></span></li>')
+   timelineOverviewSelection: _.template('<div class="yat-current-position">Aktueller Ausschnitt</div>')

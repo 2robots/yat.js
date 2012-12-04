@@ -31,7 +31,7 @@
         element.text()
 
       alterDate: (element) ->
-        element.text()
+        new Date(element.text())
 
       alterContent: (element) ->
         element.html()

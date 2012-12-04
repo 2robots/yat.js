@@ -13,12 +13,33 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
+    _Class.prototype.className = 'yat-timeline-overview';
+
     _Class.prototype.initialize = function() {
+      $(window).bind("resize.app", _.bind(this.resize, this));
+      this.resize();
       return this.render();
     };
 
+    _Class.prototype.remove = function() {
+      $(window).unbind("resize.app");
+      return Backbone.View.prototype.remove.call(this);
+    };
+
+    _Class.prototype.resize = function() {
+      return console.log('resized');
+    };
+
     _Class.prototype.render = function() {
-      return this.$el.html(window.yat.templates.timelineOverview);
+      var overview, y, _i, _ref, _ref1;
+      overview = $(window.yat.templates.timelineOverview());
+      for (y = _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; y = _ref <= _ref1 ? ++_i : --_i) {
+        overview.append(window.yat.templates.timelineOverviewYear({
+          year: y
+        }));
+      }
+      overview.append(window.yat.templates.timelineOverviewSelection());
+      return this.$el.html(overview);
     };
 
     return _Class;

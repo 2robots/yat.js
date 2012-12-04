@@ -5,12 +5,15 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>YAT.js - Table that is converted to a timeline</title>
 
+  <link rel="stylesheet" href="../css/yat.css"/>
+
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
   <script type="text/javascript" src="../js/coffee/wrapper/yat.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/templates.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/itemView.js"></script>
+  <script type="text/javascript" src="../js/coffee/backbone/views/overviewView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/timelineView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/models/item.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/collections/items.js"></script>
@@ -63,7 +66,7 @@
   </thead>
   <tbody>
   <tr>
-    <th id="yat-table1-target1" class="yat-date">1. Jänner 2010</th>
+    <th id="yat-table1-target1" class="yat-date">2010-01-20</th>
     <td class="yat-title">Lorem Ipsum dolor sit amet</td>
     <td class="yat-content">
       <h3>Der Titel des ersten Eintrags 2010</h3>
@@ -72,7 +75,7 @@
     <td class="yat-tags">Eingetragen, Tag2</td>
   </tr>
   <tr>
-    <th id="yat-table1-target2" class="yat-date">1. Jänner 2011</th>
+    <th id="yat-table1-target2" class="yat-date">2011-01-20</th>
     <td class="yat-title">Lorem Ipsum dolor sit amet</td>
     <td class="yat-content">
       <h3>Der Titel des ersten Eintrags 2011</h3>
@@ -81,7 +84,7 @@
     <td class="yat-tags">Eingetragen, Tag3</td>
   </tr>
   <tr>
-    <th id="yat-table1-target3" class="yat-date">1. Jänner 2012</th>
+    <th id="yat-table1-target3" class="yat-date">2012-01-20</th>
     <td class="yat-title">Lorem Ipsum dolor sit amet</td>
     <td class="yat-content">
       <h3>Der Titel des ersten Eintrags 2012</h3>
@@ -90,7 +93,7 @@
     <td class="yat-tags">Eingetragen</td>
   </tr>
   <tr class="important">
-    <th class="yat-date"><strong>13. Februar 2012</strong></th>
+    <th class="yat-date"><strong>2012-02-13</strong></th>
     <td class="yat-title"><strong>Lorem Ipsum dolor sit amet</strong></td>
     <td class="yat-content">
       <h3>Der Titel des Eintrags</h3>
@@ -106,15 +109,15 @@
 
   </tbody>
 </table>
-<div id="yat-table1-timeline"></div>
+<div class="yat-timeline" id="yat-table1-timeline"></div>
 <div id="yat-table1-skiptarget"></div>
 
 <script type="text/template" id="rowTemplate">
   <tr>
-    <th class="yat-date">1. Jänner 2012</th>
+    <th class="yat-date">2012-02-15</th>
     <td class="yat-title">Lorem Ipsum dolor sit amet</td>
     <td class="yat-content">
-      <h3>Der Titel des ersten Eintrags 2012</h3>
+      <h3>Der Titel des letzten Eintrags 2012</h3>
     </td>
     <td class="yat-category">Allgemein</td>
     <td class="yat-tags">Eingetragen</td>
@@ -122,12 +125,12 @@
 </script>
 <script type="text/javascript">
 
-  var i,
-      table = $('#yat-table1 tbody'),
-      templateHtml = $('#rowTemplate').text();
-  for (i = 0; i < 500; i++) {
-    table.append(templateHtml);
-  }
+//  var i,
+//      table = $('#yat-table1 tbody'),
+//      templateHtml = $('#rowTemplate').text();
+//  for (i = 0; i < 500; i++) {
+//    table.append(templateHtml);
+//  }
 
   $(document).ready(function () {
     $("#yat-table1").yat(
