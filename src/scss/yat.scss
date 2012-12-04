@@ -1,0 +1,110 @@
+/*
+ * yat.js
+ *
+ * Easy jQuery Timeline-Tool.
+ *
+ * Source: https://github.com/2robots/yat.js
+ * Authors: Benjamin Freundorfer, Franz Wilding
+ * Licence: GPL v3
+
+ * Note that when compiling with coffeescript, the plugin is wrapped in another
+ * anonymous function. We do not need to pass in undefined as well, since
+ * coffeescript uses (void 0) instead.
+ */
+
+
+/* Includes */
+@import "config"; // General Configuration
+
+
+ /* General Layout */
+.yat-timeline {
+  height: $height;
+  width: $width;
+  background: $background;
+  position: relative;
+
+  .yat-viewport, .yat-navigation {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    overflow: hidden;
+  }
+
+  .yat-viewport {
+    bottom: $navigation-height;
+    background: #eee;
+    border: 1px solid #ccc;
+    overflow-x: scroll;
+
+    .yat-elements {
+      width: 200%;
+      margin: 0;
+      padding: 0;
+      display: block;
+      list-style: none;
+      float: left;
+      position: relative;
+
+      li {
+        width: 300px;
+        background: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 5px 0 #aaa;
+        margin: 20px 50px;
+        height: $height - $navigation-height - 62px;
+        overflow: hidden;
+        padding: 10px;
+        float: left;
+      }
+    }
+  }
+
+  .yat-navigation {
+    top: auto;
+    height: $navigation-height;
+    display: none;
+
+    .yat-timeline-overview {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 40px;
+
+      ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+          float: left;
+          margin: 0;
+          padding: 0;
+
+          span {
+            display: block;
+            height: 25px;
+            background: $color3;
+            margin-right: 1px;
+          }
+
+          &.last {
+            span {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .yat-elements {
+      width: 200%;
+      overflow: hidden;
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

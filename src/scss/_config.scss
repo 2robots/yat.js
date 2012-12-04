@@ -1,0 +1,24 @@
+/*
+ * yat.js
+ *
+ * Easy jQuery Timeline-Tool.
+ *
+ * Source: https://github.com/2robots/yat.js
+ * Authors: Benjamin Freundorfer, Franz Wilding
+ * Licence: GPL v3
+
+ * Note that when compiling with coffeescript, the plugin is wrapped in another
+ * anonymous function. We do not need to pass in undefined as well, since
+ * coffeescript uses (void 0) instead.
+ */
+
+/* Sizes */
+$height: 500px;
+$width: 100%;
+$navigation-height: 150px;
+
+/* colors */
+$background: #fff;
+$color1: #000;
+$color2: #666;
+$color3: #ccc;
