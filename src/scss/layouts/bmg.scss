@@ -27,10 +27,12 @@ $grey2: #666;
  *
  * Viewport height = height - navigation-height.
  */
-$height: 550px;
+$height: 500px;
 
 @mixin basic-styles() {
   border: 1px solid $white;
+  background-color: $white;
+  margin: 20px 5px;
   @include box-shadow(0 0 5px 0 $grey1);
 
   .yat-timeline-inner1 {
@@ -47,6 +49,7 @@ $height: 550px;
 $navigation-height: 150px;
 @mixin navigation-styles() {
   .yat-elements {
+
     li {
       a {
         background: $white;
@@ -57,6 +60,7 @@ $navigation-height: 150px;
         text-decoration: none;
         color: $grey2;
         margin: 20px;
+        max-width: 150px;
       }
     }
   }
@@ -81,6 +85,8 @@ $timeline-overview-height: 30px;
         height: 15px;
         display: block;
         margin-right: 1px;
+        padding-left: 5px;
+        color: $grey2;
       }
     }
   }
@@ -111,11 +117,37 @@ $viewport-element-outer-height: 82px;
 }
 
 @mixin viewport-element-styles() {
-  width: 300px;
+  width: 20em;
   padding: 10px;
   margin: 30px 15px;
   border: 1px solid $grey1;
   background: $white;
+  position: relative;
+
+  span.arrow {
+    position: absolute;
+    width: 28px;
+    height: 16px;
+    background: url("../img/entry_arrow_bottom.png") no-repeat center bottom;
+    bottom: -16px;
+    left: 50%;
+    margin-left: -14px;
+  }
+
+  &.important {
+    width: 40em;
+    border-color: $grey2;
+
+    span.arrow {
+      background-image: url("../img/entry_arrow_bottom_important.png");
+    }
+  }
+
+  .datetime {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
 }
 
 @mixin navlinks-styles() {

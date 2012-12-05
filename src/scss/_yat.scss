@@ -81,8 +81,11 @@
 
       li {
         height: $height - $navigation-height - $viewport-element-outer-height - 10px;
-        overflow: hidden;
         float: left;
+
+        .yat-element-inner {
+          overflow: hidden;
+        }
 
         @include viewport-element-styles();
       }
