@@ -22,16 +22,16 @@
     _Class.prototype.render = function() {
       var that;
       that = this;
+      console.log(this.options.dispatcher);
       this.container = $(window.yat.templates.timelineContainer());
-      this.viewportContainer = $(window.yat.templates.timelineViewport());
       this.viewport = new window.yat.ViewportView({
-        model: this.model
+        model: this.model,
+        dispatcher: this.options.dispatcher
       });
-      this.viewportContainer.append(this.viewport.$el);
       this.navigation = $(window.yat.templates.timelineNavigation());
       this.overview = new window.yat.OverviewView({
         model: this.model.getStartEnd(),
-        dispatcher: this.dispatcher
+        dispatcher: this.options.dispatcher
       });
       this.navigationBar = new window.yat.NavigationView({
         model: this.model
@@ -39,7 +39,7 @@
       this.navigation.append(this.overview.$el);
       this.navigation.append(this.navigationBar.$el);
       this.container.children('.yat-timeline-inner1').append(this.navigation);
-      this.container.children('.yat-timeline-inner1').append(this.viewportContainer);
+      this.container.children('.yat-timeline-inner1').append(this.viewport.$el);
       return that.$el.append(this.container);
     };
 

@@ -13,7 +13,7 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
-    _Class.prototype.className = 'yat-inner';
+    _Class.prototype.className = 'yat-viewport';
 
     _Class.prototype.initialize = function() {
       return this.render();
@@ -31,23 +31,72 @@
         view = new window.yat.viewportItemView({
           model: item
         });
-        return viewport.append(view.$el);
+        return viewport.children().append(view.$el);
       });
       navlinks = $(window.yat.templates.timelineViewportNavlinks());
       this.$el.html(viewport);
-      this.$el.parent().append(navlinks);
+      this.$el.append(navlinks);
       return this.registerEventListener();
     };
 
     _Class.prototype.registerEventListener = function() {
-      this.$el.bind('touchmove', function() {
-        return console.log("touchmove");
+      var that;
+      that = this;
+      this.$el.find('> .yat-inner').bind('touchmove', function() {
+        return that.options.dispatcher.trigger('viewport_position_change');
       });
-      this.$el.scroll(function() {
-        return console.log("scroll");
+      this.$el.find('> .yat-inner').scroll(function() {
+        return that.options.dispatcher.trigger('viewport_position_change');
       });
-      return this.$el.children().first().children().click(function() {
-        return console.log("viewport item click");
+      this.$el.find('ol.yat-elements').children().click(function() {
+        return that.options.dispatcher.trigger('viewport_item_select', $(this));
+      });
+      this.$el.find('.yat-navlinks .yat-left a').click(function() {
+        return that.options.dispatcher.trigger('viewport_prev');
+      });
+      this.$el.find('.yat-navlinks .yat-right a').click(function() {
+        return that.options.dispatcher.trigger('viewport_next');
+      });
+      that.options.dispatcher.on('viewport_jump_to', function() {
+        return that.jump_to(arguments[0]);
+      });
+      that.options.dispatcher.on('viewport_prev', function() {
+        return that.options.dispatcher.trigger('viewport_jump_to', that.getCurrentElement().prev());
+      });
+      that.options.dispatcher.on('viewport_next', function() {
+        return that.options.dispatcher.trigger('viewport_jump_to', that.getCurrentElement().next());
+      });
+      return that.options.dispatcher.on('viewport_item_select', function() {
+        return that.open_element(arguments[0]);
+      });
+    };
+
+    _Class.prototype.getCurrentElement = function() {
+      var current_element, scroll_l, scroll_r;
+      scroll_l = this.$el.find('> .yat-inner').scrollLeft();
+      scroll_r = scroll_l + this.$el.find('> .yat-inner').width();
+      current_element = null;
+      this.$el.find('ol.yat-elements').children().each(function() {
+        if ($(this).position().left >= scroll_l && $(this).position().left <= scroll_r) {
+          current_element = $(this);
+          return false;
+        }
+      });
+      return current_element;
+    };
+
+    _Class.prototype.jump_to = function() {
+      return this.$el.find('> .yat-inner').animate({
+        scrollLeft: arguments[0].position().left
+      }, {
+        duration: 100
+      });
+    };
+
+    _Class.prototype.open_element = function() {
+      arguments[0].toggleClass('open');
+      return this.$el.find('ol.yat-elements').children(':not(.open)').each(function() {
+        return $(this).removeClass('open');
       });
     };
 

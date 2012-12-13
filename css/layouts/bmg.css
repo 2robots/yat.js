@@ -103,20 +103,21 @@
   left: 0;
   right: auto;
   display: block;
+  z-index: 50;
 }
-/* line 66, ../../src/scss/_yat.scss */
+/* line 67, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navlinks .yat-right {
   left: auto;
   right: 0;
 }
-/* line 168, ../../src/scss/layouts/bmg.scss */
+/* line 180, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   width: 50px;
   top: 30px;
   bottom: 30px;
   background: url("../img/grad_left.png") repeat-y;
 }
-/* line 174, ../../src/scss/layouts/bmg.scss */
+/* line 186, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   position: absolute;
   left: 0;
@@ -127,30 +128,30 @@
   overflow: hidden;
   background: url("../img/arrow_big_left.png") no-repeat left center;
 }
-/* line 186, ../../src/scss/layouts/bmg.scss */
+/* line 198, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left {
   left: 20px;
 }
-/* line 190, ../../src/scss/layouts/bmg.scss */
+/* line 202, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right {
   right: 20px;
   background: url("../img/grad_right.png") repeat-y;
 }
-/* line 194, ../../src/scss/layouts/bmg.scss */
+/* line 206, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right a {
   background-image: url("../img/arrow_big_right.png");
   background-position: center right;
 }
-/* line 74, ../../src/scss/_yat.scss */
+/* line 75, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport {
   bottom: 150px;
 }
-/* line 77, ../../src/scss/_yat.scss */
+/* line 78, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport .yat-elements {
   top: 0;
   bottom: 60px;
 }
-/* line 82, ../../src/scss/_yat.scss */
+/* line 83, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li {
   height: 258px;
   float: left;
@@ -160,18 +161,33 @@
   border: 1px solid #cccccc;
   background: white;
   position: relative;
+  -webkit-transition-property: width;
+  -moz-transition-property: width;
+  -ms-transition-property: width;
+  -o-transition-property: width;
+  transition-property: width;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  -ms-transition-duration: 0.2s;
+  -o-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-out;
+  -moz-transition-timing-function: ease-out;
+  -ms-transition-timing-function: ease-out;
+  -o-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
 }
-/* line 86, ../../src/scss/_yat.scss */
+/* line 87, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
   overflow: hidden;
 }
-/* line 134, ../../src/scss/layouts/bmg.scss */
+/* line 138, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
   height: 100%;
   width: 100%;
   position: relative;
 }
-/* line 140, ../../src/scss/layouts/bmg.scss */
+/* line 144, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li span.arrow {
   position: absolute;
   width: 28px;
@@ -181,16 +197,24 @@
   left: 50%;
   margin-left: -14px;
 }
-/* line 150, ../../src/scss/layouts/bmg.scss */
+/* line 154, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important {
   width: 40em;
   border-color: #666666;
 }
-/* line 154, ../../src/scss/layouts/bmg.scss */
+/* line 158, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important span.arrow {
   background-image: url("../img/entry_arrow_bottom_important.png");
 }
-/* line 159, ../../src/scss/layouts/bmg.scss */
+/* line 163, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.open {
+  width: 40em;
+}
+/* line 166, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner {
+  overflow-y: auto;
+}
+/* line 171, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .datetime {
   position: absolute;
   right: 0;
@@ -205,36 +229,36 @@
 .yat-timeline .yat-viewport .yat-inner .yat-elements {
   margin-left: 8px;
 }
-/* line 97, ../../src/scss/_yat.scss */
+/* line 98, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation {
   top: auto;
   height: 150px;
 }
-/* line 101, ../../src/scss/_yat.scss */
+/* line 102, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview {
   position: absolute;
   left: 0;
   right: 0;
   height: 40px;
 }
-/* line 107, ../../src/scss/_yat.scss */
+/* line 108, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* line 112, ../../src/scss/_yat.scss */
+/* line 113, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li {
   float: left;
   margin: 0;
   padding: 0;
 }
-/* line 117, ../../src/scss/_yat.scss */
+/* line 118, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   display: block;
   height: 30px;
 }
-/* line 123, ../../src/scss/_yat.scss */
+/* line 124, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li.last span {
   margin-right: 0;
 }
@@ -257,23 +281,23 @@
   cursor: move;
   background: url("../img/arrow_bottom.png") no-repeat center top;
 }
-/* line 132, ../../src/scss/_yat.scss */
+/* line 133, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position {
   width: 100px;
   position: absolute;
   top: 0;
   left: 45%;
 }
-/* line 140, ../../src/scss/_yat.scss */
+/* line 141, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner {
   top: 30px;
 }
-/* line 143, ../../src/scss/_yat.scss */
+/* line 144, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li {
   float: left;
   display: block;
 }
-/* line 146, ../../src/scss/_yat.scss */
+/* line 147, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li a {
   display: block;
   float: left;
