@@ -18,12 +18,24 @@
     _Class.prototype.initialize = function() {
       $(window).bind("resize.app", _.bind(this.resize, this));
       this.resize();
-      return this.render();
+      this.render();
+      return this.registerEventListener();
     };
 
     _Class.prototype.remove = function() {
       $(window).unbind("resize.app");
       return Backbone.View.prototype.remove.call(this);
+    };
+
+    _Class.prototype.registerEventListener = function() {
+      var that;
+      that = this;
+      this.$el.bind('touchmove', function() {
+        return that.options.dispatcher.trigger('navigation_position_change');
+      });
+      return this.$el.scroll(function() {
+        return that.options.dispatcher.trigger('navigation_position_change');
+      });
     };
 
     _Class.prototype.resize = function() {

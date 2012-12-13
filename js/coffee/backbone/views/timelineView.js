@@ -34,7 +34,8 @@
         dispatcher: this.options.dispatcher
       });
       this.navigationBar = new window.yat.NavigationView({
-        model: this.model
+        model: this.model,
+        dispatcher: this.options.dispatcher
       });
       this.navigation.append(this.overview.$el);
       this.navigation.append(this.navigationBar.$el);

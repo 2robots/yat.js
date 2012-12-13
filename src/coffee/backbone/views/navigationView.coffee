@@ -17,10 +17,24 @@ window.yat.NavigationView = class extends Backbone.View
     $(window).bind("resize.app", _.bind(this.resize, this));
     @resize()
     @render()
+    @registerEventListener()
 
   remove: ->
     $(window).unbind("resize.app");
     Backbone.View.prototype.remove.call(this);
+
+  registerEventListener: ->
+
+    that = @
+
+    # trigger events
+
+    # bind touchmove (ios) and scroll (other browser) events
+    @$el.bind 'touchmove', ->
+      that.options.dispatcher.trigger 'navigation_position_change'
+
+    @$el.scroll ->
+      that.options.dispatcher.trigger 'navigation_position_change'
 
   resize: ->
     console.log 'resized'
