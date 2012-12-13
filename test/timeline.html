@@ -60,7 +60,7 @@
                 <div class="yat-viewport">
                     <div class="yat-inner">
                         <ol class="yat-elements">
-                            <li>
+                            <li id="yat-timeline1-target1">
                                 <div class="yat-element-inner">
                                     <h3>ÄsthOP-Gesetz</h3>
                                     <span class="datetime">19.07.2012</span>
@@ -72,7 +72,7 @@
                                 <span class="arrow"></span>
                             </li>
 
-                            <li class="important">
+                            <li class="important" id="yat-timeline1-target2">
                                 <div class="yat-element-inner">
                                     <h3>ÄsthOP-Gesetz</h3>
                                     <span class="datetime">19.07.2012</span>
@@ -117,7 +117,6 @@
 
 
 <script type="text/javascript">
-
     $(document).ready(function(){
 
         /*alert("start");
@@ -135,11 +134,19 @@
         var c = $(".yat-viewport .yat-elements");
 
         // important childs
-        var i_child = c.children('.important').first().outerWidth();
+        var i_child =
+            c.children('.important').first().outerWidth() +
+            parseInt(c.children('.important').css("margin-left"), 10) +
+            parseInt(c.children('.important').css("margin-right"), 10);
+
         var i_child_count = c.children('.important').length;
 
         // normal childs
-        var n_child = c.children(':not(.important)').first().outerWidth();
+        var n_child =
+            c.children(':not(.important)').first().outerWidth() +
+            parseInt(c.children(':not(.important)').first().css("margin-left"), 10) +
+            parseInt(c.children(':not(.important)').first().css("margin-right"), 10);
+
         var n_child_count = c.children(':not(.important)').length;
 
         c.css("width", (i_child * i_child_count) + (n_child * n_child_count));
@@ -178,6 +185,27 @@
                 scroll_counter++;
             }
         });
+
+
+        $(".yat-viewport .yat-left a").click(function(){
+            jumpTo(getCurrentElement().prev());
+        });
+
+        $(".yat-viewport .yat-right a").click(function(){
+            jumpTo(getCurrentElement().next());
+        });
+
+    });
+
+    $(".yat-navigation .yat-elements li a").click(function(e){
+        e.preventDefault();
+
+        var target = $(this).attr("href");
+
+        jumpTo($(target));
+
+        $(".yat-navigation .yat-elements li a").removeClass("active");
+        $(this).addClass("active");
     });
 
     /*function removeOne(width) {
@@ -196,14 +224,37 @@
 
     function jumpTo(element) {
 
-        var duration = $(".yat-viewport .yat-elements").children().length * 2;
-
         $(".yat-viewport .yat-inner").animate({
             scrollLeft: element.position().left
             }, {
-                duration: duration
+                duration: 100
             }
         );
+    }
+
+    function scrollToNextElement() {
+        jumpTo(getCurrentElement());
+    }
+
+    function getCurrentElement() {
+
+        // minumum and maximum position-left
+        var scroll_l = $(".yat-viewport .yat-inner").scrollLeft();
+        var scroll_r = scroll_l + $(".yat-viewport .yat-inner").width();
+
+        var current_element = null;
+
+        $(".yat-viewport .yat-elements").children().each(function(){
+            if(
+                $(this).position().left >= scroll_l &&
+                $(this).position().left <= scroll_r
+            ) {
+                current_element = $(this);
+                return false;
+            }
+        });
+
+        return current_element;
     }
 
 </script>

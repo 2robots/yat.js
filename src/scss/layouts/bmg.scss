@@ -49,7 +49,6 @@ $height: 500px;
 $navigation-height: 150px;
 @mixin navigation-styles() {
   .yat-elements {
-
     li {
       a {
         background: $white;
@@ -61,6 +60,10 @@ $navigation-height: 150px;
         color: $grey2;
         margin: 20px;
         max-width: 150px;
+
+        &.active {
+          border-color: $grey2;
+        }
       }
     }
   }
@@ -113,6 +116,10 @@ $viewport-element-outer-height: 82px;
   .yat-inner {
     left: 30px;
     right: 30px;
+
+    .yat-elements {
+      margin-left: 8px;
+    }
   }
 }
 
