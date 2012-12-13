@@ -134,26 +134,31 @@
 
         var c = $(".yat-viewport .yat-elements");
 
-        var child = c.children().first();
-        var width = 352;
+        // important childs
+        var i_child = c.children('.important').first().outerWidth();
+        var i_child_count = c.children('.important').length;
 
-        c.css("width", width * 6);
+        // normal childs
+        var n_child = c.children(':not(.important)').first().outerWidth();
+        var n_child_count = c.children(':not(.important)').length;
 
-        addOne(width);
-        addOne(width);
-        addOne(width);
-        addOne(width);
-        addOne(width);
+        c.css("width", (i_child * i_child_count) + (n_child * n_child_count));
+
+        addOne(n_child);
+        addOne(n_child);
+        addOne(n_child);
+        addOne(n_child);
+        addOne(n_child);
 
         var scroll_counter = 0;
 
         /* ios */
         c.parent().bind("touchmove", function(){
-            if(scroll_counter * width + c.offset().left < 0) {
+            if(scroll_counter * n_child + c.offset().left < 0) {
 
                 setTimeout(function(){
                     for(var a = 0; a < 20; a++) {
-                        addOne(width);
+                        addOne(n_child);
                         scroll_counter++;
                     }
                 }, 1);
@@ -162,14 +167,14 @@
 
         /* real modern browsers */
         c.parent().scroll(function(){
-            if((scroll_counter * width + 5) + c.offset().left < 0) {
-                addOne(width);
+            if((scroll_counter * n_child + 5) + c.offset().left < 0) {
+                addOne(n_child);
                 scroll_counter++;
 
-                addOne(width);
+                addOne(n_child);
                 scroll_counter++;
 
-                addOne(width);
+                addOne(n_child);
                 scroll_counter++;
             }
         });
@@ -186,6 +191,19 @@
 
         c.css({ "width": parseInt(c.css("width"), 10) + width });
         c.append(c.children().last().clone());
+    }
+
+
+    function jumpTo(element) {
+
+        var duration = $(".yat-viewport .yat-elements").children().length * 2;
+
+        $(".yat-viewport .yat-inner").animate({
+            scrollLeft: element.position().left
+            }, {
+                duration: duration
+            }
+        );
     }
 
 </script>
