@@ -24,7 +24,11 @@
       this.overview = new window.yat.OverviewView({
         model: this.model.getStartEnd()
       });
+      this.navigationBar = new window.yat.NavigationView({
+        model: this.model
+      });
       this.navigation.append(this.overview.$el);
+      this.navigation.append(this.navigationBar.$el);
       that.$el.append(this.navigation);
       return this.model.each(function(item) {
         var view;

@@ -5,7 +5,7 @@
 
   window.yat = window.yat || {};
 
-  window.yat.OverviewView = (function(_super) {
+  window.yat.NavigationView = (function(_super) {
 
     __extends(_Class, _super);
 
@@ -13,14 +13,16 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
-    _Class.prototype.className = 'yat-timeline-overview';
+    _Class.prototype.className = 'yat-inner';
 
     _Class.prototype.initialize = function() {
+      $(window).bind("resize.app", _.bind(this.resize, this));
       this.resize();
       return this.render();
     };
 
     _Class.prototype.remove = function() {
+      $(window).unbind("resize.app");
       return Backbone.View.prototype.remove.call(this);
     };
 
@@ -29,22 +31,16 @@
     };
 
     _Class.prototype.render = function() {
-      var itemWidth, overview, y, years, _i, _j, _len, _ref, _ref1, _results;
-      overview = $(window.yat.templates.timelineOverview());
-      years = (function() {
-        _results = [];
-        for (var _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; _ref <= _ref1 ? _i++ : _i--){ _results.push(_i); }
-        return _results;
-      }).apply(this);
-      itemWidth = Math.round(10000 / years.length, 2) / 100;
-      for (_j = 0, _len = years.length; _j < _len; _j++) {
-        y = years[_j];
-        overview.append(window.yat.templates.timelineOverviewYear({
-          year: y,
-          width: itemWidth + '%'
+      var item, overview, _i, _len, _ref;
+      overview = $(window.yat.templates.timelineNavigationElementList());
+      _ref = this.model.models;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
+        overview.append(window.yat.templates.timelineNavigationElement({
+          shorttitle: item.get('shorttitle'),
+          linkHref: '#'
         }));
       }
-      overview.append(window.yat.templates.timelineOverviewSelection());
       return this.$el.html(overview);
     };
 
