@@ -10,6 +10,9 @@ window.yat = window.yat || {};
 
 # The item is one "event" at a specific time on the timeline
 window.yat.TimelineView = class extends Backbone.View
+
+  className: 'yat-inner'
+
   initialize: ->
     @render()
 
@@ -23,7 +26,7 @@ window.yat.TimelineView = class extends Backbone.View
     @viewportContainer.append(@viewport.$el)
 
     @navigation = $(window.yat.templates.timelineNavigation())
-    @overview = new window.yat.OverviewView model: @model.getStartEnd()
+    @overview = new window.yat.OverviewView { model: @model.getStartEnd(), dispatcher: @dispatcher }
     @navigationBar = new window.yat.NavigationView model: @model
     @navigation.append(@overview.$el)
     @navigation.append(@navigationBar.$el)
@@ -31,9 +34,3 @@ window.yat.TimelineView = class extends Backbone.View
     @container.children('.yat-timeline-inner1').append(@navigation)
     @container.children('.yat-timeline-inner1').append(@viewportContainer)
     that.$el.append(@container)
-
-    @model.each((item) ->
-      view = new window.yat.ItemView {model: item}
-#      that.$el.append(view.$el)
-    )
-
