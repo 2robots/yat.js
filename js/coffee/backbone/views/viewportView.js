@@ -16,22 +16,15 @@
     _Class.prototype.className = 'yat-inner';
 
     _Class.prototype.initialize = function() {
-      $(window).bind("resize.app", _.bind(this.resize, this));
-      this.resize();
       return this.render();
     };
 
     _Class.prototype.remove = function() {
-      $(window).unbind("resize.app");
       return Backbone.View.prototype.remove.call(this);
     };
 
-    _Class.prototype.resize = function() {
-      return console.log('resized');
-    };
-
     _Class.prototype.render = function() {
-      var viewport;
+      var navlinks, viewport;
       viewport = $(window.yat.templates.timelineViewportElementList());
       this.model.each(function(item) {
         var view;
@@ -40,7 +33,22 @@
         });
         return viewport.append(view.$el);
       });
-      return this.$el.html(viewport);
+      navlinks = $(window.yat.templates.timelineViewportNavlinks());
+      this.$el.html(viewport);
+      this.$el.parent().append(navlinks);
+      return this.registerEventListener();
+    };
+
+    _Class.prototype.registerEventListener = function() {
+      this.$el.bind('touchmove', function() {
+        return console.log("touchmove");
+      });
+      this.$el.scroll(function() {
+        return console.log("scroll");
+      });
+      return this.$el.children().first().children().click(function() {
+        return console.log("viewport item click");
+      });
     };
 
     return _Class;

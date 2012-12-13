@@ -131,6 +131,12 @@ $viewport-element-outer-height: 82px;
   background: $white;
   position: relative;
 
+  .yat-element-inner {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
   span.arrow {
     position: absolute;
     width: 28px;
@@ -152,8 +158,8 @@ $viewport-element-outer-height: 82px;
 
   .datetime {
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 0;
+    top: 0;
   }
 }
 

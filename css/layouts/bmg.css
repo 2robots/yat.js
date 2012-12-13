@@ -109,14 +109,14 @@
   left: auto;
   right: 0;
 }
-/* line 162, ../../src/scss/layouts/bmg.scss */
+/* line 168, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   width: 50px;
   top: 30px;
   bottom: 30px;
   background: url("../img/grad_left.png") repeat-y;
 }
-/* line 168, ../../src/scss/layouts/bmg.scss */
+/* line 174, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   position: absolute;
   left: 0;
@@ -127,16 +127,16 @@
   overflow: hidden;
   background: url("../img/arrow_big_left.png") no-repeat left center;
 }
-/* line 180, ../../src/scss/layouts/bmg.scss */
+/* line 186, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left {
   left: 20px;
 }
-/* line 184, ../../src/scss/layouts/bmg.scss */
+/* line 190, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right {
   right: 20px;
   background: url("../img/grad_right.png") repeat-y;
 }
-/* line 188, ../../src/scss/layouts/bmg.scss */
+/* line 194, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right a {
   background-image: url("../img/arrow_big_right.png");
   background-position: center right;
@@ -166,6 +166,12 @@
   overflow: hidden;
 }
 /* line 134, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+/* line 140, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li span.arrow {
   position: absolute;
   width: 28px;
@@ -175,20 +181,20 @@
   left: 50%;
   margin-left: -14px;
 }
-/* line 144, ../../src/scss/layouts/bmg.scss */
+/* line 150, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important {
   width: 40em;
   border-color: #666666;
 }
-/* line 148, ../../src/scss/layouts/bmg.scss */
+/* line 154, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important span.arrow {
   background-image: url("../img/entry_arrow_bottom_important.png");
 }
-/* line 153, ../../src/scss/layouts/bmg.scss */
+/* line 159, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .datetime {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 0;
+  top: 0;
 }
 /* line 116, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-inner {

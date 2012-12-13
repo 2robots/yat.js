@@ -14,23 +14,42 @@ window.yat.ViewportView = class extends Backbone.View
   className: 'yat-inner'
 
   initialize: ->
-    $(window).bind("resize.app", _.bind(this.resize, this));
-    @resize()
     @render()
 
   remove: ->
-    $(window).unbind("resize.app");
     Backbone.View.prototype.remove.call(this);
 
-  resize: ->
-    console.log 'resized'
-
   render: ->
+
+    # get viewport element list
     viewport = $(window.yat.templates.timelineViewportElementList())
 
+    # render all the children
     @model.each((item) ->
       view = new window.yat.viewportItemView {model: item}
       viewport.append(view.$el)
     )
 
+    # render the navlinks
+    navlinks = $(window.yat.templates.timelineViewportNavlinks())
+
+    # render the viewport at all
     @$el.html(viewport)
+    @$el.parent().append(navlinks)
+
+    @registerEventListener()
+
+
+  # register listener for all events
+  registerEventListener: ->
+
+    # bind touchmove (ios) and scroll (other browser) events
+    @$el.bind 'touchmove', ->
+      console.log "touchmove"
+
+    @$el.scroll ->
+      console.log "scroll"
+
+    # viewport item select
+    @$el.children().first().children().click ->
+      console.log "viewport item click"
