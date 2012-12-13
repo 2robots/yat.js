@@ -29,7 +29,9 @@
     };
 
     _Class.prototype.render = function() {
-      var itemWidth, overview, y, years, _i, _j, _len, _ref, _ref1, _results;
+      var itemWidth, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
+      that = this;
+      console.log(this.options.dispatcher);
       overview = $(window.yat.templates.timelineOverview());
       years = (function() {
         _results = [];
@@ -44,7 +46,19 @@
           width: itemWidth + '%'
         }));
       }
-      overview.append(window.yat.templates.timelineOverviewSelection());
+      selection = $(window.yat.templates.timelineOverviewSelection());
+      selection.draggable({
+        axis: "x",
+        containment: 'parent',
+        drag: function(event, ui) {
+          var date, end, start;
+          start = moment(that.model.start);
+          end = moment(that.model.end);
+          date = moment(start).add(end.diff(start) * (ui.position.left / (that.$el.width() - selection.width())));
+          return that.options.dispatcher.trigger('overview_change', date);
+        }
+      });
+      overview.append(selection);
       return this.$el.html(overview);
     };
 
