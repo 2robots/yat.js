@@ -14,12 +14,12 @@ window.yat.OverviewView = class extends Backbone.View
   className: 'yat-timeline-overview'
 
   initialize: ->
-    $(window).bind("resize.app", _.bind(this.resize, this));
+    #$(window).bind("resize.app", _.bind(this.resize, this));
     @resize()
     @render()
 
   remove: ->
-    $(window).unbind("resize.app");
+    #$(window).unbind("resize.app");
     Backbone.View.prototype.remove.call(this);
 
   resize: ->
@@ -27,7 +27,9 @@ window.yat.OverviewView = class extends Backbone.View
 
   render: ->
     overview = $(window.yat.templates.timelineOverview())
-    for y in [@model.start.getFullYear()..@model.end.getFullYear()]
-      overview.append(window.yat.templates.timelineOverviewYear {year: y})
+    years = [@model.start.getFullYear()..@model.end.getFullYear()]
+    itemWidth = Math.round(10000 / years.length, 2) / 100
+    for y in years
+      overview.append(window.yat.templates.timelineOverviewYear {year: y, width: itemWidth + '%'})
     overview.append(window.yat.templates.timelineOverviewSelection())
     @$el.html(overview)
