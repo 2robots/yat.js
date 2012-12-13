@@ -13,8 +13,8 @@
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
   <script type="text/javascript" src="../js/coffee/wrapper/yat.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/templates.js"></script>
-  <script type="text/javascript" src="../js/coffee/backbone/views/itemView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/overviewView.js"></script>
+  <script type="text/javascript" src="../js/coffee/backbone/views/viewportItemView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/viewportView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/navigationView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/timelineView.js"></script>
@@ -24,96 +24,153 @@
 
 </head>
 <body>
-<h1>Example of a table that may be converted to a timeline by YAT.js</h1>
 
-<ul id="yat-table1-skipmenu">
-  <li><a href="#yat-table1-skiptarget">Tabelle überspringen</a></li>
-  <li><a href="#yat-table1-filters">Zu Filtermöglichkeiten der Tabelle springen</a></li>
-  <li><a href="#yat-table1-target1">In der Tabelle zum 1. Jänner 2010 springen</a></li>
-  <li><a href="#yat-table1-target2">In der Tabelle zum 1. Jänner 2011 springen</a></li>
-  <li><a href="#yat-table1-target3">In der Tabelle zum 1. Jänner 2012 springen</a></li>
-</ul>
+<div class="page-content">
+    <div class="page-main full" style="width:80.243em; padding: 0">
 
-<form id="yat-table1-filters" action="" method="post">
-  <fieldset>
-    <legend>Filter</legend>
-    <label for="yat-table1-filters-category">Kategorie</label>
-    <select id="yat-table1-filters-category">
-      <option>Keine Kategorie gewählt</option>
-      <option>Allgemein</option>
-      <option>Speziell</option>
-    </select>
-    <label for="yat-table1-filters-tags" lang="en">Tags</label>
-    <select id="yat-table1-filters-tags" multiple="multiple">
-      <option>Eingetragen</option>
-      <option>Tag2</option>
-      <option>Tag3</option>
-    </select>
-    <input type="submit" value="Filtern"/>
-  </fieldset>
-</form>
+    <h1>Example of a table that may be converted to a timeline by YAT.js</h1>
 
-<table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline"
-       id="yat-table1">
-  <caption>Tabellarische Zeitleiste, die 528 historische Ereignisse enthält.
-    <a href="#yat-table1-skipmenu">Zum Sprungmenü</a>
-  </caption>
-  <thead>
-  <tr>
-    <th>Termin</th>
-    <th>Titel</th>
-    <th>Inhalt</th>
-    <th>Kategorie</th>
-    <th>Tags</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <th id="yat-table1-target1" class="yat-date">2010-01-20</th>
-    <td class="yat-title">Lorem Ipsum dolor sit amet</td>
-    <td class="yat-content">
-      <h3>Der Titel des ersten Eintrags 2010</h3>
-    </td>
-    <td class="yat-category">Allgemein</td>
-    <td class="yat-tags">Eingetragen, Tag2</td>
-  </tr>
-  <tr>
-    <th id="yat-table1-target2" class="yat-date">2011-01-20</th>
-    <td class="yat-title">Lorem Ipsum dolor sit amet</td>
-    <td class="yat-content">
-      <h3>Der Titel des ersten Eintrags 2011</h3>
-    </td>
-    <td class="yat-category">Allgemein</td>
-    <td class="yat-tags">Eingetragen, Tag3</td>
-  </tr>
-  <tr>
-    <th id="yat-table1-target3" class="yat-date">2012-01-20</th>
-    <td class="yat-title">Lorem Ipsum dolor sit amet</td>
-    <td class="yat-content">
-      <h3>Der Titel des ersten Eintrags 2012</h3>
-    </td>
-    <td class="yat-category">Allgemein</td>
-    <td class="yat-tags">Eingetragen</td>
-  </tr>
-  <tr class="important">
-    <th class="yat-date"><strong>2012-02-13</strong></th>
-    <td class="yat-title"><strong>Lorem Ipsum dolor sit amet</strong></td>
-    <td class="yat-content">
-      <h3>Der Titel des Eintrags</h3>
+    <ul id="yat-table1-skipmenu">
+      <li><a href="#yat-table1-skiptarget">Tabelle überspringen</a></li>
+      <li><a href="#yat-table1-filters">Zu Filtermöglichkeiten der Tabelle springen</a></li>
+      <li><a href="#yat-table1-target1">In der Tabelle zum 1. Jänner 2010 springen</a></li>
+      <li><a href="#yat-table1-target2">In der Tabelle zum 1. Jänner 2011 springen</a></li>
+      <li><a href="#yat-table1-target3">In der Tabelle zum 1. Jänner 2012 springen</a></li>
+    </ul>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
-        commodi consequat.
+    <form id="yat-table1-filters" action="" method="post">
+      <fieldset>
+        <legend>Filter</legend>
+        <label for="yat-table1-filters-category">Kategorie</label>
+        <select id="yat-table1-filters-category">
+          <option>Keine Kategorie gewählt</option>
+          <option>Allgemein</option>
+          <option>Speziell</option>
+        </select>
+        <label for="yat-table1-filters-tags" lang="en">Tags</label>
+        <select id="yat-table1-filters-tags" multiple="multiple">
+          <option>Eingetragen</option>
+          <option>Tag2</option>
+          <option>Tag3</option>
+        </select>
+        <input type="submit" value="Filtern"/>
+      </fieldset>
+    </form>
+
+    <table summary="Enthält historische Ereignisse, die als Zeitleiste aufbereitet werden." class="yat-timeline" id="yat-table1" border="1" cellpadding="0" cellspacing="0">
+    <caption>Tabellarische Zeitleiste, die 528 historische Ereignisse enthält.
+      <a href="#yat-table1-skipmenu">Zum Sprungmenü</a>
+    </caption>
+    <thead>
+    <tr>
+      <th>Termin</th>
+      <th>Titel</th>
+      <th>Inhalt</th>
+      <th>Kategorie</th>
+      <th>Tags</th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+      <tr>
+      <th id="yat-table1-target1" class="yat-date">2012-12-12</th>
+      <td class="yat-title">Noch ein Timeline-Doc</td>
+      <td class="yat-content">
+      <h3>Noch ein Timeline-Doc </h3>
+
+      <span class="datetime">2012-12-12</span>
+
+
+      <p class="timeline_image">
+              <img src="http://bmg.gv.at/cms/home//attachments/3/7/8/CH1099/CMS1288963892513/montage_online.jpg" alt="img" />
+
       </p>
-    </td>
-    <td class="yat-category">Speziell</td>
-    <td class="yat-tags">Tag2</td>
-  </tr>
+        <p class="timeline_lead">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+      </p>
+      <p class="timeline_text">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+      </p>
 
-  </tbody>
-</table>
-<div id="yat-table1-timeline"></div>
-<div id="yat-table1-skiptarget"></div>
+        <div class="detail">
+      <span>
+      <a href="http.//www.filmtipps.at" class="link_intern">Link</a>
+      </span>
+      </div>
+
+      </td>
+      <td class="yat-category">Fachinformationen</td>
+      <td class="yat-tags"></td>
+      </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+      <tr>
+      <th id="yat-table1-target1" class="yat-date">2012-12-11</th>
+      <td class="yat-title">Prävention</td>
+      <td class="yat-content">
+      <h3>Prävention </h3>
+
+      <span class="datetime">2012-12-11</span>
+
+
+      <p class="timeline_image">
+              <img src="http://bmg.gv.at/cms/home/attachments//8/2/4/CH1099/CMS1289992571693/vorsorge_mittel.png" alt="img" />
+
+      </p>
+        <p class="timeline_lead">
+      Ziel der Prävention ist die Bewahrung der Gesundheit sowie die Verhütung und Früherkennung von Krankheiten.
+      </p>
+      <p class="timeline_text">
+      Das Gesundheitsministerium setzt in diesem Sinne zahlreiche Aktionen und bietet umfangreiches Informationsmaterial zum Thema. Einen speziellen Stellenwert in der Vorsorgearbeit hat das Thema Verbesserung der Ernährungsgewohnheiten der österreichischen Bevölkerung
+      </p>
+
+        <div class="detail">
+      <span>
+      <a href="http://bmg.gv.at/home/Schwerpunkte/Praevention/Vorsorgeuntersuchung" class="link_intern">Mehr lesen ....</a>
+      </span>
+      </div>
+
+      </td>
+      <td class="yat-category">Allgemein</td>
+      <td class="yat-tags"></td>
+      </tr>
+
+
+
+
+
+
+
+
+    </tbody>
+    </table>
+
+    <div id="yat-table1-timeline"></div>
+    <div id="yat-table1-skiptarget"></div>
+
+  </div>
+</div>
 
 <script type="text/template" id="rowTemplate">
   <tr>

@@ -13,6 +13,8 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
+    _Class.prototype.tagName = 'li';
+
     _Class.prototype.initialize = function() {
       this.inDom = false;
       return this.render();

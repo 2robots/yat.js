@@ -5,7 +5,7 @@
 
   window.yat = window.yat || {};
 
-  window.yat.ViewportView = (function(_super) {
+  window.yat.viewportItemView = (function(_super) {
 
     __extends(_Class, _super);
 
@@ -13,34 +13,16 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
-    _Class.prototype.className = 'yat-inner';
+    _Class.prototype.tagName = 'li';
 
     _Class.prototype.initialize = function() {
-      $(window).bind("resize.app", _.bind(this.resize, this));
-      this.resize();
+      this.inDom = false;
       return this.render();
     };
 
-    _Class.prototype.remove = function() {
-      $(window).unbind("resize.app");
-      return Backbone.View.prototype.remove.call(this);
-    };
-
-    _Class.prototype.resize = function() {
-      return console.log('resized');
-    };
-
     _Class.prototype.render = function() {
-      var viewport;
-      viewport = $(window.yat.templates.timelineViewportElementList());
-      this.model.each(function(item) {
-        var view;
-        view = new window.yat.viewportItemView({
-          model: item
-        });
-        return viewport.append(view.$el);
-      });
-      return this.$el.html(viewport);
+      this.inDom = true;
+      return this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
     };
 
     return _Class;

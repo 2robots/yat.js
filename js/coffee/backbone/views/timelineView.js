@@ -37,13 +37,7 @@
       this.navigation.append(this.navigationBar.$el);
       this.container.children('.yat-timeline-inner1').append(this.navigation);
       this.container.children('.yat-timeline-inner1').append(this.viewportContainer);
-      that.$el.append(this.container);
-      return this.model.each(function(item) {
-        var view;
-        return view = new window.yat.ItemView({
-          model: item
-        });
-      });
+      return that.$el.append(this.container);
     };
 
     return _Class;

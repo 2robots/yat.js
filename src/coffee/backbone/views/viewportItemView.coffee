@@ -9,12 +9,15 @@
 window.yat = window.yat || {};
 
 # The item is one "event" at a specific time on the timeline
-window.yat.ItemView = class extends Backbone.View
+window.yat.viewportItemView = class extends Backbone.View
+
+  tagName: 'li'
+
   initialize: ->
     @inDom = false
     @render()
 
   render: ->
     @inDom = true
-    @$el.html(window.yat.templates.item @model.toJSON())
+    @$el.html(window.yat.templates.timelineViewportElement @model.toJSON())
 

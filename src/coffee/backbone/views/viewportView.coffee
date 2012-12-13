@@ -26,8 +26,11 @@ window.yat.ViewportView = class extends Backbone.View
     console.log 'resized'
 
   render: ->
-    viewport = $(window.yat.templates.timelineViewport())
-    #for item in @model.models
-    #  overview.append(window.yat.templates.timelineNavigationElement {shorttitle: item.get('shorttitle'), linkHref: '#'})
+    viewport = $(window.yat.templates.timelineViewportElementList())
+
+    @model.each((item) ->
+      view = new window.yat.viewportItemView {model: item}
+      viewport.append(view.$el)
+    )
 
     @$el.html(viewport)
