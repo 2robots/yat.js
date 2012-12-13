@@ -11,10 +11,12 @@ window.yat = window.yat || {};
 # The item is one "event" at a specific time on the timeline
 window.yat.templates =
    item: _.template('<h1><%= shorttitle %></h1><p><%= content %></p>')
+   timelineContainer: _.template('<div class="yat-timeline"><div class="yat-timeline-inner1"></div></div>')
+   timelineViewport: _.template('<div class="yat-viewport"></div>')
    timelineNavigation: _.template('<div class="yat-navigation"></div>')
    timelineOverview: _.template('<ol class="yat-years"></ol>')
    timelineOverviewYear: _.template('<li style="width: <%= width %>;"><span><%= year %></span></li>')
    timelineOverviewSelection: _.template('<div class="yat-current-position">Aktueller Ausschnitt</div>')
    timelineNavigationElementList: _.template('<ol class="yat-elements"></ol>')
    timelineNavigationElement: _.template('<li><a href="<%= linkHref %>"><%= shorttitle %></a></li>')
-   timelineViewport: _.template('<li><a href="<%= linkHref %>"><%= shorttitle %></a></li>')
+   timelineViewportElement: _.template('<li><a href="<%= linkHref %>"><%= shorttitle %></a></li>')

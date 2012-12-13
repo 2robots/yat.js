@@ -20,6 +20,12 @@
     _Class.prototype.render = function() {
       var that;
       that = this;
+      this.container = $(window.yat.templates.timelineContainer());
+      this.viewportContainer = $(window.yat.templates.timelineViewport());
+      this.viewport = new window.yat.ViewportView({
+        model: this.model
+      });
+      this.viewportContainer.append(this.viewport.$el);
       this.navigation = $(window.yat.templates.timelineNavigation());
       this.overview = new window.yat.OverviewView({
         model: this.model.getStartEnd()
@@ -29,7 +35,9 @@
       });
       this.navigation.append(this.overview.$el);
       this.navigation.append(this.navigationBar.$el);
-      that.$el.append(this.navigation);
+      this.container.children('.yat-timeline-inner1').append(this.navigation);
+      this.container.children('.yat-timeline-inner1').append(this.viewportContainer);
+      that.$el.append(this.container);
       return this.model.each(function(item) {
         var view;
         return view = new window.yat.ItemView({

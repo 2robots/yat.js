@@ -15,13 +15,23 @@ window.yat.TimelineView = class extends Backbone.View
 
   render: ->
     that = @
-#    @viewport =
+
+    @container = $(window.yat.templates.timelineContainer())
+
+    @viewportContainer = $(window.yat.templates.timelineViewport())
+    @viewport = new window.yat.ViewportView model: @model
+    @viewportContainer.append(@viewport.$el)
+
     @navigation = $(window.yat.templates.timelineNavigation())
     @overview = new window.yat.OverviewView model: @model.getStartEnd()
     @navigationBar = new window.yat.NavigationView model: @model
     @navigation.append(@overview.$el)
     @navigation.append(@navigationBar.$el)
-    that.$el.append(@navigation)
+
+    @container.children('.yat-timeline-inner1').append(@navigation)
+    @container.children('.yat-timeline-inner1').append(@viewportContainer)
+    that.$el.append(@container)
+
     @model.each((item) ->
       view = new window.yat.ItemView {model: item}
 #      that.$el.append(view.$el)
