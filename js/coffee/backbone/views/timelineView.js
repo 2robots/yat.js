@@ -13,6 +13,8 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
+    _Class.prototype.className = 'yat-inner';
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -28,7 +30,8 @@
       this.viewportContainer.append(this.viewport.$el);
       this.navigation = $(window.yat.templates.timelineNavigation());
       this.overview = new window.yat.OverviewView({
-        model: this.model.getStartEnd()
+        model: this.model.getStartEnd(),
+        dispatcher: this.dispatcher
       });
       this.navigationBar = new window.yat.NavigationView({
         model: this.model
