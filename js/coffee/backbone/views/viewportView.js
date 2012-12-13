@@ -15,6 +15,10 @@
 
     _Class.prototype.className = 'yat-viewport';
 
+    _Class.prototype.options = {
+      animation_duration: 200
+    };
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -24,7 +28,8 @@
     };
 
     _Class.prototype.render = function() {
-      var navlinks, viewport;
+      var navlinks, that, viewport;
+      that = this;
       viewport = $(window.yat.templates.timelineViewportElementList());
       this.model.each(function(item) {
         var view;
@@ -36,6 +41,13 @@
       navlinks = $(window.yat.templates.timelineViewportNavlinks());
       this.$el.html(viewport);
       this.$el.append(navlinks);
+      setTimeout((function() {
+        that.$el.find('ol.yat-elements').css('width', 0);
+        return that.$el.find('ol.yat-elements').children().each(function() {
+          console.log(that.element_width($(this)));
+          return that.change_list_width(that.element_width($(this)));
+        });
+      }), 10);
       return this.registerEventListener();
     };
 
@@ -49,55 +61,99 @@
         return that.options.dispatcher.trigger('viewport_position_change');
       });
       this.$el.find('ol.yat-elements').children().click(function() {
-        return that.options.dispatcher.trigger('viewport_item_select', $(this));
+        if ($(this).hasClass('open')) {
+          return that.options.dispatcher.trigger('viewport_item_deselect');
+        } else {
+          return that.options.dispatcher.trigger('viewport_item_select', $(this));
+        }
       });
       this.$el.find('.yat-navlinks .yat-left a').click(function() {
-        return that.options.dispatcher.trigger('viewport_prev');
+        that.options.dispatcher.trigger('viewport_prev');
+        return that.options.dispatcher.trigger('viewport_item_deselect');
       });
       this.$el.find('.yat-navlinks .yat-right a').click(function() {
-        return that.options.dispatcher.trigger('viewport_next');
+        that.options.dispatcher.trigger('viewport_next');
+        return that.options.dispatcher.trigger('viewport_item_deselect');
       });
       that.options.dispatcher.on('viewport_jump_to', function() {
-        return that.jump_to(arguments[0]);
+        return that.jump_to(arguments[0], arguments[1]);
       });
       that.options.dispatcher.on('viewport_prev', function() {
-        return that.options.dispatcher.trigger('viewport_jump_to', that.getCurrentElement().prev());
+        return that.options.dispatcher.trigger('viewport_jump_to', _.first(that.getCurrentElements()).prev());
       });
       that.options.dispatcher.on('viewport_next', function() {
-        return that.options.dispatcher.trigger('viewport_jump_to', that.getCurrentElement().next());
+        return that.options.dispatcher.trigger('viewport_jump_to', _.last(that.getCurrentElements()).next());
       });
-      return that.options.dispatcher.on('viewport_item_select', function() {
+      that.options.dispatcher.on('viewport_item_select', function() {
         return that.open_element(arguments[0]);
+      });
+      return that.options.dispatcher.on('viewport_item_deselect', function() {
+        return that.close_open_element(arguments[0]);
       });
     };
 
-    _Class.prototype.getCurrentElement = function() {
-      var current_element, scroll_l, scroll_r;
+    _Class.prototype.getCurrentElements = function() {
+      var current_elements, scroll_l, scroll_r;
       scroll_l = this.$el.find('> .yat-inner').scrollLeft();
       scroll_r = scroll_l + this.$el.find('> .yat-inner').width();
-      current_element = null;
+      current_elements = [];
       this.$el.find('ol.yat-elements').children().each(function() {
-        if ($(this).position().left >= scroll_l && $(this).position().left <= scroll_r) {
-          current_element = $(this);
+        var el_width;
+        el_width = $(this).outerWidth() + parseInt($(this).css('margin-left'), 10) + parseInt($(this).css('margin-right'), 10);
+        if ($(this).position().left >= scroll_l && ($(this).position().left + el_width) <= scroll_r) {
+          current_elements.push($(this));
+        }
+        if ($(this).position().left > scroll_r) {
           return false;
         }
       });
-      return current_element;
+      return current_elements;
     };
 
     _Class.prototype.jump_to = function() {
-      return this.$el.find('> .yat-inner').animate({
-        scrollLeft: arguments[0].position().left
-      }, {
-        duration: 100
-      });
+      var container_width, element_width;
+      if (arguments[0][0] !== void 0) {
+        container_width = this.$el.find('> .yat-inner').outerWidth();
+        element_width = arguments[0].outerWidth() + parseInt(arguments[0].css("margin-left"), 10) + parseInt(arguments[0].css("margin-right"), 10);
+        return this.$el.find('> .yat-inner').animate({
+          scrollLeft: arguments[0].position().left - (container_width / 2 - element_width / 2)
+        }, {
+          duration: this.options.animation_duration
+        });
+      }
     };
 
     _Class.prototype.open_element = function() {
-      arguments[0].toggleClass('open');
-      return this.$el.find('ol.yat-elements').children(':not(.open)').each(function() {
-        return $(this).removeClass('open');
-      });
+      var element, new_element_width, old_element_width, that;
+      that = this;
+      this.close_open_element();
+      element = arguments[0];
+      old_element_width = this.element_width(element);
+      element.addClass('open');
+      new_element_width = this.element_width(element);
+      this.change_list_width(new_element_width - old_element_width, true);
+      return this.options.dispatcher.trigger('viewport_jump_to', element);
+    };
+
+    _Class.prototype.close_open_element = function() {
+      var element, new_element_width, old_element_width, that;
+      that = this;
+      if (this.$el.find('ol.yat-elements li.open').length > 0) {
+        element = this.$el.find('ol.yat-elements li.open').first();
+        old_element_width = this.element_width(element);
+        this.$el.find('ol.yat-elements li.open').removeClass('open');
+        new_element_width = this.element_width(element);
+        return this.change_list_width(new_element_width - old_element_width, true);
+      }
+    };
+
+    _Class.prototype.element_width = function(element) {
+      return element.outerWidth() + parseInt(element.css('margin-left'), 10) + parseInt(element.css('margin-right'), 10);
+    };
+
+    _Class.prototype.change_list_width = function(width) {
+      width = parseInt(this.$el.find('ol.yat-elements').css('width'), 10) + width;
+      return this.$el.find('ol.yat-elements').css('width', width);
     };
 
     return _Class;

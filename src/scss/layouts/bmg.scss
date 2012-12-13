@@ -131,10 +131,6 @@ $viewport-element-outer-height: 82px;
   background: $white;
   position: relative;
 
-  @include transition-property(width);
-  @include transition-duration(0.2s);
-  @include transition-timing-function(ease-out);
-
   .yat-element-inner {
     height: 100%;
     width: 100%;

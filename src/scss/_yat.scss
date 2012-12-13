@@ -62,6 +62,10 @@
       right: auto;
       display: block;
       z-index: 50;
+
+      a {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
     }
 
     .yat-right {
@@ -83,6 +87,8 @@
       li {
         height: $height - $navigation-height - $viewport-element-outer-height - 10px;
         float: left;
+
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
         .yat-element-inner {
           overflow: hidden;
