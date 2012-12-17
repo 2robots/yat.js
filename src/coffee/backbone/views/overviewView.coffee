@@ -20,9 +20,6 @@ window.yat.OverviewView = class extends Backbone.View
   initialize: ->
     @render()
 
-  remove: ->
-    Backbone.View.prototype.remove.call(this);
-
   render: ->
     that = @
     overview = $(window.yat.templates.timelineOverview())

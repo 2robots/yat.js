@@ -23,10 +23,6 @@
       return this.render();
     };
 
-    _Class.prototype.remove = function() {
-      return Backbone.View.prototype.remove.call(this);
-    };
-
     _Class.prototype.render = function() {
       var itemWidth, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
       that = this;
