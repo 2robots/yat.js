@@ -78,7 +78,7 @@ $navigation-height: 150px;
 /**
  * TIMELINE OVERVIEW SETTINGS
  */
-$timeline-overview-height: 30px;
+$timeline-overview-height: 60px;
 
 @mixin timeline-overview-styles() {
   ol {
@@ -95,13 +95,15 @@ $timeline-overview-height: 30px;
   }
 
   .yat-current-position {
-    height: 10px;
-    border-top: 10px solid $grey2;
-    margin-top: 15px;
-    text-indent: -9999px;
-    overflow: hidden;
-    cursor: move;
-    background: url("../img/arrow_bottom.png") no-repeat center top;
+    .yat-position-inner {
+      height: 10px;
+      border-top: 10px solid $grey2;
+      margin-top: 15px;
+      text-indent: -9999px;
+      overflow: hidden;
+      cursor: move;
+      background: url("../img/arrow_bottom.png") no-repeat center top;
+    }
   }
 }
 

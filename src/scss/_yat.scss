@@ -53,6 +53,13 @@
     }
   }
 
+  .yat-viewport {
+    .yat-inner {
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  }
+
   .yat-navlinks {
     .yat-left, .yat-right {
       position: absolute;
@@ -104,12 +111,17 @@
   .yat-navigation {
     top: auto;
     height: $navigation-height;
+    overflow: visible;
+    z-index: 10;
 
     .yat-timeline-overview {
       position: absolute;
       left: 0;
       right: 0;
-      height: 40px;
+      top: -20px;
+      height: $timeline-overview-height - 20px;
+      padding-top: 20px;
+      overflow: hidden;
 
       ol {
         margin: 0;
@@ -137,14 +149,31 @@
       @include timeline-overview-styles();
 
       .yat-current-position {
-        width: 100px;
+
         position: absolute;
+        left: 0;
+        right: 0;
         top: 0;
+        bottom: 0;
+        overflow: hidden;
+        overflow-x: auto;
+        height: $timeline-overview-height + 20px;
+
+        .yat-position-container {
+          width: 100%;
+          padding-left: 100%;
+          position: absolute;
+          margin-top: 20px;
+
+          .yat-position-inner {
+            width: 100px;
+          }
+        }
       }
     }
 
     .yat-inner {
-      top: $timeline-overview-height;
+      top: $timeline-overview-height - 20px;
       .yat-elements {
         li {
           position: absolute;
