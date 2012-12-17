@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../js/libs/underscore-min.js"></script>
   <script type="text/javascript" src="../js/libs/backbone-min.js"></script>
   <script type="text/javascript" src="../js/libs/jquery.event.scroll.js"></script>
-  <script type="text/javascript" src="../js/libs/jquery.event.drag.min.js"></script>
+  <script type="text/javascript" src="../js/libs/hammer.js"></script>
   <script type="text/javascript" src="../js/libs/moment.js"></script>
   <script type="text/javascript" src="../js/coffee/wrapper/yat.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/templates.js"></script>
@@ -479,11 +479,10 @@
 
   $(document).ready(function () {
 
-    _.times(167, function(){
+    // 167
+    _.times(50, function(){
       $("#yat-table1").append($("#yat-table1").children().last().clone());
     });
-
-    alert("start doing the timeline dance.");
 
     $("#yat-table1").yat(
         {

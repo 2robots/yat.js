@@ -42,19 +42,51 @@
         }));
       }
       selection = $(window.yat.templates.timelineOverviewSelection());
-      selection.draggable({
-        axis: "x",
-        containment: 'parent',
-        drag: function(event, ui) {
-          var date, end, start;
-          start = moment(that.model.start);
-          end = moment(that.model.end);
-          date = moment(start).add(end.diff(start) * (ui.position.left / (that.$el.width() - selection.width())));
-          return that.options.dispatcher.trigger('overview_change', date);
-        }
+      setTimeout((function() {
+        var inner_width, main_width;
+        main_width = parseInt(selection.css('width'), 10);
+        inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10);
+        selection.find('.yat-position-container').css('width', main_width);
+        return selection.find('.yat-position-container').css('padding-left', main_width - inner_width);
+      }), 10);
+      this.$el.html(overview);
+      this.$el.append(selection);
+      selection.click(function(event) {
+        return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
       });
-      overview.append(selection);
-      return this.$el.html(overview);
+      that.options.dispatcher.on('overview_jump_to', function() {
+        return that.jump_to(arguments[0]);
+      });
+      return this.$el.find('.yat-current-position').bind('scrollstop', function() {
+        var element_width, pos_left;
+        pos_left = $('.yat-position-inner').offset().left;
+        element_width = $('.yat-position-inner').width();
+        return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left));
+      });
+    };
+
+    _Class.prototype.jump_to = function(date) {
+      var element_width, left, width;
+      left = this.get_offset_for_date(date);
+      width = $('.yat-current-position').width();
+      element_width = $('.yat-position-inner').width();
+      return this.$el.find('.yat-current-position').scrollLeft(width - left - (element_width / 2));
+    };
+
+    _Class.prototype.get_offset_for_date = function(date) {
+      var end, start, width;
+      width = $('.yat-current-position').width();
+      start = moment(this.model.start);
+      end = moment(this.model.end);
+      return (date.diff(start) / end.diff(start)) * width;
+    };
+
+    _Class.prototype.get_date_for_offset = function(offset) {
+      var end, start, width;
+      width = $('.yat-current-position').width();
+      start = moment(this.model.start);
+      end = moment(this.model.end);
+      return moment(start).add(end.diff(start) * (offset / width));
     };
 
     return _Class;

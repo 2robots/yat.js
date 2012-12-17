@@ -42,7 +42,6 @@
       startEnd = this.model.getStartEnd();
       interval = Math.abs(moment(startEnd.start).diff(startEnd.end, 'days'));
       pixelPerDay = Math.round(paneWidth / interval);
-      console.log(paneWidth, interval, pixelPerDay);
       lastElements = [-10000, -10000, -10000];
       elements = [];
       _ref = this.model.models;
@@ -65,7 +64,6 @@
           }
         }
         lastElements[line] = position + 155;
-        console.log(item.get('shorttitle'), line, position);
         navElement.css('top', line * 25 + 'px');
         navElement.css('left', position + 'px');
         overview.append(navElement);
