@@ -22,4 +22,4 @@ window.yat.templates =
 
    timelineNavigation: _.template('<div class="yat-navigation"></div>')
    timelineNavigationElementList: _.template('<ol class="yat-elements"></ol>')
-   timelineNavigationElement: _.template('<li><a href="<%= linkHref %>"><%= shorttitle %></a></li>')
+   timelineNavigationElement: _.template('<a href="<%= linkHref %>"><%= shorttitle %></a>')

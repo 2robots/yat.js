@@ -10,7 +10,7 @@
     timelineViewportNavlinks: _.template('<div class="yat-navlinks"><span class="yat-left"><a href="javascript:void(0);">Nach links navigieren</a></span><span class="yat-right"><a href="javascript:void(0);">Nach rechts navigieren</a></span></div>'),
     timelineOverview: _.template('<ol class="yat-years"></ol>'),
     timelineOverviewYear: _.template('<li style="width: <%= width %>;"><span><%= year %></span></li>'),
-    timelineOverviewSelection: _.template('<div class="yat-current-position"><div class="yat-position-container"><div class="yat-position-inner">Aktueller Ausschnitt</div></div></div>'),
+    timelineOverviewSelection: _.template('<div class="yat-current-position">Aktueller Ausschnitt</div>'),
     timelineNavigation: _.template('<div class="yat-navigation"></div>'),
     timelineNavigationElementList: _.template('<ol class="yat-elements"></ol>'),
     timelineNavigationElement: _.template('<a href="<%= linkHref %>"><%= shorttitle %></a>')
