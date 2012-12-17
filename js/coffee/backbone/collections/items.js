@@ -15,23 +15,14 @@
 
     ItemList.prototype.model = yat.Item;
 
+    ItemList.prototype.comparator = function(item) {
+      return item.get('date');
+    };
+
     ItemList.prototype.getStartEnd = function() {
-      var end, start;
-      start = this.min(function(item) {
-        return item.get('date');
-      });
-      end = this.max(function(item) {
-        return item.get('date');
-      });
-      if (start != null) {
-        start = start.get('date');
-      }
-      if (end != null) {
-        end = end.get('date');
-      }
       return {
-        start: start,
-        end: end
+        start: this.at(0).get('date'),
+        end: this.at(this.length - 1).get('date')
       };
     };
 

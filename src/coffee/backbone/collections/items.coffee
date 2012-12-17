@@ -12,9 +12,8 @@ window.yat = window.yat || {};
 class window.yat.ItemList extends Backbone.Collection
   model: yat.Item
 
+  comparator: (item)->
+    item.get('date')
+
   getStartEnd: ->
-    start = @.min((item) -> item.get('date'))
-    end = @.max((item) -> item.get('date'))
-    start = start.get('date') if start?
-    end = end.get('date') if end?
-    {start: start, end: end}
+    {start: @at(0).get('date'), end: @at(@length-1).get('date')}

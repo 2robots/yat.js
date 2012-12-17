@@ -47,7 +47,7 @@ window.yat.OverviewView = class extends Backbone.View
     @$el.append(selection)
 
     # jump to the right position, when user clicks
-    selection.click (event)->
+    selection.parent().click (event)->
       that.options.dispatcher.trigger 'overview_jump_to', that.get_date_for_offset (event.pageX - $('.yat-current-position').offset().left)
 
     # listen to jump to events

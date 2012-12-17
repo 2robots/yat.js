@@ -55,7 +55,7 @@
       }), 10);
       this.$el.html(overview);
       this.$el.append(selection);
-      selection.click(function(event) {
+      selection.parent().click(function(event) {
         return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
       });
       that.options.dispatcher.on('overview_jump_to', function() {
