@@ -15,8 +15,14 @@
 
     _Class.prototype.className = 'yat-viewport';
 
+    _Class.prototype.next_index = 0;
+
+    _Class.prototype.total_index = 0;
+
     _Class.prototype.options = {
-      animation_duration: 200
+      animation_duration: 200,
+      initial_element_count: 4,
+      id_prefix: ''
     };
 
     _Class.prototype.initialize = function() {
@@ -31,22 +37,15 @@
       var navlinks, that, viewport;
       that = this;
       viewport = $(window.yat.templates.timelineViewportElementList());
-      this.model.each(function(item) {
-        var view;
-        view = new window.yat.viewportItemView({
-          model: item
-        });
-        return viewport.children().append(view.$el);
-      });
       navlinks = $(window.yat.templates.timelineViewportNavlinks());
       this.$el.html(viewport);
       this.$el.append(navlinks);
+      this.total_index = this.model.length;
       setTimeout((function() {
         that.$el.find('ol.yat-elements').css('width', 0);
-        return that.$el.find('ol.yat-elements').children().each(function() {
-          console.log(that.element_width($(this)));
-          return that.change_list_width(that.element_width($(this)));
-        });
+        return _.times(that.options.initial_element_count, (function() {
+          return that.insert_next_element();
+        }));
       }), 10);
       return this.registerEventListener();
     };
@@ -60,12 +59,11 @@
       this.$el.find('> .yat-inner').scroll(function() {
         return that.options.dispatcher.trigger('viewport_position_change');
       });
-      this.$el.find('ol.yat-elements').children().click(function() {
-        if ($(this).hasClass('open')) {
-          return that.options.dispatcher.trigger('viewport_item_deselect');
-        } else {
-          return that.options.dispatcher.trigger('viewport_item_select', $(this));
-        }
+      this.$el.find('> .yat-inner').bind('scrollstart', function() {
+        return that.options.dispatcher.trigger('viewport_scrollstart');
+      });
+      this.$el.find('> .yat-inner').bind('scrollstop', function() {
+        return that.options.dispatcher.trigger('viewport_scrollstop', that.getCurrentElementModels());
       });
       this.$el.find('.yat-navlinks .yat-left a').click(function() {
         that.options.dispatcher.trigger('viewport_prev');
@@ -87,8 +85,11 @@
       that.options.dispatcher.on('viewport_item_select', function() {
         return that.open_element(arguments[0]);
       });
-      return that.options.dispatcher.on('viewport_item_deselect', function() {
+      that.options.dispatcher.on('viewport_item_deselect', function() {
         return that.close_open_element(arguments[0]);
+      });
+      return that.options.dispatcher.on('viewport_position_change', function() {
+        return that.load_more();
       });
     };
 
@@ -108,6 +109,50 @@
         }
       });
       return current_elements;
+    };
+
+    _Class.prototype.getCurrentElementModels = function() {
+      var elements, that;
+      that = this;
+      elements = [];
+      _.each(this.getCurrentElements(), (function(element) {
+        return elements.push({
+          dom: element,
+          model: that.model.get(element.attr('id').substr(that.options.id_prefix.length))
+        });
+      }));
+      return elements;
+    };
+
+    _Class.prototype.insert_next_element = function() {
+      var element, element_view, last, model, that;
+      that = this;
+      model = this.model.at(this.next_index);
+      element_view = new window.yat.viewportItemView({
+        model: model
+      });
+      element = this.$el.find('ol.yat-elements').append(element_view.$el);
+      last = element.children().last();
+      last.attr('id', this.options.id_prefix + model.cid);
+      this.change_list_width(this.element_width(last));
+      last.click(function() {
+        if ($(this).hasClass('open')) {
+          return that.options.dispatcher.trigger('viewport_item_deselect');
+        } else {
+          return that.options.dispatcher.trigger('viewport_item_select', $(this));
+        }
+      });
+      return this.next_index++;
+    };
+
+    _Class.prototype.load_more = function() {
+      var that;
+      if ((this.next_index + 1) < this.total_index) {
+        that = this;
+        return setTimeout((function() {
+          return that.insert_next_element();
+        }), 10);
+      }
     };
 
     _Class.prototype.jump_to = function() {

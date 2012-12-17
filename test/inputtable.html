@@ -8,13 +8,14 @@
   <link href="http://bmg.gv.at/cms/home/css/style.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="../css/layouts/bmg.css"/>
 
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/libs/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/libs/underscore-min.js"></script>
+  <script type="text/javascript" src="../js/libs/backbone-min.js"></script>
+  <script type="text/javascript" src="../js/coffee/libs/scrollevents.js"></script>
   <script type="text/javascript" src="../js/jquery.ui.core.js"></script>
   <script type="text/javascript" src="../js/jquery.ui.widget.js"></script>
   <script type="text/javascript" src="../js/jquery.ui.mouse.js"></script>
   <script type="text/javascript" src="../js/jquery.ui.draggable.js"></script>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
   <script type="text/javascript" src="../js/moment.js"></script>
   <script type="text/javascript" src="../js/coffee/wrapper/yat.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/templates.js"></script>
@@ -325,6 +326,13 @@
 //  }
 
   $(document).ready(function () {
+
+    _.times(167, function(){
+      $("#yat-table1").append($("#yat-table1").children().last().clone());
+    });
+
+    alert("start doing the timeline dance.");
+
     $("#yat-table1").yat(
         {
           items:"tbody tr",
