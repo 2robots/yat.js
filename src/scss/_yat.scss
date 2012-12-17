@@ -49,7 +49,7 @@
       list-style: none;
       float: left;
       position: absolute;
-      overflow: hidden;
+      overflow: visible;
     }
   }
 
@@ -140,7 +140,6 @@
         width: 100px;
         position: absolute;
         top: 0;
-        left: 45%;
       }
     }
 
@@ -148,11 +147,10 @@
       top: $timeline-overview-height;
       .yat-elements {
         li {
-          float: left;
+          position: absolute;
           display: block;
           a {
             display: block;
-            float: left;
           }
         }
       }
