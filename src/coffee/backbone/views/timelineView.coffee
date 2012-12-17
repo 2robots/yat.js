@@ -19,13 +19,12 @@ window.yat.TimelineView = class extends Backbone.View
   render: ->
     that = @
 
-    console.log @options.dispatcher
-
     @container = $(window.yat.templates.timelineContainer())
 
     @viewport = new window.yat.ViewportView {
         model: @model,
-        dispatcher: @options.dispatcher
+        dispatcher: @options.dispatcher,
+        id_prefix: 'table' + _.random(0, 100)
     }
 
     @navigation = $(window.yat.templates.timelineNavigation())

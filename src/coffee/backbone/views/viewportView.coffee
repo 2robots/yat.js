@@ -12,9 +12,13 @@ window.yat = window.yat || {};
 window.yat.ViewportView = class extends Backbone.View
 
   className: 'yat-viewport'
+  next_index: 0
+  total_index: 0
 
   options: {
     animation_duration: 200
+    initial_element_count: 4
+    id_prefix: ''
   }
 
   initialize: ->
@@ -30,12 +34,6 @@ window.yat.ViewportView = class extends Backbone.View
     # get viewport element list
     viewport = $(window.yat.templates.timelineViewportElementList())
 
-    # render all the children
-    @model.each((item) ->
-      view = new window.yat.viewportItemView {model: item}
-      viewport.children().append(view.$el)
-    )
-
     # render the navlinks
     navlinks = $(window.yat.templates.timelineViewportNavlinks())
 
@@ -43,18 +41,20 @@ window.yat.ViewportView = class extends Backbone.View
     @$el.html(viewport)
     @$el.append(navlinks)
 
-    setTimeout (->
-      # reset the container_list width
-      that.$el.find('ol.yat-elements').css 'width', 0
+    # save total count of elements
+    @total_index = @model.length
 
-      # update the container width
-      that.$el.find('ol.yat-elements').children().each ->
-        console.log (that.element_width $(@))
-        that.change_list_width (that.element_width $(@))
+    # render all inital children
+    setTimeout (->
+
+      that.$el.find('ol.yat-elements').css('width', 0)
+
+      _.times that.options.initial_element_count, (->
+        that.insert_next_element()
+      )
     ), 10
 
     @registerEventListener()
-
 
   # register listener for all events
   registerEventListener: ->
@@ -70,12 +70,11 @@ window.yat.ViewportView = class extends Backbone.View
     @$el.find('> .yat-inner').scroll ->
       that.options.dispatcher.trigger 'viewport_position_change'
 
-    # viewport item select
-    @$el.find('ol.yat-elements').children().click ->
-      if $(@).hasClass 'open'
-        that.options.dispatcher.trigger 'viewport_item_deselect'
-      else
-        that.options.dispatcher.trigger 'viewport_item_select', $(@)
+    @$el.find('> .yat-inner').bind 'scrollstart', ->
+      that.options.dispatcher.trigger 'viewport_scrollstart'
+
+    @$el.find('> .yat-inner').bind 'scrollstop', ->
+      that.options.dispatcher.trigger 'viewport_scrollstop', that.getCurrentElementModels()
 
     # navlinks click
     @$el.find('.yat-navlinks .yat-left a').click ->
@@ -109,6 +108,9 @@ window.yat.ViewportView = class extends Backbone.View
     that.options.dispatcher.on 'viewport_item_deselect', ->
       that.close_open_element arguments[0]
 
+    # load more elements on scroll
+    that.options.dispatcher.on 'viewport_position_change', ->
+      that.load_more()
 
 
   # returns all visible elements
@@ -132,6 +134,51 @@ window.yat.ViewportView = class extends Backbone.View
         return false;
 
     current_elements
+
+  # get element_models
+  getCurrentElementModels: ->
+
+    that = @
+    elements = []
+
+    _.each @getCurrentElements(), ( (element)->
+      elements.push({
+        dom: element
+        model: that.model.get(element.attr('id').substr that.options.id_prefix.length)
+        })
+    )
+    elements
+
+  # insert next element in collection
+  insert_next_element: ->
+
+    that = @
+    model = @model.at @next_index
+    element_view = new window.yat.viewportItemView {model: model}
+    element = @$el.find('ol.yat-elements').append(element_view.$el)
+    last = element.children().last()
+
+    last.attr('id', @options.id_prefix + model.cid)
+    @change_list_width( @element_width last)
+
+    # viewport item select
+    last.click ->
+      if $(@).hasClass 'open'
+        that.options.dispatcher.trigger 'viewport_item_deselect'
+      else
+        that.options.dispatcher.trigger 'viewport_item_select', $(@)
+
+    @next_index++
+
+  # load more elements on scroll
+  load_more: ->
+
+    # if we inserted all items, unbind the load_more action
+    if (@next_index + 1) < @total_index
+      that = @
+      setTimeout (->
+        that.insert_next_element()
+      ), 10
 
 
   # scrolls to the given element

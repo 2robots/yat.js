@@ -81,7 +81,6 @@
 
     # initialize Backbone App
     initBackbone: ->
-      console.log("INIT BACKBONE");
       $(@element).hide()
       new window.yat.App {items: items, containerElement: @containerElement}
 
@@ -107,7 +106,6 @@
         else
           obj[i] = undefined
 
-      console.log("REGISTER CHILD");
       items.push obj
       # THIS OS OUR OBJECT TO PASS TO THE BACKBONE APP
       #console.log obj;

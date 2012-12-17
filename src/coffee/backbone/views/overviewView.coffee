@@ -14,16 +14,10 @@ window.yat.OverviewView = class extends Backbone.View
   className: 'yat-timeline-overview'
 
   initialize: ->
-    #$(window).bind("resize.app", _.bind(this.resize, this));
-    @resize()
     @render()
 
   remove: ->
-    #$(window).unbind("resize.app");
     Backbone.View.prototype.remove.call(this);
-
-  resize: ->
-    console.log 'resized'
 
   render: ->
     overview = $(window.yat.templates.timelineOverview())

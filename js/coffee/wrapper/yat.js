@@ -73,7 +73,6 @@
       };
 
       YatWrapper.prototype.initBackbone = function() {
-        console.log("INIT BACKBONE");
         $(this.element).hide();
         return new window.yat.App({
           items: items,
@@ -99,7 +98,6 @@
             obj[i] = void 0;
           }
         }
-        console.log("REGISTER CHILD");
         return items.push(obj);
       };
 

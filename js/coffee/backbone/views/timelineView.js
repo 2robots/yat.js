@@ -22,11 +22,11 @@
     _Class.prototype.render = function() {
       var that;
       that = this;
-      console.log(this.options.dispatcher);
       this.container = $(window.yat.templates.timelineContainer());
       this.viewport = new window.yat.ViewportView({
         model: this.model,
-        dispatcher: this.options.dispatcher
+        dispatcher: this.options.dispatcher,
+        id_prefix: 'table' + _.random(0, 100)
       });
       this.navigation = $(window.yat.templates.timelineNavigation());
       this.overview = new window.yat.OverviewView({

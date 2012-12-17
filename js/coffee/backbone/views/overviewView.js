@@ -16,16 +16,11 @@
     _Class.prototype.className = 'yat-timeline-overview';
 
     _Class.prototype.initialize = function() {
-      this.resize();
       return this.render();
     };
 
     _Class.prototype.remove = function() {
       return Backbone.View.prototype.remove.call(this);
-    };
-
-    _Class.prototype.resize = function() {
-      return console.log('resized');
     };
 
     _Class.prototype.render = function() {
