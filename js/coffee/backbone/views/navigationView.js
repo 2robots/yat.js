@@ -24,9 +24,53 @@
       return Backbone.View.prototype.remove.call(this);
     };
 
+    _Class.prototype.registerEventListener = function() {
+      var that;
+      that = this;
+      this.$el.bind('touchmove', function() {
+        return that.options.dispatcher.trigger('navigation_position_change');
+      });
+      return this.$el.scroll(function() {
+        return that.options.dispatcher.trigger('navigation_position_change');
+      });
+    };
+
     _Class.prototype.render = function() {
-      var overview;
-      return overview = $(window.yat.templates.timelineNavigationElementList());
+      var days, elements, interval, item, lastElements, line, navElement, overview, paneWidth, pixelPerDay, position, startEnd, _i, _len, _ref;
+      overview = $(window.yat.templates.timelineNavigationElementList());
+      paneWidth = 150 * (this.model.length / 2);
+      startEnd = this.model.getStartEnd();
+      interval = Math.abs(moment(startEnd.start).diff(startEnd.end, 'days'));
+      pixelPerDay = Math.round(paneWidth / interval);
+      console.log(paneWidth, interval, pixelPerDay);
+      lastElements = [-10000, -10000, -10000];
+      elements = [];
+      _ref = this.model.models;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
+        navElement = $(window.yat.templates.timelineNavigationElement({
+          shorttitle: item.get('shorttitle'),
+          linkHref: '#'
+        }));
+        days = moment(item.get('date')).diff(startEnd.start, 'days');
+        position = days * pixelPerDay;
+        line = 0;
+        if (lastElements[line] >= position) {
+          while (lastElements[line] >= position && line < 3) {
+            line++;
+          }
+          if (line > 2) {
+            line = 0;
+            position = lastElements[line];
+          }
+        }
+        lastElements[line] = position + 155;
+        console.log(item.get('shorttitle'), line, position);
+        navElement.css('top', line * 25 + 'px');
+        navElement.css('left', position + 'px');
+        overview.append(navElement);
+      }
+      return this.$el.html(overview);
     };
 
     return _Class;
