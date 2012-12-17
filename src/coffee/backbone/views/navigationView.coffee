@@ -8,17 +8,30 @@
 
 window.yat = window.yat || {};
 
+_viewportPos =
+  left: 0
+  right: 0
+
+_lastElements = [-10000, -10000, -10000]
+
 # The item is one "event" at a specific time on the timeline
 window.yat.NavigationView = class extends Backbone.View
 
   className: 'yat-inner'
 
   initialize: ->
-    @render()
     @registerEventListener()
+    @viewManager = new window.yat.NavigationViewManager(@model)
+    @overview = $(window.yat.templates.timelineNavigationElementList())
+    @$el.html(@overview)
+    @render()
 
-  remove: ->
-    Backbone.View.prototype.remove.call(this);
+  _updateViewportPos: ->
+    scrollLeft = @$el.scrollLeft()
+    _viewportPos =
+      left: scrollLeft
+      right: scrollLeft + @$el.width()
+    @viewManager.updateViewport(_viewportPos)
 
   registerEventListener: ->
 
@@ -33,32 +46,39 @@ window.yat.NavigationView = class extends Backbone.View
     @$el.scroll ->
       that.options.dispatcher.trigger 'navigation_position_change'
 
+    @options.dispatcher.on 'navigation_position_change', ->
+      that._updateViewportPos()
+
   render: ->
-    overview = $(window.yat.templates.timelineNavigationElementList())
-    paneWidth = 150 * (@model.length / 2)
-    startEnd = @model.getStartEnd()
-    interval = Math.abs(moment(startEnd.start).diff(startEnd.end, 'days'))
-    pixelPerDay = Math.round(paneWidth / interval)
-    console.log(paneWidth, interval, pixelPerDay)
-    lastElements = [-10000, -10000, -10000]
+    @_updateViewportPos()
     elements = []
-    for item in @model.models
-      navElement = $(window.yat.templates.timelineNavigationElement {shorttitle: item.get('shorttitle'), linkHref: '#'})
-      days = moment(item.get('date')).diff(startEnd.start, 'days')
-      position = days * pixelPerDay
+    while @viewManager.hasRenderCandidate()
+      item = @viewManager.getNextElement()
+      item.view = @renderMore(item)
+      elements.push item
+    @repositionElements(elements)
 
-      line = 0
-      if lastElements[line] >= position
-        # there's not enough space in the first line --> reposition element
-        while lastElements[line] >= position && line < 3
-          line++
-        if line > 2
-          line = 0
-          position = lastElements[line]
+  renderMore: (item) ->
+    that = @
+    navElement = new window.yat.NavigationElementView model: item.model
+    @overview.append(navElement.$el)
+    navElement
 
-      lastElements[line] = position + 155
-      console.log(item.get('shorttitle'), line, position)
-      navElement.css('top', line * 25 + 'px')
-      navElement.css('left', position + 'px')
-      overview.append(navElement)
-    @$el.html(overview)
+  repositionElements: (elements) ->
+    window.setTimeout(->
+      for item in elements
+        line = 0
+        position = item.position
+        if _lastElements[line] >= position
+          # there's not enough space in the first line --> reposition element
+          while _lastElements[line] >= position && line < 3
+            line++
+          if line > 2
+            position = _.min(_lastElements)
+            line = _.indexOf(_lastElements, position)
+        _lastElements[line] = position + item.view.width() + 5
+        item.view.$el.css('top', line * 25 + 'px')
+        item.view.$el.css('left', position + 'px')
+    , 0)
+
+  addElement: ->

@@ -18,10 +18,12 @@
   <script type="text/javascript" src="../js/jquery.ui.draggable.js"></script>
   <script type="text/javascript" src="../js/moment.js"></script>
   <script type="text/javascript" src="../js/coffee/wrapper/yat.js"></script>
+  <script type="text/javascript" src="../js/coffee/backbone/models/navigationViewManager.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/templates.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/overviewView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/viewportItemView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/viewportView.js"></script>
+  <script type="text/javascript" src="../js/coffee/backbone/views/navigationElementView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/navigationView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/views/timelineView.js"></script>
   <script type="text/javascript" src="../js/coffee/backbone/models/item.js"></script>
@@ -482,11 +484,11 @@
 
   $(document).ready(function () {
 
-    _.times(167, function(){
-      $("#yat-table1").append($("#yat-table1").children().last().clone());
-    });
+//    _.times(167, function(){
+//      $("#yat-table1").append($("#yat-table1").children().last().clone());
+//    });
 
-    alert("start doing the timeline dance.");
+    //alert("start doing the timeline dance.");
 
     $("#yat-table1").yat(
         {
