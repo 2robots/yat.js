@@ -13,6 +13,10 @@ window.yat.OverviewView = class extends Backbone.View
 
   className: 'yat-timeline-overview'
 
+  options: {
+    animation_duration: 200
+  }
+
   initialize: ->
     @render()
 
@@ -21,7 +25,6 @@ window.yat.OverviewView = class extends Backbone.View
 
   render: ->
     that = @
-    console.log @options.dispatcher
     overview = $(window.yat.templates.timelineOverview())
     years = [@model.start.getFullYear()..@model.end.getFullYear()]
     itemWidth = Math.round(10000 / years.length, 2) / 100
@@ -49,7 +52,13 @@ window.yat.OverviewView = class extends Backbone.View
 
     # listen to jump to events
     that.options.dispatcher.on 'overview_jump_to', ->
-      that.jump_to arguments[0]
+
+      animate = true
+
+      if arguments.length > 1
+        animate = arguments[1]
+
+      that.jump_to(arguments[0], animate)
 
     # fire event, when user stops scrolling to position
     @$el.find('.yat-current-position').bind 'scrollstop', ->
@@ -71,7 +80,7 @@ window.yat.OverviewView = class extends Backbone.View
     if animate
       @$el.find('.yat-current-position').animate({
         scrollLeft: (width - left - (element_width/2))
-      }, 200)
+      }, @options.animation_duration)
     else
       @$el.find('.yat-current-position').scrollLeft (width - left - (element_width/2))
 

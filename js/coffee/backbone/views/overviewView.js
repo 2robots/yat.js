@@ -15,6 +15,10 @@
 
     _Class.prototype.className = 'yat-timeline-overview';
 
+    _Class.prototype.options = {
+      animation_duration: 200
+    };
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -26,7 +30,6 @@
     _Class.prototype.render = function() {
       var itemWidth, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
       that = this;
-      console.log(this.options.dispatcher);
       overview = $(window.yat.templates.timelineOverview());
       years = (function() {
         _results = [];
@@ -56,7 +59,12 @@
         return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
       });
       that.options.dispatcher.on('overview_jump_to', function() {
-        return that.jump_to(arguments[0]);
+        var animate;
+        animate = true;
+        if (arguments.length > 1) {
+          animate = arguments[1];
+        }
+        return that.jump_to(arguments[0], animate);
       });
       this.$el.find('.yat-current-position').bind('scrollstop', function() {
         var element_width, pos_left;
@@ -77,7 +85,7 @@
       if (animate) {
         return this.$el.find('.yat-current-position').animate({
           scrollLeft: width - left - (element_width / 2)
-        }, 200);
+        }, this.options.animation_duration);
       } else {
         return this.$el.find('.yat-current-position').scrollLeft(width - left - (element_width / 2));
       }
