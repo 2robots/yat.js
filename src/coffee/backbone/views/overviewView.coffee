@@ -27,7 +27,7 @@ window.yat.OverviewView = class extends Backbone.View
     that = @
     overview = $(window.yat.templates.timelineOverview())
     years = [@model.start.getFullYear()..@model.end.getFullYear()]
-    itemWidth = Math.round(10000 / years.length, 2) / 100
+    itemWidth = 100 / years.length
 
     for y in years
       overview.append(window.yat.templates.timelineOverviewYear {year: y, width: itemWidth + '%'})

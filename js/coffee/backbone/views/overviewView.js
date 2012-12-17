@@ -36,7 +36,7 @@
         for (var _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; _ref <= _ref1 ? _i++ : _i--){ _results.push(_i); }
         return _results;
       }).apply(this);
-      itemWidth = Math.round(10000 / years.length, 2) / 100;
+      itemWidth = 100 / years.length;
       for (_j = 0, _len = years.length; _j < _len; _j++) {
         y = years[_j];
         overview.append(window.yat.templates.timelineOverviewYear({
