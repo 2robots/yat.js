@@ -47,7 +47,8 @@
         main_width = parseInt(selection.css('width'), 10);
         inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10);
         selection.find('.yat-position-container').css('width', main_width);
-        return selection.find('.yat-position-container').css('padding-left', main_width - inner_width);
+        selection.find('.yat-position-container').css('padding-left', main_width - inner_width);
+        return that.jump_to(moment(that.model.start));
       }), 10);
       this.$el.html(overview);
       this.$el.append(selection);
@@ -57,20 +58,29 @@
       that.options.dispatcher.on('overview_jump_to', function() {
         return that.jump_to(arguments[0]);
       });
-      return this.$el.find('.yat-current-position').bind('scrollstop', function() {
+      this.$el.find('.yat-current-position').bind('scrollstop', function() {
         var element_width, pos_left;
         pos_left = $('.yat-position-inner').offset().left;
         element_width = $('.yat-position-inner').width();
         return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left));
       });
+      return this.options.dispatcher.on('viewport_scrollstop', function() {
+        return that.jump_to(moment(arguments[0][0].model.get("date")), true);
+      });
     };
 
-    _Class.prototype.jump_to = function(date) {
+    _Class.prototype.jump_to = function(date, animate) {
       var element_width, left, width;
       left = this.get_offset_for_date(date);
       width = $('.yat-current-position').width();
       element_width = $('.yat-position-inner').width();
-      return this.$el.find('.yat-current-position').scrollLeft(width - left - (element_width / 2));
+      if (animate) {
+        return this.$el.find('.yat-current-position').animate({
+          scrollLeft: width - left - (element_width / 2)
+        }, 200);
+      } else {
+        return this.$el.find('.yat-current-position').scrollLeft(width - left - (element_width / 2));
+      }
     };
 
     _Class.prototype.get_offset_for_date = function(date) {

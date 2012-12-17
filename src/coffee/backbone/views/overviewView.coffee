@@ -36,6 +36,8 @@ window.yat.OverviewView = class extends Backbone.View
       inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10)
       selection.find('.yat-position-container').css('width', main_width)
       selection.find('.yat-position-container').css('padding-left', (main_width - inner_width))
+
+      that.jump_to(moment(that.model.start))
     ), 10
 
     @$el.html(overview)
@@ -55,14 +57,23 @@ window.yat.OverviewView = class extends Backbone.View
       element_width = $('.yat-position-inner').width()
       that.options.dispatcher.trigger 'overview_position_change', that.get_date_for_offset (pos_left - $('.yat-current-position').offset().left)
 
+    # bind the overview to viewport changes
+    @options.dispatcher.on 'viewport_scrollstop', ->
+      that.jump_to moment(arguments[0][0].model.get("date")), true
+
   # jumps to the date
-  jump_to: (date)->
+  jump_to: (date, animate)->
 
     left = @get_offset_for_date(date)
     width = $('.yat-current-position').width()
     element_width = $('.yat-position-inner').width()
 
-    @$el.find('.yat-current-position').scrollLeft (width - left - (element_width/2))
+    if animate
+      @$el.find('.yat-current-position').animate({
+        scrollLeft: (width - left - (element_width/2))
+      }, 200)
+    else
+      @$el.find('.yat-current-position').scrollLeft (width - left - (element_width/2))
 
   # get pixel for date
   get_offset_for_date: (date)->
