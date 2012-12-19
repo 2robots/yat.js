@@ -47,7 +47,7 @@
       selection = $(window.yat.templates.timelineOverviewSelection());
       setTimeout((function() {
         var inner_width, main_width;
-        main_width = parseInt(selection.css('width'), 10);
+        main_width = parseInt(selection.width(), 10);
         inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10);
         selection.find('.yat-position-container').css('width', main_width);
         selection.find('.yat-position-container').css('padding-left', main_width - inner_width);
@@ -55,7 +55,7 @@
       }), 10);
       this.$el.html(overview);
       this.$el.append(selection);
-      selection.parent().click(function(event) {
+      selection.parent().bind('mouseup', function(event) {
         return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
       });
       that.options.dispatcher.on('overview_jump_to', function() {

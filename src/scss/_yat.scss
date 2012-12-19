@@ -127,6 +127,10 @@
         margin: 0;
         padding: 0;
         list-style: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        overflow: none;
 
         li {
           float: left;
@@ -151,6 +155,7 @@
       .yat-current-position {
 
         position: absolute;
+        z-index: 20;
         left: 0;
         right: 0;
         top: 0;

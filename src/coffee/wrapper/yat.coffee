@@ -31,7 +31,7 @@
         element.text()
 
       alterDate: (element) ->
-        new Date(element.text())
+        new Date(moment(element.text()))
 
       alterContent: (element) ->
         element.html()
@@ -92,7 +92,6 @@
 
       # for each selector
       for n,i of @options.attributes
-
         cb_name = 'alter' + t.ucfirst(i)
         val = $(child).find(@options.selectors[i])
 

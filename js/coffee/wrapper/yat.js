@@ -23,7 +23,7 @@
           return element.text();
         },
         alterDate: function(element) {
-          return new Date(element.text());
+          return new Date(moment(element.text()));
         },
         alterContent: function(element) {
           return element.html();

@@ -95,6 +95,9 @@ $timeline-overview-height: 60px;
   }
 
   .yat-current-position {
+
+    background: url("../img/op0.png") repeat-x left top;
+
     .yat-position-inner {
       height: 10px;
       border-top: 10px solid $grey2;
@@ -214,7 +217,15 @@ $viewport-element-outer-height: 82px;
 @import "../yat";
 
 
+/* fallbacks for no-css3-browser */
 
+html.no-boxshadow {
+
+  .yat-timeline {
+    border: 1px solid $grey1;
+  }
+
+}
 
 
 
