@@ -37,6 +37,10 @@
       this.viewportPos = viewportPos;
     };
 
+    _Class.prototype.get_date_for_offset = function(offset) {
+      return moment(this.startEnd.start).clone().add('days', Math.round(offset / this.pixelPerDay));
+    };
+
     return _Class;
 
   })();

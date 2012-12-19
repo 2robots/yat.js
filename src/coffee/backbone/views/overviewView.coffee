@@ -67,13 +67,16 @@ window.yat.OverviewView = class extends Backbone.View
     @options.dispatcher.on 'viewport_scrollstop', ->
       that.jump_to moment(arguments[0][0].model.get("date")), true
 
+    # bind the overview to viewport changes
+    @options.dispatcher.on 'navigation_position_change', (date) ->
+      that.jump_to date, false
+
   # jumps to the date
   jump_to: (date, animate)->
 
     left = @get_offset_for_date(date)
     width = $('.yat-current-position').width()
     element_width = $('.yat-position-inner').width()
-
     if animate
       @$el.find('.yat-current-position').animate({
         scrollLeft: (width - left - (element_width/2))

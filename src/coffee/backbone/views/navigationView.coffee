@@ -41,10 +41,11 @@ window.yat.NavigationView = class extends Backbone.View
 
     # bind touchmove (ios) and scroll (other browser) events
     @$el.bind 'touchmove', ->
-      that.options.dispatcher.trigger 'navigation_position_change'
+      that.options.dispatcher.trigger 'navigation_position_change', moment('2015-03-20')
 
     @$el.scroll ->
-      that.options.dispatcher.trigger 'navigation_position_change'
+      date = that.viewManager.get_date_for_offset that.$el.scrollLeft()
+      that.options.dispatcher.trigger 'navigation_position_change', date
 
     @options.dispatcher.on 'navigation_position_change', ->
       that._updateViewportPos()

@@ -68,8 +68,11 @@
         element_width = $('.yat-position-inner').width();
         return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left));
       });
-      return this.options.dispatcher.on('viewport_scrollstop', function() {
+      this.options.dispatcher.on('viewport_scrollstop', function() {
         return that.jump_to(moment(arguments[0][0].model.get("date")), true);
+      });
+      return this.options.dispatcher.on('navigation_position_change', function(date) {
+        return that.jump_to(date, false);
       });
     };
 

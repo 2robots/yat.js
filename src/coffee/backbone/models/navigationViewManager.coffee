@@ -32,3 +32,7 @@ window.yat.NavigationViewManager = class
     }
 
   updateViewport: (@viewportPos) ->
+
+  # get date for pixel
+  get_date_for_offset: (offset)->
+    moment(@startEnd.start).clone().add( 'days', Math.round(offset / @pixelPerDay) )
