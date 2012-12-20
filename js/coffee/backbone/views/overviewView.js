@@ -42,11 +42,12 @@
       }
       selection = $(window.yat.templates.timelineOverviewSelection());
       setTimeout((function() {
-        var inner_width, main_width;
+        var inner_width, main_width, scroll_inner_width;
         main_width = parseInt(selection.width(), 10);
+        scroll_inner_width = parseInt(selection.find('.yat-position-inner').width(), 10);
         inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10);
-        selection.find('.yat-position-container').css('width', main_width);
-        selection.find('.yat-position-container').css('padding-left', main_width - inner_width);
+        selection.find('.yat-position-container').css('width', main_width + scroll_inner_width / 2);
+        selection.find('.yat-position-container').css('padding-left', main_width - inner_width + scroll_inner_width / 2);
         return that.jump_to(moment(that.model.start));
       }), 10);
       this.$el.html(overview);
@@ -77,16 +78,15 @@
     };
 
     _Class.prototype.jump_to = function(date, animate) {
-      var element_width, left, width;
+      var left, width;
       left = this.get_offset_for_date(date);
       width = $('.yat-current-position').width();
-      element_width = $('.yat-position-inner').width();
       if (animate) {
         return this.$el.find('.yat-current-position').animate({
-          scrollLeft: width - left - (element_width / 2)
+          scrollLeft: width - left
         }, this.options.animation_duration);
       } else {
-        return this.$el.find('.yat-current-position').scrollLeft(width - left - (element_width / 2));
+        return this.$el.find('.yat-current-position').scrollLeft(width - left);
       }
     };
 

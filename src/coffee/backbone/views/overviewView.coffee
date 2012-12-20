@@ -33,9 +33,11 @@ window.yat.OverviewView = class extends Backbone.View
 
     setTimeout (->
       main_width = parseInt(selection.width(), 10)
+      scroll_inner_width = parseInt(selection.find('.yat-position-inner').width(), 10)
+
       inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10)
-      selection.find('.yat-position-container').css('width', main_width)
-      selection.find('.yat-position-container').css('padding-left', (main_width - inner_width))
+      selection.find('.yat-position-container').css('width', main_width + scroll_inner_width/2)
+      selection.find('.yat-position-container').css('padding-left', (main_width - inner_width + scroll_inner_width/2))
 
       that.jump_to(moment(that.model.start))
     ), 10
@@ -76,13 +78,12 @@ window.yat.OverviewView = class extends Backbone.View
 
     left = @get_offset_for_date(date)
     width = $('.yat-current-position').width()
-    element_width = $('.yat-position-inner').width()
     if animate
       @$el.find('.yat-current-position').animate({
-        scrollLeft: (width - left - (element_width/2))
+        scrollLeft: (width - left)
       }, @options.animation_duration)
     else
-      @$el.find('.yat-current-position').scrollLeft (width - left - (element_width/2))
+      @$el.find('.yat-current-position').scrollLeft (width - left)
 
   # get pixel for date
   get_offset_for_date: (date)->
