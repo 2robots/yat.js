@@ -41,7 +41,7 @@ window.yat.NavigationView = class extends Backbone.View
 
     # bind touchmove (ios) and scroll (other browser) events
     @$el.bind 'touchmove', ->
-      that.options.dispatcher.trigger 'navigation_position_change', moment('2015-03-20')
+      that.options.dispatcher.trigger 'navigation_position_change', that.viewManager.get_date_for_offset that.$el.scrollLeft()
 
     @$el.scroll ->
       date = that.viewManager.get_date_for_offset that.$el.scrollLeft()
@@ -49,6 +49,9 @@ window.yat.NavigationView = class extends Backbone.View
 
     @options.dispatcher.on 'navigation_position_change', ->
       that._updateViewportPos()
+
+    @options.dispatcher.on 'overview_position_change', (date) ->
+      that.jump_to date
 
   render: ->
     @_updateViewportPos()
@@ -83,3 +86,14 @@ window.yat.NavigationView = class extends Backbone.View
     , 0)
 
   addElement: ->
+
+  # jumps to the date
+  jump_to: (date, animate)->
+    scrollLeft = @viewManager.get_offset_for_date(date)
+    if animate
+      @$el.animate({
+        scrollLeft: scrollLeft
+      }, @options.animation_duration)
+    else
+      @$el.scrollLeft(scrollLeft)
+

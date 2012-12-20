@@ -41,6 +41,10 @@
       return moment(this.startEnd.start).clone().add('days', Math.round(offset / this.pixelPerDay));
     };
 
+    _Class.prototype.get_offset_for_date = function(date) {
+      return moment(date).clone().diff(this.startEnd.start, 'days') * this.pixelPerDay;
+    };
+
     return _Class;
 
   })();
