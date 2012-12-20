@@ -63,7 +63,7 @@ window.yat.OverviewView = class extends Backbone.View
     @$el.find('.yat-current-position').bind 'scrollstop', ->
       pos_left = $('.yat-position-inner').offset().left
       element_width = $('.yat-position-inner').width()
-      that.options.dispatcher.trigger 'overview_position_change', that.get_date_for_offset (pos_left - $('.yat-current-position').offset().left)
+      that.options.dispatcher.trigger 'overview_position_change', that.get_date_for_offset (pos_left - $('.yat-current-position').offset().left + element_width/2)
 
     # bind the overview to viewport changes
     @options.dispatcher.on 'viewport_scrollstop', ->

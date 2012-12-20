@@ -67,7 +67,7 @@
         var element_width, pos_left;
         pos_left = $('.yat-position-inner').offset().left;
         element_width = $('.yat-position-inner').width();
-        return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left));
+        return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left + element_width / 2));
       });
       this.options.dispatcher.on('viewport_scrollstop', function() {
         return that.jump_to(moment(arguments[0][0].model.get("date")), true);
