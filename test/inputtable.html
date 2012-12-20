@@ -561,10 +561,23 @@
 //  }
 
   $(document).ready(function () {
+    var date = moment('1970-01-01');
+    _.times(167, function(){
+      $("#yat-table1").append($("#yat-table1").children().last().clone());
+    });
 
-//    _.times(167, function(){
-//      $("#yat-table1").append($("#yat-table1").children().last().clone());
-//    });
+    console.log($("#yat-table1").find('th.yat-date'));
+
+    $("#yat-table1").find('th.yat-date').each(function(i, el) {
+      curDate = moment(el.innerHTML);
+      //console.log(curDate.diff(date, 'days'));
+      if(curDate.diff(date, 'days') < 0) {
+        curDate = date.add('days', 1);
+        el.innerHTML = curDate.format('YYYY-MM-DD');
+        $(el).parent().find('.datetime').text(curDate.format('YYYY-MM-DD'));
+      }
+      date = curDate;
+    })
 
     //alert("start doing the timeline dance.");
 

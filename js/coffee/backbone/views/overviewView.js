@@ -23,10 +23,6 @@
       return this.render();
     };
 
-    _Class.prototype.remove = function() {
-      return Backbone.View.prototype.remove.call(this);
-    };
-
     _Class.prototype.render = function() {
       var itemWidth, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
       that = this;
@@ -36,7 +32,7 @@
         for (var _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; _ref <= _ref1 ? _i++ : _i--){ _results.push(_i); }
         return _results;
       }).apply(this);
-      itemWidth = Math.round(10000 / years.length, 2) / 100;
+      itemWidth = 100 / years.length;
       for (_j = 0, _len = years.length; _j < _len; _j++) {
         y = years[_j];
         overview.append(window.yat.templates.timelineOverviewYear({
@@ -72,8 +68,11 @@
         element_width = $('.yat-position-inner').width();
         return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left));
       });
-      return this.options.dispatcher.on('viewport_scrollstop', function() {
+      this.options.dispatcher.on('viewport_scrollstop', function() {
         return that.jump_to(moment(arguments[0][0].model.get("date")), true);
+      });
+      return this.options.dispatcher.on('navigation_position_change', function(date) {
+        return that.jump_to(date, false);
       });
     };
 

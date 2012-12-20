@@ -45,10 +45,12 @@
       var that;
       that = this;
       this.$el.bind('touchmove', function() {
-        return that.options.dispatcher.trigger('navigation_position_change');
+        return that.options.dispatcher.trigger('navigation_position_change', moment('2015-03-20'));
       });
       this.$el.scroll(function() {
-        return that.options.dispatcher.trigger('navigation_position_change');
+        var date;
+        date = that.viewManager.get_date_for_offset(that.$el.scrollLeft());
+        return that.options.dispatcher.trigger('navigation_position_change', date);
       });
       return this.options.dispatcher.on('navigation_position_change', function() {
         return that._updateViewportPos();
