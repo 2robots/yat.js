@@ -36,3 +36,12 @@ window.yat.NavigationViewManager = class
   # get date for pixel
   get_date_for_offset: (offset)->
     moment(@startEnd.start).clone().add( 'days', Math.round(offset / @pixelPerDay) )
+
+  # get pixel offset for date
+  get_offset_for_date: (date)->
+    #width = $('.yat-current-position').width()
+    #start = moment(@model.start)
+    #end = moment(@model.end)
+    #(date.diff(start) / end.diff(start)) * width
+    #moment(date).clone()moment(@startEnd.start).clone()
+    moment(date).clone().diff(@startEnd.start, 'days') * @pixelPerDay

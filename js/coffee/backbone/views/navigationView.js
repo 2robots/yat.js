@@ -45,15 +45,18 @@
       var that;
       that = this;
       this.$el.bind('touchmove', function() {
-        return that.options.dispatcher.trigger('navigation_position_change', moment('2015-03-20'));
+        return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.$el.scrollLeft()));
       });
       this.$el.scroll(function() {
         var date;
         date = that.viewManager.get_date_for_offset(that.$el.scrollLeft());
         return that.options.dispatcher.trigger('navigation_position_change', date);
       });
-      return this.options.dispatcher.on('navigation_position_change', function() {
+      this.options.dispatcher.on('navigation_position_change', function() {
         return that._updateViewportPos();
+      });
+      return this.options.dispatcher.on('overview_position_change', function(date) {
+        return that.jump_to(date);
       });
     };
 
@@ -105,6 +108,18 @@
     };
 
     _Class.prototype.addElement = function() {};
+
+    _Class.prototype.jump_to = function(date, animate) {
+      var scrollLeft;
+      scrollLeft = this.viewManager.get_offset_for_date(date);
+      if (animate) {
+        return this.$el.animate({
+          scrollLeft: scrollLeft
+        }, this.options.animation_duration);
+      } else {
+        return this.$el.scrollLeft(scrollLeft);
+      }
+    };
 
     return _Class;
 
