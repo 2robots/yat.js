@@ -67,7 +67,23 @@ window.yat.OverviewView = class extends Backbone.View
 
     # bind the overview to viewport changes
     @options.dispatcher.on 'viewport_scrollstop', ->
-      that.jump_to moment(arguments[0][0].model.get("date")), true
+
+      # if the first of this elements is the global first
+      if _.first(arguments[0]).model.get("date") == that.model.start
+        that.jump_to moment(that.model.start), true
+
+      # if the last of this elements is the global last
+      else if _.last(arguments[0]).model.get("date") == that.model.end
+        that.jump_to moment(that.model.end), true
+
+      # default take the middle one
+      else
+        if arguments[0].length % 2 != 0
+          index = (arguments[0].length - 1) / 2
+        else
+          index = arguments[0].length / 2
+
+        that.jump_to moment(arguments[0][index].model.get("date")), true
 
     # bind the overview to viewport changes
     @options.dispatcher.on 'navigation_position_change', (date) ->

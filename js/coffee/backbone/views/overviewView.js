@@ -70,7 +70,19 @@
         return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left + element_width / 2));
       });
       this.options.dispatcher.on('viewport_scrollstop', function() {
-        return that.jump_to(moment(arguments[0][0].model.get("date")), true);
+        var index;
+        if (_.first(arguments[0]).model.get("date") === that.model.start) {
+          return that.jump_to(moment(that.model.start), true);
+        } else if (_.last(arguments[0]).model.get("date") === that.model.end) {
+          return that.jump_to(moment(that.model.end), true);
+        } else {
+          if (arguments[0].length % 2 !== 0) {
+            index = (arguments[0].length - 1) / 2;
+          } else {
+            index = arguments[0].length / 2;
+          }
+          return that.jump_to(moment(arguments[0][index].model.get("date")), true);
+        }
       });
       return this.options.dispatcher.on('navigation_position_change', function(date) {
         return that.jump_to(date, false);
