@@ -64,7 +64,7 @@ window.yat.NavigationView = class extends Backbone.View
 
   renderMore: (item) ->
     that = @
-    navElement = new window.yat.NavigationElementView model: item.model
+    navElement = new window.yat.NavigationElementView( model: item.model, dispatcher: that.options.dispatcher)
     @overview.append(navElement.$el)
     navElement
 
