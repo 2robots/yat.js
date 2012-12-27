@@ -158,12 +158,8 @@
     };
 
     _Class.prototype.load_more = function() {
-      var that;
-      if ((this.next_index + 1) < this.total_index) {
-        that = this;
-        return setTimeout((function() {
-          return that.insert_next_element();
-        }), 10);
+      if (this.next_index < this.total_index) {
+        return this.insert_next_element();
       }
     };
 

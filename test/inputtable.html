@@ -563,7 +563,7 @@
       if(curDate.diff(date, 'days') < 0) {
         curDate = date.add('days', 1);
         el.innerHTML = curDate.format('YYYY-MM-DD');
-        //$(el).parent().find('.datetime').text(curDate.format('YYYY-MM-DD'));
+        $(el).parent().find('.datetime').text(curDate.format('YYYY-MM-DD'));
       }
       date = curDate;
     })

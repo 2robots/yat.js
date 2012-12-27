@@ -183,13 +183,8 @@ window.yat.ViewportView = class extends Backbone.View
 
   # load more elements on scroll
   load_more: ->
-
-    # if we inserted all items, unbind the load_more action
-    if (@next_index + 1) < @total_index
-      that = @
-      setTimeout (->
-        that.insert_next_element()
-      ), 10
+    if @next_index < @total_index
+      @insert_next_element()
 
 
   # scrolls to the given element
