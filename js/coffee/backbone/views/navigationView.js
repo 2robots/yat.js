@@ -76,7 +76,8 @@
       var navElement, that;
       that = this;
       navElement = new window.yat.NavigationElementView({
-        model: item.model
+        model: item.model,
+        dispatcher: that.options.dispatcher
       });
       this.overview.append(navElement.$el);
       return navElement;

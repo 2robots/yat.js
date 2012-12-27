@@ -112,6 +112,16 @@ window.yat.ViewportView = class extends Backbone.View
     that.options.dispatcher.on 'viewport_position_change', ->
       that.load_more()
 
+    # listen to jump_to events
+    that.options.dispatcher.on 'navigation_element_selected', (navigationView) ->
+      elId = that.options.id_prefix + navigationView.model.cid
+      element = $('#' + elId)
+      while !element[0]
+        that.insert_next_element()
+        element = $('#' + elId)
+      that.jump_to element, true
+
+
 
   # returns all visible elements
   getCurrentElements: ->
@@ -183,7 +193,6 @@ window.yat.ViewportView = class extends Backbone.View
 
   # scrolls to the given element
   jump_to: ->
-
     # if this element is defined
     if arguments[0][0] != undefined
 

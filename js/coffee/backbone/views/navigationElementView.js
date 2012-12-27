@@ -15,6 +15,13 @@
 
     _Class.prototype.tagName = 'li';
 
+    _Class.prototype.events = {
+      'click': function() {
+        this.options.dispatcher.trigger('navigation_element_selected', this);
+        return false;
+      }
+    };
+
     _Class.prototype.initialize = function() {
       return this.render();
     };

@@ -88,8 +88,18 @@
       that.options.dispatcher.on('viewport_item_deselect', function() {
         return that.close_open_element(arguments[0]);
       });
-      return that.options.dispatcher.on('viewport_position_change', function() {
+      that.options.dispatcher.on('viewport_position_change', function() {
         return that.load_more();
+      });
+      return that.options.dispatcher.on('navigation_element_selected', function(navigationView) {
+        var elId, element;
+        elId = that.options.id_prefix + navigationView.model.cid;
+        element = $('#' + elId);
+        while (!element[0]) {
+          that.insert_next_element();
+          element = $('#' + elId);
+        }
+        return that.jump_to(element, true);
       });
     };
 

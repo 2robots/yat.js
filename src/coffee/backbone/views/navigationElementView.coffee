@@ -13,6 +13,11 @@ window.yat.NavigationElementView = class extends Backbone.View
 
   tagName: 'li'
 
+  events:
+    'click': ->
+      @options.dispatcher.trigger 'navigation_element_selected', @
+      false
+
   initialize: ->
     @render()
 
