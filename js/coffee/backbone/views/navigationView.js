@@ -42,7 +42,8 @@
       scrollLeft = this.$el.scrollLeft();
       _viewportPos = {
         left: scrollLeft,
-        right: scrollLeft + this.$el.width()
+        right: scrollLeft + this.$el.width(),
+        width: this.$el.width()
       };
       return this.viewManager.updateViewport(_viewportPos);
     };

@@ -12,11 +12,11 @@
     }
 
     _Class.prototype.initialize = function() {
-      var interval, paneWidth;
-      paneWidth = 150 * (this.model.length / 2);
+      var interval;
+      this.paneWidth = 150 * (this.model.length / 2);
       this.startEnd = this.model.getStartEnd();
       interval = Math.abs(moment(this.startEnd.start).diff(this.startEnd.end, 'days'));
-      return this.pixelPerDay = Math.round(paneWidth / interval);
+      return this.pixelPerDay = Math.round(this.paneWidth / interval);
     };
 
     _Class.prototype.hasRenderCandidate = function() {
@@ -38,10 +38,18 @@
     };
 
     _Class.prototype.get_date_for_offset = function(offset) {
-      return moment(this.startEnd.start).clone().add('days', Math.round(offset / this.pixelPerDay));
+      var days, daysTotal, end, start, widthInDays;
+      start = moment(this.startEnd.start).clone();
+      end = moment(this.startEnd.end).clone();
+      daysTotal = end.diff(start, 'days');
+      days = Math.round(offset / this.pixelPerDay);
+      widthInDays = Math.round(this.viewportPos.width / this.pixelPerDay);
+      days += (days / (daysTotal - widthInDays)) * widthInDays;
+      return start.add('days', days);
     };
 
     _Class.prototype.get_offset_for_date = function(date) {
+      console.log('offset_for_date', date);
       return moment(date).clone().diff(this.startEnd.start, 'days') * this.pixelPerDay;
     };
 

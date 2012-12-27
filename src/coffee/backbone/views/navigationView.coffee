@@ -37,6 +37,7 @@ window.yat.NavigationView = class extends Backbone.View
     _viewportPos =
       left: scrollLeft
       right: scrollLeft + @$el.width()
+      width: @$el.width()
     @viewManager.updateViewport(_viewportPos)
 
   registerEventListener: ->
