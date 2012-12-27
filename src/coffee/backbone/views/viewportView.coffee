@@ -173,10 +173,11 @@ window.yat.ViewportView = class extends Backbone.View
 
     # viewport item select
     last.click ->
-      if $(@).hasClass 'open'
-        that.options.dispatcher.trigger 'viewport_item_deselect'
-      else
-        that.options.dispatcher.trigger 'viewport_item_select', $(@)
+      if $(@).hasClass 'overflow'
+        if $(@).hasClass 'open'
+          that.options.dispatcher.trigger 'viewport_item_deselect'
+        else
+          that.options.dispatcher.trigger 'viewport_item_select', $(@)
 
     @next_index++
 

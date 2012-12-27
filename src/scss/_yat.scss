@@ -101,7 +101,26 @@
           overflow: hidden;
         }
 
+        .yat-readmore {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 30px;
+          padding-top: 10px;
+          background: white;
+          text-align: center;
+          display: block;
+          cursor: pointer;
+        }
+
         @include viewport-element-styles();
+
+        &.open {
+          .yat-readmore {
+            display: none;
+          }
+        }
       }
     }
 

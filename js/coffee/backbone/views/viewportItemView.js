@@ -26,8 +26,10 @@
       this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
       that = this;
       return setTimeout((function() {
-        console.log($(that.$el).height());
-        return console.log($(that.$el).find('.yat-element-inner').height());
+        if ($(that.$el).find('.yat-element-inner2').height() > $(that.$el).find('.yat-element-inner').height()) {
+          that.$el.addClass('overflow');
+          return that.$el.append(window.yat.templates.timelineViewportReadMore);
+        }
       }));
     };
 
