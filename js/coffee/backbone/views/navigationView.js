@@ -21,6 +21,12 @@
       return _Class.__super__.constructor.apply(this, arguments);
     }
 
+    _Class.prototype.options = {
+      position: {
+        top: 30
+      }
+    };
+
     _Class.prototype.className = 'yat-inner';
 
     _Class.prototype.initialize = function() {
@@ -84,6 +90,8 @@
     };
 
     _Class.prototype.repositionElements = function(elements) {
+      var that;
+      that = this;
       return window.setTimeout(function() {
         var item, line, position, _i, _len, _results;
         _results = [];
@@ -101,7 +109,7 @@
             }
           }
           _lastElements[line] = position + item.view.width() + 5;
-          item.view.$el.css('top', line * 25 + 'px');
+          item.view.$el.css('top', line * that.options.position.top + 'px');
           _results.push(item.view.$el.css('left', position + 'px'));
         }
         return _results;

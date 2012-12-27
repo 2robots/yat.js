@@ -17,6 +17,12 @@ _lastElements = [-10000, -10000, -10000]
 # The item is one "event" at a specific time on the timeline
 window.yat.NavigationView = class extends Backbone.View
 
+  options: {
+    position: {
+      top: 30
+    }
+  }
+
   className: 'yat-inner'
 
   initialize: ->
@@ -69,6 +75,8 @@ window.yat.NavigationView = class extends Backbone.View
     navElement
 
   repositionElements: (elements) ->
+
+    that = @
     window.setTimeout(->
       for item in elements
         line = 0
@@ -81,7 +89,7 @@ window.yat.NavigationView = class extends Backbone.View
             position = _.min(_lastElements)
             line = _.indexOf(_lastElements, position)
         _lastElements[line] = position + item.view.width() + 5
-        item.view.$el.css('top', line * 25 + 'px')
+        item.view.$el.css('top', line * that.options.position.top + 'px')
         item.view.$el.css('left', position + 'px')
     , 0)
 
