@@ -24,7 +24,7 @@
     };
 
     _Class.prototype.render = function() {
-      var itemWidth, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
+      var days, itemWidth, localDays, localEnd, localStart, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
       that = this;
       overview = $(window.yat.templates.timelineOverview());
       years = (function() {
@@ -32,9 +32,17 @@
         for (var _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; _ref <= _ref1 ? _i++ : _i--){ _results.push(_i); }
         return _results;
       }).apply(this);
-      itemWidth = 100 / years.length;
+      days = moment(this.model.end).clone().diff(moment(this.model.start), 'days') + 1;
       for (_j = 0, _len = years.length; _j < _len; _j++) {
         y = years[_j];
+        localStart = _.max([moment([y]), moment(this.model.start)], function(moment) {
+          return moment.valueOf();
+        });
+        localEnd = _.min([moment([y, 11, 31]), moment(this.model.end)], function(moment) {
+          return moment.valueOf();
+        });
+        localDays = localEnd.diff(localStart, 'days') + 1;
+        itemWidth = 100 / (days / localDays);
         overview.append(window.yat.templates.timelineOverviewYear({
           year: y,
           width: itemWidth + '%'

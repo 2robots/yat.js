@@ -24,9 +24,13 @@ window.yat.OverviewView = class extends Backbone.View
     that = @
     overview = $(window.yat.templates.timelineOverview())
     years = [@model.start.getFullYear()..@model.end.getFullYear()]
-    itemWidth = 100 / years.length
+    days = moment(@model.end).clone().diff(moment(@model.start), 'days') + 1
 
     for y in years
+      localStart = _.max([moment([y]), moment(@model.start)], (moment) -> moment.valueOf())
+      localEnd = _.min([moment([y, 11, 31]), moment(@model.end)], (moment) -> moment.valueOf())
+      localDays = localEnd.diff(localStart, 'days') + 1
+      itemWidth = 100 / (days / localDays)
       overview.append(window.yat.templates.timelineOverviewYear {year: y, width: itemWidth + '%'})
 
     selection = $(window.yat.templates.timelineOverviewSelection())
