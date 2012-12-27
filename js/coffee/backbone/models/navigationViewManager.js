@@ -49,8 +49,15 @@
     };
 
     _Class.prototype.get_offset_for_date = function(date) {
-      console.log('offset_for_date', date);
-      return moment(date).clone().diff(this.startEnd.start, 'days') * this.pixelPerDay;
+      var d, daysTotal, end, r, start, widthInDays;
+      date.startOf('day');
+      start = moment(this.startEnd.start).clone();
+      end = moment(this.startEnd.end).clone();
+      daysTotal = end.diff(start, 'days');
+      widthInDays = Math.round(this.viewportPos.width / this.pixelPerDay);
+      r = moment(date).clone().diff(this.startEnd.start, 'days');
+      d = Math.round(r / (1 + (widthInDays / (daysTotal - widthInDays))));
+      return d * this.pixelPerDay;
     };
 
     return _Class;

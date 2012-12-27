@@ -53,5 +53,11 @@ window.yat.NavigationViewManager = class
     #end = moment(@model.end)
     #(date.diff(start) / end.diff(start)) * width
     #moment(date).clone()moment(@startEnd.start).clone()
-    console.log 'offset_for_date', date
-    moment(date).clone().diff(@startEnd.start, 'days') * @pixelPerDay
+    date.startOf('day')
+    start = moment(@startEnd.start).clone()
+    end = moment(@startEnd.end).clone()
+    daysTotal = end.diff(start, 'days')
+    widthInDays = Math.round(@viewportPos.width / @pixelPerDay)
+    r = moment(date).clone().diff(@startEnd.start, 'days')
+    d = Math.round(r / (1 + (widthInDays / (daysTotal - widthInDays))))
+    d * @pixelPerDay

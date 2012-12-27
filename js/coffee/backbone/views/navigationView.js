@@ -63,7 +63,7 @@
         return that._updateViewportPos();
       });
       return this.options.dispatcher.on('overview_position_change', function(date) {
-        return that.jump_to(date);
+        return that.jump_to(date, true);
       });
     };
 

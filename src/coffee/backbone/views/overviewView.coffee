@@ -107,7 +107,7 @@ window.yat.OverviewView = class extends Backbone.View
 
   # get pixel for date
   get_offset_for_date: (date)->
-
+    date.startOf('day')
     width = $('.yat-current-position').width()
     start = moment(@model.start)
     end = moment(@model.end)
@@ -121,7 +121,7 @@ window.yat.OverviewView = class extends Backbone.View
     start = moment(@model.start)
     end = moment(@model.end)
 
-    moment(start).add( end.diff(start) * (offset / width) )
+    moment(start).add( end.diff(start) * (offset / width) ).startOf('day')
 
 
 

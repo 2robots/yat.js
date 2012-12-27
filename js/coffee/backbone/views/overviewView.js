@@ -112,6 +112,7 @@
 
     _Class.prototype.get_offset_for_date = function(date) {
       var end, start, width;
+      date.startOf('day');
       width = $('.yat-current-position').width();
       start = moment(this.model.start);
       end = moment(this.model.end);
@@ -123,7 +124,7 @@
       width = $('.yat-current-position').width();
       start = moment(this.model.start);
       end = moment(this.model.end);
-      return moment(start).add(end.diff(start) * (offset / width));
+      return moment(start).add(end.diff(start) * (offset / width)).startOf('day');
     };
 
     return _Class;

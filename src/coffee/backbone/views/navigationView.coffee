@@ -58,7 +58,7 @@ window.yat.NavigationView = class extends Backbone.View
       that._updateViewportPos()
 
     @options.dispatcher.on 'overview_position_change', (date) ->
-      that.jump_to date
+      that.jump_to date, true
 
   render: ->
     @_updateViewportPos()
