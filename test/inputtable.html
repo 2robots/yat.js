@@ -566,8 +566,6 @@
       $("#yat-table1").append($("#yat-table1").children().last().clone());
     });
 
-    console.log($("#yat-table1").find('th.yat-date'));
-
     $("#yat-table1").find('th.yat-date').each(function(i, el) {
       curDate = moment(el.innerHTML);
       //console.log(curDate.diff(date, 'days'));

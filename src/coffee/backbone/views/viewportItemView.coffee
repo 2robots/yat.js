@@ -21,3 +21,11 @@ window.yat.viewportItemView = class extends Backbone.View
     @inDom = true
     @$el.html(window.yat.templates.timelineViewportElement @model.toJSON())
 
+    that = @
+
+    setTimeout (->
+      #var content = el.find('.content');
+      #      $('#log').append('content fits: ' + (el.height() >= content.height()) + '<br/>');
+      console.log $(that.$el).height()
+      console.log $(that.$el).find('.yat-element-inner').height()
+    )

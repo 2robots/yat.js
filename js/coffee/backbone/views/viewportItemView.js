@@ -21,8 +21,14 @@
     };
 
     _Class.prototype.render = function() {
+      var that;
       this.inDom = true;
-      return this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
+      this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
+      that = this;
+      return setTimeout((function() {
+        console.log($(that.$el).height());
+        return console.log($(that.$el).find('.yat-element-inner').height());
+      }));
     };
 
     return _Class;
