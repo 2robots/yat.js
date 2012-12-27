@@ -19,7 +19,7 @@ window.yat.NavigationView = class extends Backbone.View
 
   options: {
     position: {
-      top: 30
+      top: '2.5'
     }
   }
 
@@ -89,7 +89,7 @@ window.yat.NavigationView = class extends Backbone.View
             position = _.min(_lastElements)
             line = _.indexOf(_lastElements, position)
         _lastElements[line] = position + item.view.width() + 5
-        item.view.$el.css('top', line * that.options.position.top + 'px')
+        item.view.$el.css('top', line * that.options.position.top + 'em')
         item.view.$el.css('left', position + 'px')
     , 0)
 

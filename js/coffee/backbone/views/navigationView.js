@@ -23,7 +23,7 @@
 
     _Class.prototype.options = {
       position: {
-        top: 30
+        top: '2.5'
       }
     };
 
@@ -109,7 +109,7 @@
             }
           }
           _lastElements[line] = position + item.view.width() + 5;
-          item.view.$el.css('top', line * that.options.position.top + 'px');
+          item.view.$el.css('top', line * that.options.position.top + 'em');
           _results.push(item.view.$el.css('left', position + 'px'));
         }
         return _results;

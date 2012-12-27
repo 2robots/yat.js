@@ -294,19 +294,20 @@
   margin: 0;
   padding: 0;
 }
-/* line 159, ../../src/scss/_yat.scss */
+/* line 160, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   display: block;
   height: 60px;
+  height: 1.2em;
 }
-/* line 165, ../../src/scss/_yat.scss */
+/* line 167, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li.last span {
   margin-right: 0;
 }
 /* line 86, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   border-bottom: 10px solid #cccccc;
-  height: 15px;
+  height: 1.2em;
   display: block;
   margin-right: 1px;
   padding-left: 5px;
@@ -319,13 +320,13 @@
 /* line 101, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-inner {
   height: 25px;
-  margin-top: 15px;
+  margin-top: 1.2em;
   text-indent: -9999px;
   overflow: hidden;
   cursor: move;
   background: url("../img/current_position.png") no-repeat center top;
 }
-/* line 174, ../../src/scss/_yat.scss */
+/* line 176, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position {
   position: absolute;
   z-index: 20;
@@ -337,27 +338,27 @@
   overflow-x: auto;
   height: 80px;
 }
-/* line 186, ../../src/scss/_yat.scss */
+/* line 188, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container {
   width: 100%;
   padding-left: 100%;
   position: absolute;
   margin-top: 20px;
 }
-/* line 192, ../../src/scss/_yat.scss */
+/* line 194, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container .yat-position-inner {
   width: 100px;
 }
-/* line 199, ../../src/scss/_yat.scss */
+/* line 201, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner {
   top: 40px;
 }
-/* line 202, ../../src/scss/_yat.scss */
+/* line 204, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li {
   position: absolute;
   display: block;
 }
-/* line 205, ../../src/scss/_yat.scss */
+/* line 207, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li a {
   display: block;
   white-space: nowrap;

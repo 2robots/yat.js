@@ -85,7 +85,7 @@ $timeline-overview-height: 60px;
     li {
       span {
         border-bottom: 10px solid $grey1;
-        height: 15px;
+        height: 1.2em;
         display: block;
         margin-right: 1px;
         padding-left: 5px;
@@ -100,7 +100,7 @@ $timeline-overview-height: 60px;
 
     .yat-position-inner {
       height: 25px;
-      margin-top: 15px;
+      margin-top: 1.2em;
       text-indent: -9999px;
       overflow: hidden;
       cursor: move;

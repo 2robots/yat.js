@@ -156,9 +156,11 @@
           margin: 0;
           padding: 0;
 
+
           span {
             display: block;
             height: $timeline-overview-height;
+            height: 1.2em;
           }
 
           &.last {
