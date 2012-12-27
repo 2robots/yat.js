@@ -146,10 +146,12 @@
       last.attr('id', this.options.id_prefix + model.cid);
       this.change_list_width(this.element_width(last));
       last.click(function() {
-        if ($(this).hasClass('open')) {
-          return that.options.dispatcher.trigger('viewport_item_deselect');
-        } else {
-          return that.options.dispatcher.trigger('viewport_item_select', $(this));
+        if ($(this).hasClass('overflow')) {
+          if ($(this).hasClass('open')) {
+            return that.options.dispatcher.trigger('viewport_item_deselect');
+          } else {
+            return that.options.dispatcher.trigger('viewport_item_select', $(this));
+          }
         }
       });
       return this.next_index++;

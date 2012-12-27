@@ -49,6 +49,7 @@ $height: 500px;
 $navigation-height: 150px;
 @mixin navigation-styles() {
   .yat-elements {
+
     li {
       a {
         background: $white;
@@ -58,10 +59,9 @@ $navigation-height: 150px;
         float: left;
         text-decoration: none;
         color: $grey2;
-        margin: 20px;
         max-width: 250px;
 
-        &.active {
+        &.active, &:hover {
           border-color: $grey2;
         }
       }
@@ -85,7 +85,7 @@ $timeline-overview-height: 60px;
     li {
       span {
         border-bottom: 10px solid $grey1;
-        height: 15px;
+        height: 1.2em;
         display: block;
         margin-right: 1px;
         padding-left: 5px;
@@ -99,13 +99,12 @@ $timeline-overview-height: 60px;
     background: url("../img/op0.png") repeat-x left top;
 
     .yat-position-inner {
-      height: 10px;
-      border-top: 10px solid $grey2;
-      margin-top: 15px;
+      height: 25px;
+      margin-top: 1.2em;
       text-indent: -9999px;
       overflow: hidden;
       cursor: move;
-      background: url("../img/arrow_bottom.png") no-repeat center top;
+      background: url("../img/current_position.png") no-repeat center top;
     }
   }
 }
@@ -140,6 +139,26 @@ $viewport-element-outer-height: 82px;
     height: 100%;
     width: 100%;
     position: relative;
+
+    .yat-element-inner2 {
+      padding-top: 10px;
+
+      h3 {
+        line-height: 120%;
+      }
+    }
+  }
+
+  .yat-readmore {
+    color: #2B3ABC;
+    text-decoration: underline;
+    height: 25px;
+    padding-top: 25px;
+    background: url("../img/grad_white.png") repeat-x left top;
+
+    &:hover {
+      color: #850D19;
+    }
   }
 
   span.arrow {

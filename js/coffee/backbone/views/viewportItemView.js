@@ -21,8 +21,16 @@
     };
 
     _Class.prototype.render = function() {
+      var that;
       this.inDom = true;
-      return this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
+      this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
+      that = this;
+      return setTimeout((function() {
+        if ($(that.$el).find('.yat-element-inner2').height() > $(that.$el).find('.yat-element-inner').height()) {
+          that.$el.addClass('overflow');
+          return that.$el.append(window.yat.templates.timelineViewportReadMore);
+        }
+      }));
     };
 
     return _Class;
