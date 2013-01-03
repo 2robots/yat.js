@@ -12,14 +12,22 @@ window.yat = window.yat || {};
 window.yat.ViewportView = class extends Backbone.View
 
   className: 'yat-viewport'
-  next_index: 0
   total_index: 0
+  current_scroll_position: 0
 
   options: {
     animation_duration: 200
     initial_element_count: 4
     id_prefix: ''
   }
+
+  disable_load_more_till_scrollend = false;
+
+  #rendered_elements: []
+  not_rendered_yet: {}
+  not_rendered_yet_position: 0
+  not_rendered_yet_current_element: undefined
+  rendered_count = 0
 
   initialize: ->
     @render()
@@ -44,6 +52,9 @@ window.yat.ViewportView = class extends Backbone.View
     # save total count of elements
     @total_index = @model.length
 
+    _(@total_index).times (n)->
+      that.not_rendered_yet[n] = false
+
     # render all inital children
     setTimeout (->
 
@@ -65,10 +76,16 @@ window.yat.ViewportView = class extends Backbone.View
 
     # bind touchmove (ios) and scroll (other browser) events
     @$el.find('> .yat-inner').bind 'touchmove', ->
-      that.options.dispatcher.trigger 'viewport_position_change'
+      that.options.dispatcher.trigger 'viewport_position_change', direction
 
     @$el.find('> .yat-inner').scroll ->
-      that.options.dispatcher.trigger 'viewport_position_change'
+
+      direction = 'left'
+      if that.current_scroll_position < that.$el.find('> .yat-inner').scrollLeft()
+        direction = 'right'
+
+      that.current_scroll_position = that.$el.find('> .yat-inner').scrollLeft()
+      that.options.dispatcher.trigger 'viewport_position_change', direction
 
     @$el.find('> .yat-inner').bind 'scrollstart', ->
       that.options.dispatcher.trigger 'viewport_scrollstart'
@@ -110,18 +127,89 @@ window.yat.ViewportView = class extends Backbone.View
 
     # load more elements on scroll
     that.options.dispatcher.on 'viewport_position_change', ->
-      that.load_more()
+      that.load_more(arguments[0])
+
+    # enable load more again after scroll-stops
+    that.options.dispatcher.on 'viewport_scrollstop', ->
+      that.disable_load_more_till_scrollend = false;
 
     # listen to jump_to events
     that.options.dispatcher.on 'navigation_element_selected', (navigationView) ->
-      elId = that.options.id_prefix + navigationView.model.cid
-      element = $('#' + elId)
-      while !element[0]
+
+      # get the element's position
+      position = _.indexOf that.model.models, navigationView.model
+
+      # if this element isn't rendered yet
+      if that.not_rendered_yet[position] == false
+
+        # render 10 elements on the way to the final element
+        #dif = parseInt((final_index - that.rendered_count) / elements_to_render_on_the_way)
+        #_(elements_to_render_on_the_way).times (n)->
+        #  that.insert_element_at_position that.rendered_count + dif * n
+
+        that.insert_element_at_position position
+
+        that.insert_prev_element()
+        that.insert_prev_element()
+        that.insert_prev_element()
+
         that.insert_next_element()
-        element = $('#' + elId)
-      that.jump_to element, true
+        that.insert_next_element()
+        that.insert_next_element()
+
+      # jump to the element
+      that.disable_load_more_till_scrollend = true
+      that.jump_to $('#' + that.options.id_prefix + navigationView.model.cid)
+      @not_rendered_yet_current_element = $('#' + that.options.id_prefix + navigationView.model.cid)
+      @not_rendered_yet_position = position
+
+      #that.performant_jump_to navigationView.model.cid
+
+      #final_index = that.model.indexOf(that.model.get(navigationView.model.cid)) - 2
+      #first_position = that.rendered_count
+      # if thos element isn't rendered yet
+      #if final_index > that.rendered_count
+
+      #  elements_to_render_on_the_way = 10
+
+        # render 10 elements on the way to the final element
+      #  dif = parseInt((final_index - that.rendered_count) / elements_to_render_on_the_way)
+      #  _(elements_to_render_on_the_way).times (n)->
+      #    that.insert_element_at_position that.rendered_count + dif * n
+
+        # render the final element
+      #  that.insert_element_at_position final_index + 1
+      #  that.insert_element_at_position final_index + 2
+      #  that.insert_element_at_position final_index - 1
+      #  that.insert_element_at_position final_index - 2
+      #  that.insert_element_at_position final_index
+
+        # render all elements, we missed by fast jumping to the new element
+        #that.render_missing_elements first_position, final_index, $('#' + that.options.id_prefix + navigationView.model.cid).prev().prev(), $('#' + that.options.id_prefix + navigationView.model.cid)
+
+      # jump to the final element
+      #that.jump_to $('#' + that.options.id_prefix + navigationView.model.cid)
 
 
+
+
+
+
+  # render missing elements
+  #render_missing_elements: (first_position, last_position, last_element, fixed_element)->
+  #
+  #  if last_position <= first_position
+  #    return true
+  #
+  #  that = @
+  #  setTimeout (->
+  #
+  #    if !_.contains(that.rendered_elements, last_element.attr('id'))
+  #      that.insert_element_at_position last_position-1, last_element
+  #      that.$el.find('> .yat-inner').scrollLeft (that.$el.find('> .yat-inner').scrollLeft() + that.element_width(last_element.prev().prev()))
+  #
+  #    that.render_missing_elements first_position, last_position-1, last_element.prev(), fixed_element
+  #  ), 5
 
   # returns all visible elements
   getCurrentElements: ->
@@ -159,32 +247,108 @@ window.yat.ViewportView = class extends Backbone.View
     )
     elements
 
+  # find next not rendered element
+  find_next_not_rendered_element: ->
+
+    index = @not_rendered_yet_position
+
+    while(index < @total_index)
+      if @not_rendered_yet[index] == false
+        return index
+
+      index++
+
+    return @total_index
+
+  # find prev not rendered element
+  find_prev_not_rendered_element: ->
+
+    index = @not_rendered_yet_position
+
+    while(index >= 0)
+      if @not_rendered_yet[index] == false
+        return index
+
+      index--
+
+    return 0
+
   # insert next element in collection
   insert_next_element: ->
+    index = @find_next_not_rendered_element()
 
-    that = @
-    model = @model.at @next_index
-    element_view = new window.yat.viewportItemView {model: model}
-    element = @$el.find('ol.yat-elements').append(element_view.$el)
-    last = element.children().last()
+    if index > 0
+      el = jQuery('#' + @options.id_prefix + (@model.at index-1).cid)
+    else
+      el = undefined
 
-    last.attr('id', @options.id_prefix + model.cid)
-    @change_list_width( @element_width last)
+    @insert_element_at_position index, undefined, el
 
-    # viewport item select
-    last.click ->
-      if $(@).hasClass 'overflow'
-        if $(@).hasClass 'open'
-          that.options.dispatcher.trigger 'viewport_item_deselect'
-        else
-          that.options.dispatcher.trigger 'viewport_item_select', $(@)
+  # insert prev element in collection
+  insert_prev_element: ->
 
-    @next_index++
+    index = @find_prev_not_rendered_element()
+
+    if index <= @total_index
+      el = jQuery('#' + @options.id_prefix + (@model.at index+1).cid)
+    else
+      el = undefined
+    @insert_element_at_position index, el, undefined
+
+  # insert an element with given position
+  insert_element_at_position: (position, before, after)->
+
+    console.log "insert element at positoin: " + position
+    console.log before
+    console.log after
+
+    if @not_rendered_yet[position] == false
+      that = @
+      model = @model.at position
+      element_view = new window.yat.viewportItemView {model: model}
+
+      element = null
+
+      if before != undefined && before[0] != undefined
+        before.before element_view.$el
+        element = before.prev()
+      else if after != undefined && after[0] != undefined
+        after.after element_view.$el
+        element = after.next()
+      else
+        all = @$el.find('ol.yat-elements').append(element_view.$el)
+        element = all.children().last()
+
+      element.attr('id', @options.id_prefix + model.cid)
+      @change_list_width( @element_width element)
+
+      # viewport item select
+      element.click ->
+        if $(@).hasClass 'overflow'
+          if $(@).hasClass 'open'
+            that.options.dispatcher.trigger 'viewport_item_deselect'
+          else
+            that.options.dispatcher.trigger 'viewport_item_select', $(@)
+
+      element.data('yat-position', position)
+
+      @not_rendered_yet[position] = true
+      @not_rendered_yet_position = position
+      @not_rendered_yet_current_element = element
+      rendered_count++
 
   # load more elements on scroll
-  load_more: ->
-    if @next_index < @total_index
-      @insert_next_element()
+  load_more: (direction)->
+
+    if rendered_count < @total_index && !@disable_load_more_till_scrollend
+      if direction == 'left'
+        @insert_prev_element()
+      else
+        @insert_next_element()
+
+      return true
+
+    return false
 
 
   # scrolls to the given element
@@ -201,11 +365,17 @@ window.yat.ViewportView = class extends Backbone.View
         parseInt(arguments[0].css("margin-left"), 10) +
         parseInt(arguments[0].css("margin-right"), 10);
 
-      @$el.find('> .yat-inner').animate {
-        scrollLeft: ( arguments[0].position().left - (container_width/2 - element_width/2) )
-      }, {
-        duration: @options.animation_duration
-      }
+      if arguments[1] != undefined && arguments[1] == false
+        @$el.find('> .yat-inner').scrollLeft arguments[0].position().left - (container_width/2 - element_width/2)
+      else
+        @$el.find('> .yat-inner').animate {
+          scrollLeft: ( arguments[0].position().left - (container_width/2 - element_width/2) )
+        }, {
+          duration: @options.animation_duration
+        }
+
+      @not_rendered_yet_position = arguments[0].data("yat-position")
+      @not_rendered_yet_current_element = arguments[0]
 
 
   # open an element

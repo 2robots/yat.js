@@ -6,6 +6,7 @@
   window.yat = window.yat || {};
 
   window.yat.ViewportView = (function(_super) {
+    var disable_load_more_till_scrollend, rendered_count;
 
     __extends(_Class, _super);
 
@@ -15,15 +16,25 @@
 
     _Class.prototype.className = 'yat-viewport';
 
-    _Class.prototype.next_index = 0;
-
     _Class.prototype.total_index = 0;
+
+    _Class.prototype.current_scroll_position = 0;
 
     _Class.prototype.options = {
       animation_duration: 200,
       initial_element_count: 4,
       id_prefix: ''
     };
+
+    disable_load_more_till_scrollend = false;
+
+    _Class.prototype.not_rendered_yet = {};
+
+    _Class.prototype.not_rendered_yet_position = 0;
+
+    _Class.prototype.not_rendered_yet_current_element = void 0;
+
+    rendered_count = 0;
 
     _Class.prototype.initialize = function() {
       return this.render();
@@ -41,6 +52,9 @@
       this.$el.html(viewport);
       this.$el.append(navlinks);
       this.total_index = this.model.length;
+      _(this.total_index).times(function(n) {
+        return that.not_rendered_yet[n] = false;
+      });
       setTimeout((function() {
         that.$el.find('ol.yat-elements').css('width', 0);
         return _.times(that.options.initial_element_count, (function() {
@@ -54,10 +68,16 @@
       var that;
       that = this;
       this.$el.find('> .yat-inner').bind('touchmove', function() {
-        return that.options.dispatcher.trigger('viewport_position_change');
+        return that.options.dispatcher.trigger('viewport_position_change', direction);
       });
       this.$el.find('> .yat-inner').scroll(function() {
-        return that.options.dispatcher.trigger('viewport_position_change');
+        var direction;
+        direction = 'left';
+        if (that.current_scroll_position < that.$el.find('> .yat-inner').scrollLeft()) {
+          direction = 'right';
+        }
+        that.current_scroll_position = that.$el.find('> .yat-inner').scrollLeft();
+        return that.options.dispatcher.trigger('viewport_position_change', direction);
       });
       this.$el.find('> .yat-inner').bind('scrollstart', function() {
         return that.options.dispatcher.trigger('viewport_scrollstart');
@@ -89,17 +109,27 @@
         return that.close_open_element(arguments[0]);
       });
       that.options.dispatcher.on('viewport_position_change', function() {
-        return that.load_more();
+        return that.load_more(arguments[0]);
+      });
+      that.options.dispatcher.on('viewport_scrollstop', function() {
+        return that.disable_load_more_till_scrollend = false;
       });
       return that.options.dispatcher.on('navigation_element_selected', function(navigationView) {
-        var elId, element;
-        elId = that.options.id_prefix + navigationView.model.cid;
-        element = $('#' + elId);
-        while (!element[0]) {
+        var position;
+        position = _.indexOf(that.model.models, navigationView.model);
+        if (that.not_rendered_yet[position] === false) {
+          that.insert_element_at_position(position);
+          that.insert_prev_element();
+          that.insert_prev_element();
+          that.insert_prev_element();
           that.insert_next_element();
-          element = $('#' + elId);
+          that.insert_next_element();
+          that.insert_next_element();
         }
-        return that.jump_to(element, true);
+        that.disable_load_more_till_scrollend = true;
+        that.jump_to($('#' + that.options.id_prefix + navigationView.model.cid));
+        this.not_rendered_yet_current_element = $('#' + that.options.id_prefix + navigationView.model.cid);
+        return this.not_rendered_yet_position = position;
       });
     };
 
@@ -134,33 +164,103 @@
       return elements;
     };
 
-    _Class.prototype.insert_next_element = function() {
-      var element, element_view, last, model, that;
-      that = this;
-      model = this.model.at(this.next_index);
-      element_view = new window.yat.viewportItemView({
-        model: model
-      });
-      element = this.$el.find('ol.yat-elements').append(element_view.$el);
-      last = element.children().last();
-      last.attr('id', this.options.id_prefix + model.cid);
-      this.change_list_width(this.element_width(last));
-      last.click(function() {
-        if ($(this).hasClass('overflow')) {
-          if ($(this).hasClass('open')) {
-            return that.options.dispatcher.trigger('viewport_item_deselect');
-          } else {
-            return that.options.dispatcher.trigger('viewport_item_select', $(this));
-          }
+    _Class.prototype.find_next_not_rendered_element = function() {
+      var index;
+      index = this.not_rendered_yet_position;
+      while (index < this.total_index) {
+        if (this.not_rendered_yet[index] === false) {
+          return index;
         }
-      });
-      return this.next_index++;
+        index++;
+      }
+      return this.total_index;
     };
 
-    _Class.prototype.load_more = function() {
-      if (this.next_index < this.total_index) {
-        return this.insert_next_element();
+    _Class.prototype.find_prev_not_rendered_element = function() {
+      var index;
+      index = this.not_rendered_yet_position;
+      while (index >= 0) {
+        if (this.not_rendered_yet[index] === false) {
+          return index;
+        }
+        index--;
       }
+      return 0;
+    };
+
+    _Class.prototype.insert_next_element = function() {
+      var el, index;
+      index = this.find_next_not_rendered_element();
+      if (index > 0) {
+        el = jQuery('#' + this.options.id_prefix + (this.model.at(index - 1)).cid);
+      } else {
+        el = void 0;
+      }
+      return this.insert_element_at_position(index, void 0, el);
+    };
+
+    _Class.prototype.insert_prev_element = function() {
+      var el, index;
+      index = this.find_prev_not_rendered_element();
+      if (index <= this.total_index) {
+        el = jQuery('#' + this.options.id_prefix + (this.model.at(index + 1)).cid);
+      } else {
+        el = void 0;
+      }
+      return this.insert_element_at_position(index, el, void 0);
+    };
+
+    _Class.prototype.insert_element_at_position = function(position, before, after) {
+      var all, element, element_view, model, that;
+      console.log("insert element at positoin: " + position);
+      console.log(before);
+      console.log(after);
+      if (this.not_rendered_yet[position] === false) {
+        that = this;
+        model = this.model.at(position);
+        element_view = new window.yat.viewportItemView({
+          model: model
+        });
+        element = null;
+        if (before !== void 0 && before[0] !== void 0) {
+          before.before(element_view.$el);
+          element = before.prev();
+        } else if (after !== void 0 && after[0] !== void 0) {
+          after.after(element_view.$el);
+          element = after.next();
+        } else {
+          all = this.$el.find('ol.yat-elements').append(element_view.$el);
+          element = all.children().last();
+        }
+        element.attr('id', this.options.id_prefix + model.cid);
+        this.change_list_width(this.element_width(element));
+        element.click(function() {
+          if ($(this).hasClass('overflow')) {
+            if ($(this).hasClass('open')) {
+              return that.options.dispatcher.trigger('viewport_item_deselect');
+            } else {
+              return that.options.dispatcher.trigger('viewport_item_select', $(this));
+            }
+          }
+        });
+        element.data('yat-position', position);
+        this.not_rendered_yet[position] = true;
+        this.not_rendered_yet_position = position;
+        this.not_rendered_yet_current_element = element;
+        return rendered_count++;
+      }
+    };
+
+    _Class.prototype.load_more = function(direction) {
+      if (rendered_count < this.total_index && !this.disable_load_more_till_scrollend) {
+        if (direction === 'left') {
+          this.insert_prev_element();
+        } else {
+          this.insert_next_element();
+        }
+        return true;
+      }
+      return false;
     };
 
     _Class.prototype.jump_to = function() {
@@ -168,11 +268,17 @@
       if (arguments[0][0] !== void 0) {
         container_width = this.$el.find('> .yat-inner').outerWidth();
         element_width = arguments[0].outerWidth() + parseInt(arguments[0].css("margin-left"), 10) + parseInt(arguments[0].css("margin-right"), 10);
-        return this.$el.find('> .yat-inner').animate({
-          scrollLeft: arguments[0].position().left - (container_width / 2 - element_width / 2)
-        }, {
-          duration: this.options.animation_duration
-        });
+        if (arguments[1] !== void 0 && arguments[1] === false) {
+          this.$el.find('> .yat-inner').scrollLeft(arguments[0].position().left - (container_width / 2 - element_width / 2));
+        } else {
+          this.$el.find('> .yat-inner').animate({
+            scrollLeft: arguments[0].position().left - (container_width / 2 - element_width / 2)
+          }, {
+            duration: this.options.animation_duration
+          });
+        }
+        this.not_rendered_yet_position = arguments[0].data("yat-position");
+        return this.not_rendered_yet_current_element = arguments[0];
       }
     };
 

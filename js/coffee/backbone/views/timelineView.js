@@ -15,6 +15,10 @@
 
     _Class.prototype.className = 'yat-inner';
 
+    _Class.prototype.options = {
+      id_prefix: ''
+    };
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -22,11 +26,12 @@
     _Class.prototype.render = function() {
       var that;
       that = this;
+      this.options.id_prefix = 'table' + _.random(0, 1000);
       this.container = $(window.yat.templates.timelineContainer());
       this.viewport = new window.yat.ViewportView({
         model: this.model,
         dispatcher: this.options.dispatcher,
-        id_prefix: 'table' + _.random(0, 100)
+        id_prefix: this.options.id_prefix
       });
       this.navigation = $(window.yat.templates.timelineNavigation());
       this.overview = new window.yat.OverviewView({
@@ -42,6 +47,16 @@
       this.container.children('.yat-timeline-inner1').append(this.navigation);
       this.container.children('.yat-timeline-inner1').append(this.viewport.$el);
       return that.$el.append(this.container);
+    };
+
+    _Class.prototype.fullscreen = function() {
+      var that;
+      that = this;
+      return setTimeout((function() {
+        var container;
+        container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
+        return container.append(that.$el);
+      }), 3000);
     };
 
     return _Class;

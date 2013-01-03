@@ -13,18 +13,24 @@ window.yat.TimelineView = class extends Backbone.View
 
   className: 'yat-inner'
 
+  options: {
+    id_prefix: ''
+  }
+
   initialize: ->
     @render()
 
   render: ->
     that = @
 
+    @options.id_prefix = 'table' + _.random(0, 1000)
+
     @container = $(window.yat.templates.timelineContainer())
 
     @viewport = new window.yat.ViewportView {
         model: @model,
         dispatcher: @options.dispatcher,
-        id_prefix: 'table' + _.random(0, 100)
+        id_prefix: @options.id_prefix
     }
 
     @navigation = $(window.yat.templates.timelineNavigation())
@@ -43,3 +49,18 @@ window.yat.TimelineView = class extends Backbone.View
     @container.children('.yat-timeline-inner1').append(@navigation)
     @container.children('.yat-timeline-inner1').append(@viewport.$el)
     that.$el.append(@container)
+
+    #@fullscreen()
+
+  fullscreen: ->
+    that = @
+
+    setTimeout (->
+        container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
+        container.append that.$el
+        #that.$el.remove()
+    ), 3000
+
+
+
+
