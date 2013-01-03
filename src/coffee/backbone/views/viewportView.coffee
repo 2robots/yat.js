@@ -112,9 +112,17 @@ window.yat.ViewportView = class extends Backbone.View
 
     # trigger viewport_jump_to on click next and prev
     that.options.dispatcher.on 'viewport_prev', ->
+
+      that.insert_prev_element()
+      that.insert_prev_element()
+      that.insert_prev_element()
       that.options.dispatcher.trigger 'viewport_jump_to', _.first(that.getCurrentElements()).prev()
 
     that.options.dispatcher.on 'viewport_next', ->
+
+      that.insert_next_element()
+      that.insert_next_element()
+      that.insert_next_element()
       that.options.dispatcher.trigger 'viewport_jump_to', _.last(that.getCurrentElements()).next()
 
     # open an element on click
@@ -298,10 +306,6 @@ window.yat.ViewportView = class extends Backbone.View
   # insert an element with given position
   insert_element_at_position: (position, before, after)->
 
-    console.log "insert element at positoin: " + position
-    console.log before
-    console.log after
-
     if @not_rendered_yet[position] == false
       that = @
       model = @model.at position
@@ -312,6 +316,7 @@ window.yat.ViewportView = class extends Backbone.View
       if before != undefined && before[0] != undefined
         before.before element_view.$el
         element = before.prev()
+        @$el.find('> .yat-inner').scrollLeft(@$el.find('> .yat-inner').scrollLeft() + @element_width(element))
       else if after != undefined && after[0] != undefined
         after.after element_view.$el
         element = after.next()

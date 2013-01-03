@@ -97,9 +97,15 @@
         return that.jump_to(arguments[0], arguments[1]);
       });
       that.options.dispatcher.on('viewport_prev', function() {
+        that.insert_prev_element();
+        that.insert_prev_element();
+        that.insert_prev_element();
         return that.options.dispatcher.trigger('viewport_jump_to', _.first(that.getCurrentElements()).prev());
       });
       that.options.dispatcher.on('viewport_next', function() {
+        that.insert_next_element();
+        that.insert_next_element();
+        that.insert_next_element();
         return that.options.dispatcher.trigger('viewport_jump_to', _.last(that.getCurrentElements()).next());
       });
       that.options.dispatcher.on('viewport_item_select', function() {
@@ -212,9 +218,6 @@
 
     _Class.prototype.insert_element_at_position = function(position, before, after) {
       var all, element, element_view, model, that;
-      console.log("insert element at positoin: " + position);
-      console.log(before);
-      console.log(after);
       if (this.not_rendered_yet[position] === false) {
         that = this;
         model = this.model.at(position);
@@ -225,6 +228,7 @@
         if (before !== void 0 && before[0] !== void 0) {
           before.before(element_view.$el);
           element = before.prev();
+          this.$el.find('> .yat-inner').scrollLeft(this.$el.find('> .yat-inner').scrollLeft() + this.element_width(element));
         } else if (after !== void 0 && after[0] !== void 0) {
           after.after(element_view.$el);
           element = after.next();

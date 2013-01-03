@@ -39,7 +39,9 @@
     right: 0;
     bottom: -50px;
     left: 0;
+    overflow: hidden;
     overflow-x: scroll;
+    overflow-y: hidden;
 
     .yat-elements {
       width: 200%;
@@ -57,6 +59,7 @@
     .yat-inner {
       overflow: hidden;
       overflow-x: scroll;
+      overflow-y: hidden;
     }
   }
 
@@ -89,7 +92,8 @@
     .yat-elements {
 
       top: 0;
-      bottom: 60px;
+      bottom: 0;
+      overflow: hidden;
 
       li {
         height: $height - $navigation-height - $viewport-element-outer-height - 10px;
@@ -182,6 +186,7 @@
         bottom: 0;
         overflow: hidden;
         overflow-x: auto;
+        overflow-y: hidden;
         height: $timeline-overview-height + 20px;
 
         .yat-position-container {
