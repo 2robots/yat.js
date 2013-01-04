@@ -247,6 +247,12 @@ window.yat.ViewportView = class extends Backbone.View
 
     current_elements
 
+  # get the current centered element
+  getCurrentElement: ->
+    elements = @getCurrentElements()
+    index = parseInt(elements.length/2, 10)
+    elements[index]
+
   # get element_models
   getCurrentElementModels: ->
 

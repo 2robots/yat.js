@@ -163,6 +163,13 @@
       return current_elements;
     };
 
+    _Class.prototype.getCurrentElement = function() {
+      var elements, index;
+      elements = this.getCurrentElements();
+      index = parseInt(elements.length / 2, 10);
+      return elements[index];
+    };
+
     _Class.prototype.getCurrentElementModels = function() {
       var elements, that;
       that = this;

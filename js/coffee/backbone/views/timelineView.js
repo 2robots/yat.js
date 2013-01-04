@@ -52,24 +52,42 @@
     };
 
     _Class.prototype.fullscreen = function() {
-      var that;
+      var current_element, that;
       that = this;
+      current_element = that.viewport.getCurrentElement();
       return setTimeout((function() {
         var container;
         that.$el.after('<div class="yat-fullscreen-placeholder" style="display:none" />');
         that.fullscreen_placeholder = that.$el.next();
         container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
-        return container.append(that.$el);
+        container.append(that.$el);
+        that.viewport.insert_prev_element();
+        that.viewport.insert_prev_element();
+        that.viewport.insert_prev_element();
+        that.viewport.insert_next_element();
+        that.viewport.insert_next_element();
+        that.viewport.insert_next_element();
+        that.viewport.disable_load_more_till_scrollend = true;
+        return that.viewport.jump_to(current_element);
       }), 1);
     };
 
     _Class.prototype.fullscreen_end = function() {
-      var that;
+      var current_element, that;
       that = this;
+      current_element = that.viewport.getCurrentElement();
       return setTimeout((function() {
         that.fullscreen_placeholder.after(that.$el);
         $('#yat-fullscreen-' + that.options.id_prefix).remove();
-        return that.fullscreen_placeholder.remove();
+        that.fullscreen_placeholder.remove();
+        that.viewport.insert_prev_element();
+        that.viewport.insert_prev_element();
+        that.viewport.insert_prev_element();
+        that.viewport.insert_next_element();
+        that.viewport.insert_next_element();
+        that.viewport.insert_next_element();
+        that.viewport.disable_load_more_till_scrollend = true;
+        return that.viewport.jump_to(current_element);
       }), 1);
     };
 
