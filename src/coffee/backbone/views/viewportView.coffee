@@ -112,18 +112,24 @@ window.yat.ViewportView = class extends Backbone.View
 
     # trigger viewport_jump_to on click next and prev
     that.options.dispatcher.on 'viewport_prev', ->
+      element = _.first(that.getCurrentElements()).prev()
+      that.insert_prev_element()
+      that.insert_prev_element()
+      that.insert_prev_element()
 
-      that.insert_prev_element()
-      that.insert_prev_element()
-      that.insert_prev_element()
-      that.options.dispatcher.trigger 'viewport_jump_to', _.first(that.getCurrentElements()).prev()
+      # jump to the element
+      that.disable_load_more_till_scrollend = true
+      that.options.dispatcher.trigger 'viewport_jump_to', element
 
     that.options.dispatcher.on 'viewport_next', ->
+      element = _.last(that.getCurrentElements()).next()
+      that.insert_next_element()
+      that.insert_next_element()
+      that.insert_next_element()
 
-      that.insert_next_element()
-      that.insert_next_element()
-      that.insert_next_element()
-      that.options.dispatcher.trigger 'viewport_jump_to', _.last(that.getCurrentElements()).next()
+      # jump to the element
+      that.disable_load_more_till_scrollend = true
+      that.options.dispatcher.trigger 'viewport_jump_to', element
 
     # open an element on click
     that.options.dispatcher.on 'viewport_item_select', ->

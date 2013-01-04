@@ -97,16 +97,22 @@
         return that.jump_to(arguments[0], arguments[1]);
       });
       that.options.dispatcher.on('viewport_prev', function() {
+        var element;
+        element = _.first(that.getCurrentElements()).prev();
         that.insert_prev_element();
         that.insert_prev_element();
         that.insert_prev_element();
-        return that.options.dispatcher.trigger('viewport_jump_to', _.first(that.getCurrentElements()).prev());
+        that.disable_load_more_till_scrollend = true;
+        return that.options.dispatcher.trigger('viewport_jump_to', element);
       });
       that.options.dispatcher.on('viewport_next', function() {
+        var element;
+        element = _.last(that.getCurrentElements()).next();
         that.insert_next_element();
         that.insert_next_element();
         that.insert_next_element();
-        return that.options.dispatcher.trigger('viewport_jump_to', _.last(that.getCurrentElements()).next());
+        that.disable_load_more_till_scrollend = true;
+        return that.options.dispatcher.trigger('viewport_jump_to', element);
       });
       that.options.dispatcher.on('viewport_item_select', function() {
         return that.open_element(arguments[0]);
