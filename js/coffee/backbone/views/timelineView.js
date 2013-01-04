@@ -19,6 +19,8 @@
       id_prefix: ''
     };
 
+    _Class.prototype.fullscreen_placeholder = void 0;
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -54,9 +56,21 @@
       that = this;
       return setTimeout((function() {
         var container;
+        that.$el.after('<div class="yat-fullscreen-placeholder" style="display:none" />');
+        that.fullscreen_placeholder = that.$el.next();
         container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
         return container.append(that.$el);
-      }), 3000);
+      }), 1);
+    };
+
+    _Class.prototype.fullscreen_end = function() {
+      var that;
+      that = this;
+      return setTimeout((function() {
+        that.fullscreen_placeholder.after(that.$el);
+        $('#yat-fullscreen-' + that.options.id_prefix).remove();
+        return that.fullscreen_placeholder.remove();
+      }), 1);
     };
 
     return _Class;

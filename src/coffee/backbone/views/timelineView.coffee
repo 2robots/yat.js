@@ -17,6 +17,8 @@ window.yat.TimelineView = class extends Backbone.View
     id_prefix: ''
   }
 
+  fullscreen_placeholder: undefined
+
   initialize: ->
     @render()
 
@@ -56,10 +58,20 @@ window.yat.TimelineView = class extends Backbone.View
     that = @
 
     setTimeout (->
+        that.$el.after '<div class="yat-fullscreen-placeholder" style="display:none" />'
+        that.fullscreen_placeholder = that.$el.next()
         container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
         container.append that.$el
-        #that.$el.remove()
-    ), 3000
+    ), 1
+
+  fullscreen_end: ->
+    that = @
+
+    setTimeout (->
+        that.fullscreen_placeholder.after that.$el
+        $('#yat-fullscreen-' + that.options.id_prefix).remove()
+        that.fullscreen_placeholder.remove()
+    ), 1
 
 
 
