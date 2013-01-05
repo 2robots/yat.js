@@ -440,28 +440,28 @@
   border-color: #666666;
 }
 /* line 96, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-1 a {
+.yat-timeline .yat-navigation .yat-elements li.cat-1 a, .yat-timeline .yat-navigation .yat-elements li.cat-Allgemein a {
   background-image: url("../categories/1.png");
 }
 /* line 97, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-2 a {
+.yat-timeline .yat-navigation .yat-elements li.cat-2 a, .yat-timeline .yat-navigation .yat-elements li.cat-Rechtliches a {
   background-image: url("../categories/2.png");
   background-position: 9px center;
 }
 /* line 98, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-3 a {
+.yat-timeline .yat-navigation .yat-elements li.cat-3 a, .yat-timeline .yat-navigation .yat-elements li.cat-1 a {
   background-image: url("../categories/3.png");
 }
 /* line 99, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-4 a {
+.yat-timeline .yat-navigation .yat-elements li.cat-4 a, .yat-timeline .yat-navigation .yat-elements li.cat-Pressetermine a {
   background-image: url("../categories/4.png");
 }
 /* line 100, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-5 a {
+.yat-timeline .yat-navigation .yat-elements li.cat-5 a, .yat-timeline .yat-navigation .yat-elements li.cat-Publikationen a {
   background-image: url("../categories/5.png");
 }
 /* line 101, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-6 a {
+.yat-timeline .yat-navigation .yat-elements li.cat-6 a, .yat-timeline .yat-navigation .yat-elements li.cat-Fachinformationen a {
   background-image: url("../categories/6.png");
 }
 /* line 105, ../../src/scss/layouts/bmg.scss */

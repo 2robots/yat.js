@@ -93,12 +93,12 @@ $navigation-height: 150px;
         }
       }
 
-      &.cat-1 a { background-image: url("../categories/1.png"); }
-      &.cat-2 a { background-image: url("../categories/2.png"); background-position: 9px center; }
-      &.cat-3 a { background-image: url("../categories/3.png"); }
-      &.cat-4 a { background-image: url("../categories/4.png"); }
-      &.cat-5 a { background-image: url("../categories/5.png"); }
-      &.cat-6 a { background-image: url("../categories/6.png"); }
+      &.cat-1 a, &.cat-Allgemein a { background-image: url("../categories/1.png"); }
+      &.cat-2 a, &.cat-Rechtliches a { background-image: url("../categories/2.png"); background-position: 9px center; }
+      &.cat-3 a, &.cat-1 a { background-image: url("../categories/3.png"); }
+      &.cat-4 a, &.cat-Pressetermine a { background-image: url("../categories/4.png"); }
+      &.cat-5 a, &.cat-Publikationen a { background-image: url("../categories/5.png"); }
+      &.cat-6 a, &.cat-Fachinformationen a { background-image: url("../categories/6.png"); }
     }
   }
 

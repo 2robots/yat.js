@@ -140,7 +140,7 @@
           }
         }
         if (next && (height * 2 + offset_top + this.options.vertical_offset) < parent_height) {
-          element.css("top", height + this.options.vertical_offset);
+          element.css("top", height + offset_top + this.options.vertical_offset);
           element.css("left", prev.position().left + distance_to_prev);
           if (this.is_there_an_element_at_this_positon(element.siblings(), element)) {
             next = true;
@@ -166,7 +166,11 @@
         if ($(e).position().top <= top && $(e).position().top + $(e).height() >= top) {
           if ($(e).position().left <= left && $(e).position().left + $(e).width() >= left) {
             ret = true;
+            return;
           }
+        }
+        if (($(e).position().left + $(e).width() + $(e).width()) < left) {
+
         }
       });
       return ret;

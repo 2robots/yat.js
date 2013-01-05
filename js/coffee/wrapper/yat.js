@@ -98,7 +98,9 @@
             obj[i] = void 0;
           }
         }
-        return items.push(obj);
+        if (obj.content !== void 0 && obj.shorttitle !== void 0 && obj.date !== void 0) {
+          return items.push(obj);
+        }
       };
 
       YatWrapper.prototype.ucfirst = function(str) {

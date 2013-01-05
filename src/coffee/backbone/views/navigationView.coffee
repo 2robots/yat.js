@@ -139,7 +139,7 @@ window.yat.NavigationView = class extends Backbone.View
 
       # try to place it under last element
       if next && (height*2 + offset_top + @options.vertical_offset) < parent_height
-        element.css("top", height + @options.vertical_offset)
+        element.css("top", height + offset_top + @options.vertical_offset)
         element.css("left", prev.position().left + distance_to_prev)
 
         if @is_there_an_element_at_this_positon(element.siblings(), element)
@@ -169,6 +169,9 @@ window.yat.NavigationView = class extends Backbone.View
         if $(e).position().left <= left && $(e).position().left+$(e).width() >= left
           ret = true
           return
+
+      if ($(e).position().left + $(e).width() + $(e).width()) < left
+        return
 
     return ret
 

@@ -105,7 +105,8 @@
         else
           obj[i] = undefined
 
-      items.push obj
+      if obj.content != undefined && obj.shorttitle != undefined && obj.date != undefined
+        items.push obj
       # THIS OS OUR OBJECT TO PASS TO THE BACKBONE APP
       #console.log obj;
 
