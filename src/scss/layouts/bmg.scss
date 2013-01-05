@@ -35,6 +35,26 @@ $height: 500px;
   margin: 20px 5px;
   @include box-shadow(0 0 5px 0 $grey1);
 
+  .yat-fullscreen-start, .yat-fullscreen-end {
+    width: 20px;
+    height: 20px;
+    text-indent: -99999px;
+    overflow: hidden;
+    background: url("../img/fullscreen.png") no-repeat left top;
+  }
+
+  .yat-fullscreen-end {
+    background-position: left bottom;
+  }
+
+  .yat-fullscreen-start:hover {
+    background-position: right top;
+  }
+
+  .yat-fullscreen-end:hover {
+    background-position: right bottom;
+  }
+
   .yat-timeline-inner1 {
     @include box-shadow(inset 0px 0px 50px 0px lighten($grey1, 5%));
   }
@@ -135,6 +155,12 @@ $viewport-element-outer-height: 82px;
   background: $white;
   position: relative;
 
+  &.overflow {
+    &:hover {
+      border: 1px solid $grey2;
+    }
+  }
+
   .yat-element-inner {
     height: 100%;
     width: 100%;
@@ -145,6 +171,14 @@ $viewport-element-outer-height: 82px;
 
       h3 {
         line-height: 120%;
+        padding: 1em 0 0.5em 0;
+        margin-bottom: 1em;
+        font-weight: bold;
+        font-size: 1.08em;
+      }
+
+      img {
+        height: 130px !important;
       }
     }
   }
@@ -246,8 +280,9 @@ html.no-boxshadow {
 
 }
 
-
-
+.yat-fullscreen {
+  background: url("../img/op40.png") repeat;
+}
 
 
 

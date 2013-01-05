@@ -19,12 +19,16 @@
       animation_duration: 200
     };
 
+    _Class.prototype.selection_element = void 0;
+
+    _Class.prototype.current_date = void 0;
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
 
     _Class.prototype.render = function() {
-      var days, itemWidth, localDays, localEnd, localStart, overview, selection, that, y, years, _i, _j, _len, _ref, _ref1, _results;
+      var days, itemWidth, localDays, localEnd, localStart, overview, that, y, years, _i, _j, _len, _ref, _ref1, _results;
       that = this;
       overview = $(window.yat.templates.timelineOverview());
       years = (function() {
@@ -48,20 +52,22 @@
           width: itemWidth + '%'
         }));
       }
-      selection = $(window.yat.templates.timelineOverviewSelection());
+      this.selection_element = $(window.yat.templates.timelineOverviewSelection());
       setTimeout((function() {
-        var inner_width, main_width, scroll_inner_width;
-        main_width = parseInt(selection.width(), 10);
-        scroll_inner_width = parseInt(selection.find('.yat-position-inner').width(), 10);
-        inner_width = parseInt(selection.find('.yat-position-inner').css('width'), 10);
-        selection.find('.yat-position-container').css('width', main_width + scroll_inner_width / 2);
-        selection.find('.yat-position-container').css('padding-left', main_width - inner_width + scroll_inner_width / 2);
+        var scroll_inner_width;
+        scroll_inner_width = parseInt(that.selection_element.find('.yat-position-inner').width(), 10);
+        that.selection_element.find('.yat-position-container').css('width', '100%');
+        that.selection_element.find('.yat-position-container').css('padding-left', '100%');
+        that.selection_element.find('.yat-position-container').css('padding-right', scroll_inner_width / 2);
+        that.selection_element.find('.yat-position-container').css('left', -scroll_inner_width / 2);
         return that.jump_to(moment(that.model.start));
       }), 10);
+      that.selection_element.find('.yat-position-container').bind('resize', (function() {
+        return that.jump_to(that.current_date);
+      }));
       this.$el.html(overview);
-      this.$el.append(selection);
-      selection.parent().bind('mouseup', function(event) {
-        return;
+      this.$el.append(this.selection_element);
+      this.selection_element.parent().bind('mouseup', function(event) {
         return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
       });
       that.options.dispatcher.on('overview_jump_to', function() {
@@ -116,12 +122,13 @@
       left = this.get_offset_for_date(date);
       width = $('.yat-current-position').width();
       if (animate) {
-        return this.$el.find('.yat-current-position').animate({
+        this.$el.find('.yat-current-position').animate({
           scrollLeft: width - left
         }, this.options.animation_duration);
       } else {
-        return this.$el.find('.yat-current-position').scrollLeft(width - left);
+        this.$el.find('.yat-current-position').scrollLeft(width - left);
       }
+      return this.current_date = date;
     };
 
     _Class.prototype.get_offset_for_percentage = function(percentage) {

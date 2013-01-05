@@ -113,9 +113,7 @@ window.yat.ViewportView = class extends Backbone.View
     # trigger viewport_jump_to on click next and prev
     that.options.dispatcher.on 'viewport_prev', ->
       element = _.first(that.getCurrentElements()).prev()
-      that.insert_prev_element()
-      that.insert_prev_element()
-      that.insert_prev_element()
+      that.insert_prev_element(that.getCurrentElements().length + 2)
 
       # jump to the element
       that.disable_load_more_till_scrollend = true
@@ -123,9 +121,7 @@ window.yat.ViewportView = class extends Backbone.View
 
     that.options.dispatcher.on 'viewport_next', ->
       element = _.last(that.getCurrentElements()).next()
-      that.insert_next_element()
-      that.insert_next_element()
-      that.insert_next_element()
+      that.insert_next_element(that.getCurrentElements().length + 2)
 
       # jump to the element
       that.disable_load_more_till_scrollend = true
@@ -163,13 +159,8 @@ window.yat.ViewportView = class extends Backbone.View
 
         that.insert_element_at_position position
 
-        that.insert_prev_element()
-        that.insert_prev_element()
-        that.insert_prev_element()
-
-        that.insert_next_element()
-        that.insert_next_element()
-        that.insert_next_element()
+        that.insert_prev_element(that.getCurrentElements().length + 2)
+        that.insert_next_element(that.getCurrentElements().length + 2)
 
       # jump to the element
       that.disable_load_more_till_scrollend = true
@@ -294,26 +285,39 @@ window.yat.ViewportView = class extends Backbone.View
     return 0
 
   # insert next element in collection
-  insert_next_element: ->
-    index = @find_next_not_rendered_element()
+  insert_next_element: (count)->
 
-    if index > 0
-      el = jQuery('#' + @options.id_prefix + (@model.at index-1).cid)
-    else
-      el = undefined
+    that = @
 
-    @insert_element_at_position index, undefined, el
+    if count == undefined
+      count = 1
+
+    _(count).times ->
+      index = that.find_next_not_rendered_element()
+
+      if index > 0
+        el = jQuery('#' + that.options.id_prefix + (that.model.at index-1).cid)
+      else
+        el = undefined
+
+      that.insert_element_at_position index, undefined, el
 
   # insert prev element in collection
-  insert_prev_element: ->
+  insert_prev_element: (count)->
 
-    index = @find_prev_not_rendered_element()
+    that = @
 
-    if index <= @total_index
-      el = jQuery('#' + @options.id_prefix + (@model.at index+1).cid)
-    else
-      el = undefined
-    @insert_element_at_position index, el, undefined
+    if count == undefined
+      count = 1
+
+    _(count).times ->
+      index = that.find_prev_not_rendered_element()
+
+      if index <= that.total_index
+        el = jQuery('#' + that.options.id_prefix + (that.model.at index+1).cid)
+      else
+        el = undefined
+      that.insert_element_at_position index, el, undefined
 
   # insert an element with given position
   insert_element_at_position: (position, before, after)->
@@ -370,6 +374,7 @@ window.yat.ViewportView = class extends Backbone.View
 
   # scrolls to the given element
   jump_to: ->
+
     # if this element is defined
     if arguments[0][0] != undefined
 
@@ -382,6 +387,9 @@ window.yat.ViewportView = class extends Backbone.View
         parseInt(arguments[0].css("margin-left"), 10) +
         parseInt(arguments[0].css("margin-right"), 10);
 
+      # callback function
+      cb = arguments[2]
+
       if arguments[1] != undefined && arguments[1] == false
         @$el.find('> .yat-inner').scrollLeft arguments[0].position().left - (container_width/2 - element_width/2)
       else
@@ -389,6 +397,9 @@ window.yat.ViewportView = class extends Backbone.View
           scrollLeft: ( arguments[0].position().left - (container_width/2 - element_width/2) )
         }, {
           duration: @options.animation_duration
+          complete: ->
+            if cb != undefined
+              cb()
         }
 
       @not_rendered_yet_position = arguments[0].data("yat-position")

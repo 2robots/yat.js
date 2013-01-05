@@ -18,6 +18,8 @@ window.yat.TimelineView = class extends Backbone.View
   }
 
   fullscreen_placeholder: undefined
+  fullscreen_button: undefined
+  fullscreen_button_end: undefined
 
   initialize: ->
     @render()
@@ -50,50 +52,65 @@ window.yat.TimelineView = class extends Backbone.View
 
     @container.children('.yat-timeline-inner1').append(@navigation)
     @container.children('.yat-timeline-inner1').append(@viewport.$el)
+
+    @fullscreen_button = $(window.yat.templates.timelineFullScreen())
+    @fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd())
+    @fullscreen_button_end.hide()
+
+    @fullscreen_button.click ->
+      that.options.dispatcher.trigger 'fullscreen_start'
+
+    @fullscreen_button_end.click ->
+      that.options.dispatcher.trigger 'fullscreen_end'
+
+    @options.dispatcher.on 'fullscreen_start', ->
+      that.fullscreen_start()
+
+    @options.dispatcher.on 'fullscreen_end', ->
+      that.fullscreen_end()
+
+    @container.append @fullscreen_button
+    @container.append @fullscreen_button_end
+
     that.$el.append(@container)
 
-    #@fullscreen()
-
-  fullscreen: ->
+  fullscreen_start: ->
     that = @
     current_element = that.viewport.getCurrentElement()
 
-    setTimeout (->
-        that.$el.after '<div class="yat-fullscreen-placeholder" style="display:none" />'
-        that.fullscreen_placeholder = that.$el.next()
-        container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
-        container.append that.$el
+    that.$el.after '<div class="yat-fullscreen-placeholder" style="display:none" />'
+    that.fullscreen_placeholder = that.$el.next()
+    container = $('<div class="yat-fullscreen" id="yat-fullscreen-' + that.options.id_prefix + '" />')
+    $('body').append container
+    container.append that.$el
 
-        that.viewport.insert_prev_element()
-        that.viewport.insert_prev_element()
-        that.viewport.insert_prev_element()
+    that.viewport.insert_prev_element(that.viewport.getCurrentElements().length + 2)
+    that.viewport.insert_next_element(that.viewport.getCurrentElements().length + 2)
+    that.viewport.disable_load_more_till_scrollend = true
+    that.viewport.jump_to current_element, true, (->
+      that.viewport.disable_load_more_till_scrollend = false
+    )
 
-        that.viewport.insert_next_element()
-        that.viewport.insert_next_element()
-        that.viewport.insert_next_element()
-        that.viewport.disable_load_more_till_scrollend = true
-        that.viewport.jump_to current_element
-    ), 1
+    that.fullscreen_button_end.show()
+    that.fullscreen_button.hide()
 
   fullscreen_end: ->
     that = @
     current_element = that.viewport.getCurrentElement()
 
-    setTimeout (->
-        that.fullscreen_placeholder.after that.$el
-        $('#yat-fullscreen-' + that.options.id_prefix).remove()
-        that.fullscreen_placeholder.remove()
+    that.fullscreen_placeholder.after that.$el
+    $('#yat-fullscreen-' + that.options.id_prefix).remove()
+    that.fullscreen_placeholder.remove()
 
-        that.viewport.insert_prev_element()
-        that.viewport.insert_prev_element()
-        that.viewport.insert_prev_element()
+    that.viewport.insert_prev_element(that.viewport.getCurrentElements().length + 2)
+    that.viewport.insert_next_element(that.viewport.getCurrentElements().length + 2)
+    that.viewport.disable_load_more_till_scrollend = true
+    that.viewport.jump_to current_element, true, (->
+      that.viewport.disable_load_more_till_scrollend = false
+    )
 
-        that.viewport.insert_next_element()
-        that.viewport.insert_next_element()
-        that.viewport.insert_next_element()
-        that.viewport.disable_load_more_till_scrollend = true
-        that.viewport.jump_to current_element
-    ), 1
+    that.fullscreen_button_end.hide()
+    that.fullscreen_button.show()
 
 
 

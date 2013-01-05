@@ -24,7 +24,7 @@ window.yat.viewportItemView = class extends Backbone.View
     that = @
 
     setTimeout (->
-      if $(that.$el).find('.yat-element-inner2').height() > $(that.$el).find('.yat-element-inner').height()
+      if $(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 10)
         that.$el.addClass 'overflow'
         that.$el.append window.yat.templates.timelineViewportReadMore
     )
