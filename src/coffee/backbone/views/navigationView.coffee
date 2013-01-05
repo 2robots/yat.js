@@ -21,7 +21,8 @@ window.yat.NavigationView = class extends Backbone.View
     position: {
       top: '2.5'
     }
-
+    id_prefix: ''
+    id_postfix: ''
     vertical_offset: 5
     horizontal_offset: 5
   }
@@ -89,8 +90,7 @@ window.yat.NavigationView = class extends Backbone.View
           index = (arguments[0].length - 1) / 2
         else
           index = arguments[0].length / 2
-
-        that.jump_to moment(arguments[0][index].model.get("date")), true
+        that.jump_to_cid arguments[0][index].model.cid, true
 
     @options.dispatcher.on 'navigation_position_change', ->
       that._updateViewportPos()
@@ -133,6 +133,7 @@ window.yat.NavigationView = class extends Backbone.View
   renderMore: (item) ->
     that = @
     navElement = new window.yat.NavigationElementView( model: item.model, dispatcher: that.options.dispatcher)
+    navElement.$el.attr("id", @options.id_prefix + item.model.cid + @options.id_postfix)
     @elementList.append(navElement.$el)
 
     #setTimeout (->
@@ -256,4 +257,15 @@ window.yat.NavigationView = class extends Backbone.View
       }, @options.animation_duration)
     else
       @mainElement.scrollLeft(scrollLeft)
+
+  # jumps to element with Client ID
+  jump_to_cid: (cid, animate)->
+    if $('#' + @options.id_prefix + cid + @options.id_postfix)[0] != undefined
+      scrollLeft = $('#' + @options.id_prefix + cid + @options.id_postfix).position().left - @$el.outerWidth()/2
+      if animate
+        @mainElement.animate({
+          scrollLeft: scrollLeft
+        }, @options.animation_duration)
+      else
+        @mainElement.scrollLeft(scrollLeft)
 

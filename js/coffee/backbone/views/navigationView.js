@@ -26,6 +26,8 @@
       position: {
         top: '2.5'
       },
+      id_prefix: '',
+      id_postfix: '',
       vertical_offset: 5,
       horizontal_offset: 5
     };
@@ -85,7 +87,7 @@
           } else {
             index = arguments[0].length / 2;
           }
-          return that.jump_to(moment(arguments[0][index].model.get("date")), true);
+          return that.jump_to_cid(arguments[0][index].model.cid, true);
         }
       });
       this.options.dispatcher.on('navigation_position_change', function() {
@@ -135,6 +137,7 @@
         model: item.model,
         dispatcher: that.options.dispatcher
       });
+      navElement.$el.attr("id", this.options.id_prefix + item.model.cid + this.options.id_postfix);
       this.elementList.append(navElement.$el);
       return navElement;
     };
@@ -253,6 +256,20 @@
         }, this.options.animation_duration);
       } else {
         return this.mainElement.scrollLeft(scrollLeft);
+      }
+    };
+
+    _Class.prototype.jump_to_cid = function(cid, animate) {
+      var scrollLeft;
+      if ($('#' + this.options.id_prefix + cid + this.options.id_postfix)[0] !== void 0) {
+        scrollLeft = $('#' + this.options.id_prefix + cid + this.options.id_postfix).position().left - this.$el.outerWidth() / 2;
+        if (animate) {
+          return this.mainElement.animate({
+            scrollLeft: scrollLeft
+          }, this.options.animation_duration);
+        } else {
+          return this.mainElement.scrollLeft(scrollLeft);
+        }
       }
     };
 

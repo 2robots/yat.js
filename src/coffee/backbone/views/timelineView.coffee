@@ -61,7 +61,9 @@ window.yat.TimelineView = class extends Backbone.View
 
       that.navigation = new window.yat.NavigationView {
         model: that.model,
-        dispatcher: that.options.dispatcher
+        dispatcher: that.options.dispatcher,
+        id_prefix: that.options.id_prefix,
+        id_postfix: 'navigation'
       }
       that.navigation.$el.append(that.overview.$el)
 
