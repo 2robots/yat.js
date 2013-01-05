@@ -4,3 +4,4 @@
 # Ignore IDE's settings-dir
 .idea
 .sass-cache
+test/testcontent.txt

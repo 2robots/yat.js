@@ -161,6 +161,12 @@ $viewport-element-outer-height: 82px;
     }
   }
 
+  &.overflow.important {
+    .yat-readmore {
+      display: none;
+    }
+  }
+
   .yat-element-inner {
     height: 100%;
     width: 100%;
@@ -200,7 +206,7 @@ $viewport-element-outer-height: 82px;
     width: 28px;
     height: 16px;
     background: url("../img/entry_arrow_bottom.png") no-repeat center bottom;
-    bottom: -16px;
+    bottom: -15px;
     left: 50%;
     margin-left: -14px;
   }
@@ -208,6 +214,10 @@ $viewport-element-outer-height: 82px;
   &.important {
     width: 40em;
     border-color: $grey2;
+
+    .yat-element-inner {
+      overflow-y: auto;
+    }
 
     span.arrow {
       background-image: url("../img/entry_arrow_bottom_important.png");

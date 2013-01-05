@@ -25,6 +25,9 @@
       this.inDom = true;
       this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
       that = this;
+      if (that.model.get('important')) {
+        that.$el.addClass('important');
+      }
       return setTimeout((function() {
         if ($(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 10)) {
           that.$el.addClass('overflow');
