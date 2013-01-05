@@ -51,8 +51,9 @@
     };
 
     _Class.prototype.registerEventListener = function() {
-      var that;
+      var startEnd, that;
       that = this;
+      startEnd = that.model.getStartEnd();
       this.$el.bind('touchmove', function() {
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.$el.scrollLeft()));
       });
@@ -63,12 +64,12 @@
         percentage = that.viewManager.get_percentage_for_offset(offset);
         return that.options.dispatcher.trigger('navigation_position_change', percentage);
       });
-      this.options.dispatcher.on('viewport_scrollstop', function() {
+      this.options.dispatcher.on('viewport_scrollstop', function(elements) {
         var index;
-        if (_.first(arguments[0]).model.get("date") === that.model.start) {
-          return that.jump_to(moment(that.model.start), true);
-        } else if (_.last(arguments[0]).model.get("date") === that.model.end) {
-          return that.jump_to(moment(that.model.end), true);
+        if (_.first(arguments[0]).model.get("date") === startEnd.start) {
+          return that.jump_to(moment(startEnd.start), true);
+        } else if (_.last(arguments[0]).model.get("date") === startEnd.end) {
+          return that.jump_to(moment(startEnd.end), true);
         } else {
           if (arguments[0].length % 2 !== 0) {
             index = (arguments[0].length - 1) / 2;
