@@ -32,8 +32,8 @@
     _Class.prototype.initialize = function() {
       this.registerEventListener();
       this.viewManager = new window.yat.NavigationViewManager(this.model);
-      this.overview = $(window.yat.templates.timelineNavigationElementList());
-      this.$el.html(this.overview);
+      this.elementList = $(window.yat.templates.timelineNavigationElementList());
+      this.$el.html(this.elementList);
       return this.render();
     };
 
@@ -55,15 +55,15 @@
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.$el.scrollLeft()));
       });
       this.$el.scroll(function() {
-        var date;
-        date = that.viewManager.get_date_for_offset(that.$el.scrollLeft());
-        return that.options.dispatcher.trigger('navigation_position_change', date);
+        var percentage;
+        percentage = that.viewManager.get_percentage_for_offset(that.$el.scrollLeft());
+        return that.options.dispatcher.trigger('navigation_position_change', percentage);
       });
       this.options.dispatcher.on('navigation_position_change', function() {
         return that._updateViewportPos();
       });
-      return this.options.dispatcher.on('overview_position_change', function(date) {
-        return that.jump_to(date, true);
+      return this.options.dispatcher.on('overview_position_change', function(percentage) {
+        return that.jump_to_percentage(percentage, true);
       });
     };
 
@@ -86,7 +86,7 @@
         model: item.model,
         dispatcher: that.options.dispatcher
       });
-      this.overview.append(navElement.$el);
+      this.elementList.append(navElement.$el);
       return navElement;
     };
 
@@ -118,6 +118,18 @@
     };
 
     _Class.prototype.addElement = function() {};
+
+    _Class.prototype.jump_to_percentage = function(percentage, animate) {
+      var scrollLeft;
+      scrollLeft = this.viewManager.get_offset_for_percentage(percentage);
+      if (animate) {
+        return this.$el.animate({
+          scrollLeft: scrollLeft
+        }, this.options.animation_duration);
+      } else {
+        return this.$el.scrollLeft(scrollLeft);
+      }
+    };
 
     _Class.prototype.jump_to = function(date, animate) {
       var scrollLeft;

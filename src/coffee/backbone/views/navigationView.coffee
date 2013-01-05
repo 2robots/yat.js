@@ -28,8 +28,8 @@ window.yat.NavigationView = class extends Backbone.View
   initialize: ->
     @registerEventListener()
     @viewManager = new window.yat.NavigationViewManager(@model)
-    @overview = $(window.yat.templates.timelineNavigationElementList())
-    @$el.html(@overview)
+    @elementList = $(window.yat.templates.timelineNavigationElementList())
+    @$el.html(@elementList)
     @render()
 
   _updateViewportPos: ->
@@ -51,14 +51,14 @@ window.yat.NavigationView = class extends Backbone.View
       that.options.dispatcher.trigger 'navigation_position_change', that.viewManager.get_date_for_offset that.$el.scrollLeft()
 
     @$el.scroll ->
-      date = that.viewManager.get_date_for_offset that.$el.scrollLeft()
-      that.options.dispatcher.trigger 'navigation_position_change', date
+      percentage = that.viewManager.get_percentage_for_offset that.$el.scrollLeft()
+      that.options.dispatcher.trigger 'navigation_position_change', percentage
 
     @options.dispatcher.on 'navigation_position_change', ->
       that._updateViewportPos()
 
-    @options.dispatcher.on 'overview_position_change', (date) ->
-      that.jump_to date, true
+    @options.dispatcher.on 'overview_position_change', (percentage) ->
+      that.jump_to_percentage percentage, true
 
   render: ->
     @_updateViewportPos()
@@ -72,7 +72,7 @@ window.yat.NavigationView = class extends Backbone.View
   renderMore: (item) ->
     that = @
     navElement = new window.yat.NavigationElementView( model: item.model, dispatcher: that.options.dispatcher)
-    @overview.append(navElement.$el)
+    @elementList.append(navElement.$el)
     navElement
 
   repositionElements: (elements) ->
@@ -95,6 +95,16 @@ window.yat.NavigationView = class extends Backbone.View
     , 0)
 
   addElement: ->
+
+  # jumps to a percentage position
+  jump_to_percentage: (percentage, animate)->
+    scrollLeft = @viewManager.get_offset_for_percentage(percentage)
+    if animate
+      @$el.animate({
+        scrollLeft: scrollLeft
+      }, @options.animation_duration)
+    else
+      @$el.scrollLeft(scrollLeft)
 
   # jumps to the date
   jump_to: (date, animate)->
