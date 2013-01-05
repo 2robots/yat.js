@@ -21,6 +21,7 @@ window.yat.OverviewView = class extends Backbone.View
   current_date: undefined
 
   initialize: ->
+    @scrollLeft = 0
     @render()
 
   render: ->
@@ -39,7 +40,6 @@ window.yat.OverviewView = class extends Backbone.View
     @selection_element = $(window.yat.templates.timelineOverviewSelection())
 
     setTimeout (->
-
       scroll_inner_width = parseInt(that.selection_element.find('.yat-position-inner').width(), 10)
       that.selection_element.find('.yat-position-container').css('width', '100%')
       that.selection_element.find('.yat-position-container').css('padding-left', '100%')
@@ -62,38 +62,19 @@ window.yat.OverviewView = class extends Backbone.View
 
     # listen to jump to events
     that.options.dispatcher.on 'overview_jump_to', ->
-
       animate = true
-
       if arguments.length > 1
         animate = arguments[1]
-
       that.jump_to(arguments[0], animate)
 
     # fire event, when user stops scrolling to position
-    @$el.find('.yat-current-position').bind 'scrollstop', ->
-      element = $(@)
-      that.options.dispatcher.trigger 'overview_position_change', 1 - element.scrollLeft() / element.width()
+#    @$el.find('.yat-current-position').bind 'scrollstop', ->
+#      element = $(@)
+#      that.options.dispatcher.trigger 'overview_position_change', 1 - element.scrollLeft() / element.width()
 
-    # bind the overview to viewport changes
-    @options.dispatcher.on 'viewport_scrollstop', ->
-      return
-      # if the first of this elements is the global first
-      if _.first(arguments[0]).model.get("date") == that.model.start
-        that.jump_to moment(that.model.start), true
-
-      # if the last of this elements is the global last
-      else if _.last(arguments[0]).model.get("date") == that.model.end
-        that.jump_to moment(that.model.end), true
-
-      # default take the middle one
-      else
-        if arguments[0].length % 2 != 0
-          index = (arguments[0].length - 1) / 2
-        else
-          index = arguments[0].length / 2
-
-        that.jump_to moment(arguments[0][index].model.get("date")), true
+    @$el.find('.yat-current-position').scroll ->
+      offset = that.get_percentage_for_offset $(@).scrollLeft()
+      that.options.dispatcher.trigger 'overview_position_change', offset
 
     # bind the overview to navigation changes
     @options.dispatcher.on 'navigation_position_change', (percentage) ->
@@ -122,6 +103,11 @@ window.yat.OverviewView = class extends Backbone.View
     else
       @$el.find('.yat-current-position').scrollLeft (width - left)
     @current_date = date
+
+  # get pixel for a position expressed as percentage
+  get_percentage_for_offset: (offset)->
+    width = $('.yat-current-position').width()
+    1 - (offset / width)
 
   # get pixel for a position expressed as percentage
   get_offset_for_percentage: (percentage)->

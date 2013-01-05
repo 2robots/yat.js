@@ -51,14 +51,35 @@ window.yat.NavigationView = class extends Backbone.View
       that.options.dispatcher.trigger 'navigation_position_change', that.viewManager.get_date_for_offset that.$el.scrollLeft()
 
     @$el.scroll ->
-      percentage = that.viewManager.get_percentage_for_offset that.$el.scrollLeft()
+      offset = that.$el.scrollLeft()
+      that.scrollOffset = offset
+      percentage = that.viewManager.get_percentage_for_offset offset
       that.options.dispatcher.trigger 'navigation_position_change', percentage
+
+    # bind the overview to viewport changes
+    @options.dispatcher.on 'viewport_scrollstop', ->
+      # if the first of this elements is the global first
+      if _.first(arguments[0]).model.get("date") == that.model.start
+        that.jump_to moment(that.model.start), true
+
+      # if the last of this elements is the global last
+      else if _.last(arguments[0]).model.get("date") == that.model.end
+        that.jump_to moment(that.model.end), true
+
+      # default take the middle one
+      else
+        if arguments[0].length % 2 != 0
+          index = (arguments[0].length - 1) / 2
+        else
+          index = arguments[0].length / 2
+
+        that.jump_to moment(arguments[0][index].model.get("date")), true
 
     @options.dispatcher.on 'navigation_position_change', ->
       that._updateViewportPos()
 
     @options.dispatcher.on 'overview_position_change', (percentage) ->
-      that.jump_to_percentage percentage, true
+      that.jump_to_percentage percentage, false
 
   render: ->
     @_updateViewportPos()

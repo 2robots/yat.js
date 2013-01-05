@@ -38,7 +38,7 @@ window.yat.NavigationViewManager = class
     start = moment(@startEnd.start).clone()
     end = moment(@startEnd.end).clone()
     daysTotal = end.diff(start, 'days')
-    days = Math.round(offset / @pixelPerDay)
+    days = offset / @pixelPerDay
     widthInDays = Math.round(@viewportPos.width / @pixelPerDay)
 
     #add the width of the viewport proportionally so that when fully scrolled to the right the value of "days" becomes "daysTotal"
@@ -66,7 +66,6 @@ window.yat.NavigationViewManager = class
     start = moment(@startEnd.start).clone()
     end = moment(@startEnd.end).clone()
     daysTotal = end.diff(start, 'days')
-    console.log 'bla', offset, daysTotal, @pixelPerDay, offset / (daysTotal * @pixelPerDay)
     offset / (daysTotal * @pixelPerDay)
 
   get_offset_for_percentage: (percentage) ->
