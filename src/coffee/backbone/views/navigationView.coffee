@@ -230,6 +230,8 @@ window.yat.NavigationView = class extends Backbone.View
         item.view.$el.css('top', line * that.options.position.top + 'em')
         item.view.$el.css('left', position + 'px')
 
+      that.viewManager.paneWidth = position + item.view.$el.outerWidth() - that.$el.outerWidth()
+      that.viewManager.pixelPerDay = Math.round(that.viewManager.paneWidth / that.viewManager.interval)
       that.options.dispatcher.trigger 'load_component_end'
     , 0)
 
