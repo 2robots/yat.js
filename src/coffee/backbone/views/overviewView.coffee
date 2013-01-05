@@ -6,7 +6,7 @@
 # Authors: Benjamin Freundorfer, Franz Wilding
 # Licence: GPL v3
 
-window.yat = window.yat || {};
+window.yat = window.yat || {}
 
 # The item is one "event" at a specific time on the timeline
 window.yat.OverviewView = class extends Backbone.View
@@ -51,6 +51,7 @@ window.yat.OverviewView = class extends Backbone.View
 
     # jump to the right position, when user clicks
     selection.parent().bind 'mouseup', (event)->
+      return
       that.options.dispatcher.trigger 'overview_jump_to', that.get_date_for_offset (event.pageX - $('.yat-current-position').offset().left)
 
     # listen to jump to events
@@ -65,13 +66,12 @@ window.yat.OverviewView = class extends Backbone.View
 
     # fire event, when user stops scrolling to position
     @$el.find('.yat-current-position').bind 'scrollstop', ->
-      pos_left = $('.yat-position-inner').offset().left
-      element_width = $('.yat-position-inner').width()
-      that.options.dispatcher.trigger 'overview_position_change', that.get_date_for_offset (pos_left - $('.yat-current-position').offset().left + element_width/2)
+      element = $(@)
+      that.options.dispatcher.trigger 'overview_position_change', 1 - element.scrollLeft() / element.width()
 
     # bind the overview to viewport changes
     @options.dispatcher.on 'viewport_scrollstop', ->
-
+      return
       # if the first of this elements is the global first
       if _.first(arguments[0]).model.get("date") == that.model.start
         that.jump_to moment(that.model.start), true
@@ -89,9 +89,21 @@ window.yat.OverviewView = class extends Backbone.View
 
         that.jump_to moment(arguments[0][index].model.get("date")), true
 
-    # bind the overview to viewport changes
-    @options.dispatcher.on 'navigation_position_change', (date) ->
-      that.jump_to date, false
+    # bind the overview to navigation changes
+    @options.dispatcher.on 'navigation_position_change', (percentage) ->
+      that.jump_to_percentage percentage, false
+
+  # jumps to a specific position expressed as percentage
+  jump_to_percentage: (percentage, animate)->
+
+    left = @get_offset_for_percentage(percentage)
+    width = $('.yat-current-position').width()
+    if animate
+      @$el.find('.yat-current-position').animate({
+        scrollLeft: (width - left)
+      }, @options.animation_duration)
+    else
+      @$el.find('.yat-current-position').scrollLeft (width - left)
 
   # jumps to the date
   jump_to: (date, animate)->
@@ -104,6 +116,11 @@ window.yat.OverviewView = class extends Backbone.View
       }, @options.animation_duration)
     else
       @$el.find('.yat-current-position').scrollLeft (width - left)
+
+  # get pixel for a position expressed as percentage
+  get_offset_for_percentage: (percentage)->
+    width = $('.yat-current-position').width()
+    percentage * width
 
   # get pixel for date
   get_offset_for_date: (date)->
@@ -122,7 +139,3 @@ window.yat.OverviewView = class extends Backbone.View
     end = moment(@model.end)
 
     moment(start).add( end.diff(start) * (offset / width) ).startOf('day')
-
-
-
-

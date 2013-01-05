@@ -61,3 +61,17 @@ window.yat.NavigationViewManager = class
     r = moment(date).clone().diff(@startEnd.start, 'days')
     d = Math.round(r / (1 + (widthInDays / (daysTotal - widthInDays))))
     d * @pixelPerDay
+
+  get_percentage_for_offset: (offset) ->
+    start = moment(@startEnd.start).clone()
+    end = moment(@startEnd.end).clone()
+    daysTotal = end.diff(start, 'days')
+    console.log 'bla', offset, daysTotal, @pixelPerDay, offset / (daysTotal * @pixelPerDay)
+    offset / (daysTotal * @pixelPerDay)
+
+  get_offset_for_percentage: (percentage) ->
+    start = moment(@startEnd.start).clone()
+    end = moment(@startEnd.end).clone()
+    daysTotal = end.diff(start, 'days')
+    daysTotal * @pixelPerDay * percentage
+

@@ -60,6 +60,23 @@
       return d * this.pixelPerDay;
     };
 
+    _Class.prototype.get_percentage_for_offset = function(offset) {
+      var daysTotal, end, start;
+      start = moment(this.startEnd.start).clone();
+      end = moment(this.startEnd.end).clone();
+      daysTotal = end.diff(start, 'days');
+      console.log('bla', offset, daysTotal, this.pixelPerDay, offset / (daysTotal * this.pixelPerDay));
+      return offset / (daysTotal * this.pixelPerDay);
+    };
+
+    _Class.prototype.get_offset_for_percentage = function(percentage) {
+      var daysTotal, end, start;
+      start = moment(this.startEnd.start).clone();
+      end = moment(this.startEnd.end).clone();
+      daysTotal = end.diff(start, 'days');
+      return daysTotal * this.pixelPerDay * percentage;
+    };
+
     return _Class;
 
   })();

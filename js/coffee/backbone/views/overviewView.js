@@ -61,6 +61,7 @@
       this.$el.html(overview);
       this.$el.append(selection);
       selection.parent().bind('mouseup', function(event) {
+        return;
         return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
       });
       that.options.dispatcher.on('overview_jump_to', function() {
@@ -72,13 +73,13 @@
         return that.jump_to(arguments[0], animate);
       });
       this.$el.find('.yat-current-position').bind('scrollstop', function() {
-        var element_width, pos_left;
-        pos_left = $('.yat-position-inner').offset().left;
-        element_width = $('.yat-position-inner').width();
-        return that.options.dispatcher.trigger('overview_position_change', that.get_date_for_offset(pos_left - $('.yat-current-position').offset().left + element_width / 2));
+        var element;
+        element = $(this);
+        return that.options.dispatcher.trigger('overview_position_change', 1 - element.scrollLeft() / element.width());
       });
       this.options.dispatcher.on('viewport_scrollstop', function() {
         var index;
+        return;
         if (_.first(arguments[0]).model.get("date") === that.model.start) {
           return that.jump_to(moment(that.model.start), true);
         } else if (_.last(arguments[0]).model.get("date") === that.model.end) {
@@ -92,9 +93,22 @@
           return that.jump_to(moment(arguments[0][index].model.get("date")), true);
         }
       });
-      return this.options.dispatcher.on('navigation_position_change', function(date) {
-        return that.jump_to(date, false);
+      return this.options.dispatcher.on('navigation_position_change', function(percentage) {
+        return that.jump_to_percentage(percentage, false);
       });
+    };
+
+    _Class.prototype.jump_to_percentage = function(percentage, animate) {
+      var left, width;
+      left = this.get_offset_for_percentage(percentage);
+      width = $('.yat-current-position').width();
+      if (animate) {
+        return this.$el.find('.yat-current-position').animate({
+          scrollLeft: width - left
+        }, this.options.animation_duration);
+      } else {
+        return this.$el.find('.yat-current-position').scrollLeft(width - left);
+      }
     };
 
     _Class.prototype.jump_to = function(date, animate) {
@@ -108,6 +122,12 @@
       } else {
         return this.$el.find('.yat-current-position').scrollLeft(width - left);
       }
+    };
+
+    _Class.prototype.get_offset_for_percentage = function(percentage) {
+      var width;
+      width = $('.yat-current-position').width();
+      return percentage * width;
     };
 
     _Class.prototype.get_offset_for_date = function(date) {
