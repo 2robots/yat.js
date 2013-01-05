@@ -12,7 +12,7 @@ _viewportPos =
   left: 0
   right: 0
 
-_lastElements = [-10000, -10000, -10000]
+_lastElements = []
 
 # The item is one "event" at a specific time on the timeline
 window.yat.NavigationView = class extends Backbone.View
@@ -70,6 +70,7 @@ window.yat.NavigationView = class extends Backbone.View
       offset = that.mainElement.scrollLeft()
       that.scrollOffset = offset
       percentage = that.viewManager.get_percentage_for_offset offset
+      #percentage = offset / _.max(_lastElements)
       that.options.dispatcher.trigger 'navigation_position_change', percentage
 
     # bind the overview to viewport changes
@@ -140,8 +141,84 @@ window.yat.NavigationView = class extends Backbone.View
 
     navElement
 
+  repositionElements: (elements) ->
+    that = @
+    window.setTimeout(->
+      for item in elements
+        if _lastElements.length > 4
+          _lastElements.shift()
+#        line = 0
+#        position = item.position
+#        if _lastElements[line] >= position
+#          # there's not enough space in the first line --> reposition element
+#          while _lastElements[line] >= position && line < 3
+#            line++
+#          if line > 2
+#            position = _.min(_lastElements)
+#            line = _.indexOf(_lastElements, position)
+#        _lastElements[line] = position + item.view.width() + 5
+#        item.view.$el.css('top', line * that.options.position.top + 'em')
+#        item.view.$el.css('left', position + 'px')
+        item.pos = {
+          left: item.position,
+          top: 0,
+          height: parseInt(item.view.$el.css('height'), 10)
+          width: parseInt(item.view.$el.css('width'), 10)
+        }
+        item.pos.nextLeft = item.pos.left + item.pos.width + 10
+        item.pos.nextTop = ->
+          @top + @height + 10
+
+
+        if _lastElements.length > 0
+          maxLeft = _.max _lastElements, (it) ->
+            it.pos.nextLeft
+          maxLeft = maxLeft.pos.nextLeft
+        else
+          maxLeft = 0
+
+        if item.pos.left < maxLeft
+          if _lastElements.length > 0
+            maxTop = _.max _lastElements, (it) ->
+              if item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left
+                it.pos.nextTop()
+              else
+                0
+            if typeof maxTop == 'object'
+              maxTop = maxTop.pos.nextTop()
+            maxTop = Math.max(maxTop, 0)
+            item.pos.top = maxTop
+
+            if item.pos.nextTop() > 110
+              item.pos.top = 0
+              firstLineItem = _.find _lastElements, (it) ->
+                it.pos.top == 0
+              if typeof firstLineItem == 'object'
+                item.pos.left = firstLineItem.pos.nextLeft
+            
+            relevantItems = _.filter _lastElements, (it) ->
+              item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left
+
+            relevantItems = _.sortBy relevantItems, (it) ->
+              it.pos.top
+
+            if relevantItems.length > 0
+              console.log relevantItems.length
+              leftMost = _.min relevantItems, (it) ->
+                it.pos.nextLeft
+              item.pos.left = leftMost.pos.nextLeft
+              item.pos.top = leftMost.pos.top
+
+        item.view.$el.css('left', item.pos.left + 'px')
+        item.view.$el.css('top', item.pos.top + 'px')
+
+        _lastElements.push(item)
+    , 0)
+
+
+
   # reposition an element next to last elements
-  repositionElement: (navElement) ->
+  repositionElement2: (navElement) ->
 
     element = navElement.$el
     prev = $(element).prev()
@@ -211,7 +288,7 @@ window.yat.NavigationView = class extends Backbone.View
 
     return ret
 
-  repositionElements: (elements) ->
+  repositionElements2: (elements) ->
 
     that = @
     window.setTimeout(->

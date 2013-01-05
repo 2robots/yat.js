@@ -11,7 +11,7 @@
     right: 0
   };
 
-  _lastElements = [-10000, -10000, -10000];
+  _lastElements = [];
 
   window.yat.NavigationView = (function(_super) {
     var mainElement;
@@ -138,7 +138,83 @@
       return navElement;
     };
 
-    _Class.prototype.repositionElement = function(navElement) {
+    _Class.prototype.repositionElements = function(elements) {
+      var that;
+      that = this;
+      return window.setTimeout(function() {
+        var firstLineItem, item, leftMost, maxLeft, maxTop, relevantItems, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = elements.length; _i < _len; _i++) {
+          item = elements[_i];
+          if (_lastElements.length > 4) {
+            _lastElements.shift();
+          }
+          item.pos = {
+            left: item.position,
+            top: 0,
+            height: parseInt(item.view.$el.css('height'), 10),
+            width: parseInt(item.view.$el.css('width'), 10)
+          };
+          item.pos.nextLeft = item.pos.left + item.pos.width + 10;
+          item.pos.nextTop = function() {
+            return this.top + this.height + 10;
+          };
+          if (_lastElements.length > 0) {
+            maxLeft = _.max(_lastElements, function(it) {
+              return it.pos.nextLeft;
+            });
+            maxLeft = maxLeft.pos.nextLeft;
+          } else {
+            maxLeft = 0;
+          }
+          if (item.pos.left < maxLeft) {
+            if (_lastElements.length > 0) {
+              maxTop = _.max(_lastElements, function(it) {
+                if (item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left) {
+                  return it.pos.nextTop();
+                } else {
+                  return 0;
+                }
+              });
+              if (typeof maxTop === 'object') {
+                maxTop = maxTop.pos.nextTop();
+              }
+              maxTop = Math.max(maxTop, 0);
+              item.pos.top = maxTop;
+              if (item.pos.nextTop() > 110) {
+                item.pos.top = 0;
+                firstLineItem = _.find(_lastElements, function(it) {
+                  return it.pos.top === 0;
+                });
+                if (typeof firstLineItem === 'object') {
+                  item.pos.left = firstLineItem.pos.nextLeft;
+                }
+              }
+              relevantItems = _.filter(_lastElements, function(it) {
+                return item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left;
+              });
+              relevantItems = _.sortBy(relevantItems, function(it) {
+                return it.pos.top;
+              });
+              if (relevantItems.length > 0) {
+                console.log(relevantItems.length);
+                leftMost = _.min(relevantItems, function(it) {
+                  return it.pos.nextLeft;
+                });
+                item.pos.left = leftMost.pos.nextLeft;
+                item.pos.top = leftMost.pos.top;
+              }
+            }
+          }
+          item.view.$el.css('left', item.pos.left + 'px');
+          item.view.$el.css('top', item.pos.top + 'px');
+          _results.push(_lastElements.push(item));
+        }
+        return _results;
+      }, 0);
+    };
+
+    _Class.prototype.repositionElement2 = function(navElement) {
       var distance, distance_to_prev, element, height, interval, last_index, last_model, model, next, offset_left, offset_top, parent_height, prev;
       element = navElement.$el;
       prev = $(element).prev();
@@ -201,7 +277,7 @@
       return ret;
     };
 
-    _Class.prototype.repositionElements = function(elements) {
+    _Class.prototype.repositionElements2 = function(elements) {
       var that;
       that = this;
       return window.setTimeout(function() {
