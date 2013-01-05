@@ -36,6 +36,7 @@
 
     _Class.prototype.initialize = function() {
       var navlinks;
+      this.options.dispatcher.trigger('load_component_start');
       this.viewManager = new window.yat.NavigationViewManager(this.model);
       this.elementList = $(window.yat.templates.timelineNavigationElementList());
       this.mainElement = $("<div class='yat-inner' />");
@@ -205,8 +206,7 @@
       var that;
       that = this;
       return window.setTimeout(function() {
-        var item, line, position, _i, _len, _results;
-        _results = [];
+        var item, line, position, _i, _len;
         for (_i = 0, _len = elements.length; _i < _len; _i++) {
           item = elements[_i];
           line = 0;
@@ -222,9 +222,9 @@
           }
           _lastElements[line] = position + item.view.width() + 5;
           item.view.$el.css('top', line * that.options.position.top + 'em');
-          _results.push(item.view.$el.css('left', position + 'px'));
+          item.view.$el.css('left', position + 'px');
         }
-        return _results;
+        return that.options.dispatcher.trigger('load_component_end');
       }, 0);
     };
 

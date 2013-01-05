@@ -31,6 +31,7 @@ window.yat.NavigationView = class extends Backbone.View
   className: 'yat-navigation'
 
   initialize: ->
+    @options.dispatcher.trigger 'load_component_start'
     @viewManager = new window.yat.NavigationViewManager(@model)
     @elementList = $(window.yat.templates.timelineNavigationElementList())
     @mainElement = $("<div class='yat-inner' />")
@@ -228,6 +229,8 @@ window.yat.NavigationView = class extends Backbone.View
         _lastElements[line] = position + item.view.width() + 5
         item.view.$el.css('top', line * that.options.position.top + 'em')
         item.view.$el.css('left', position + 'px')
+
+      that.options.dispatcher.trigger 'load_component_end'
     , 0)
 
   addElement: ->

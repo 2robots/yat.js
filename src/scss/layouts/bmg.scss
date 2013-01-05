@@ -35,6 +35,14 @@ $height: 500px;
   margin: 20px 5px;
   @include box-shadow(0 0 5px 0 $grey1);
 
+  &.loading {
+    background: url("../img/loading.gif") no-repeat center center;
+
+    div, a, ol, ul {
+      opacity: 0;
+    }
+  }
+
   .yat-fullscreen-start, .yat-fullscreen-end {
     width: 20px;
     height: 20px;
@@ -108,6 +116,23 @@ $navigation-height: 150px;
   }
 }
 
+.yat-timeline {
+  .yat-navigation {
+    background: url("../img/navigation_bg.png") repeat-x center bottom;
+
+    .yat-navlinks {
+      .yat-left, .yat-right {
+        top: 40px;
+        bottom: 20px;
+        background-image: url("../img/grad_left_dark.png");
+      }
+
+      .yat-right {
+        background-image: url("../img/grad_right_dark.png");
+      }
+    }
+  }
+}
 
 /**
  * TIMELINE OVERVIEW SETTINGS
@@ -264,11 +289,11 @@ $viewport-element-outer-height: 82px;
   }
 
   .yat-left {
-    left: 20px;
+    left: 25px;
   }
 
   .yat-right {
-    right: 20px;
+    right: 25px;
     background: url("../img/grad_right.png") repeat-y;
 
     a {

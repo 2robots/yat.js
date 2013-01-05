@@ -38,6 +38,7 @@ window.yat.ViewportView = class extends Backbone.View
   render: ->
 
     that = @
+    that.options.dispatcher.trigger 'load_component_start'
 
     # get viewport element list
     viewport = $(window.yat.templates.timelineViewportElementList())
@@ -62,6 +63,7 @@ window.yat.ViewportView = class extends Backbone.View
 
       _.times that.options.initial_element_count, (->
         that.insert_next_element()
+        that.options.dispatcher.trigger 'load_component_end'
       )
     ), 10
 

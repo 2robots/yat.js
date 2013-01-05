@@ -25,6 +25,8 @@
 
     _Class.prototype.fullscreen_button_end = void 0;
 
+    _Class.prototype.compontent_load_counter = 0;
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -32,42 +34,54 @@
     _Class.prototype.render = function() {
       var that;
       that = this;
-      this.options.id_prefix = 'table' + _.random(0, 1000);
       this.container = $(window.yat.templates.timelineContainer());
-      this.viewport = new window.yat.ViewportView({
-        model: this.model,
-        dispatcher: this.options.dispatcher,
-        id_prefix: this.options.id_prefix
+      this.container.addClass('loading');
+      that.options.dispatcher.on('load_component_start', function() {
+        return that.compontent_load_counter++;
       });
-      this.overview = new window.yat.OverviewView({
-        model: this.model.getStartEnd(),
-        dispatcher: this.options.dispatcher
+      that.options.dispatcher.on('load_component_end', function() {
+        that.compontent_load_counter--;
+        if (that.compontent_load_counter <= 0) {
+          return that.container.removeClass('loading');
+        }
       });
-      this.navigation = new window.yat.NavigationView({
-        model: this.model,
-        dispatcher: this.options.dispatcher
-      });
-      this.navigation.$el.append(this.overview.$el);
-      this.container.children('.yat-timeline-inner1').append(this.navigation.$el);
-      this.container.children('.yat-timeline-inner1').append(this.viewport.$el);
-      this.fullscreen_button = $(window.yat.templates.timelineFullScreen());
-      this.fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd());
-      this.fullscreen_button_end.hide();
-      this.fullscreen_button.click(function() {
-        return that.options.dispatcher.trigger('fullscreen_start');
-      });
-      this.fullscreen_button_end.click(function() {
-        return that.options.dispatcher.trigger('fullscreen_end');
-      });
-      this.options.dispatcher.on('fullscreen_start', function() {
-        return that.fullscreen_start();
-      });
-      this.options.dispatcher.on('fullscreen_end', function() {
-        return that.fullscreen_end();
-      });
-      this.container.append(this.fullscreen_button);
-      this.container.append(this.fullscreen_button_end);
-      return that.$el.append(this.container);
+      this.$el.append(that.container);
+      return window.setTimeout((function() {
+        that.options.id_prefix = 'table' + _.random(0, 1000);
+        that.viewport = new window.yat.ViewportView({
+          model: that.model,
+          dispatcher: that.options.dispatcher,
+          id_prefix: that.options.id_prefix
+        });
+        that.overview = new window.yat.OverviewView({
+          model: that.model.getStartEnd(),
+          dispatcher: that.options.dispatcher
+        });
+        that.navigation = new window.yat.NavigationView({
+          model: that.model,
+          dispatcher: that.options.dispatcher
+        });
+        that.navigation.$el.append(that.overview.$el);
+        that.container.children('.yat-timeline-inner1').append(that.navigation.$el);
+        that.container.children('.yat-timeline-inner1').append(that.viewport.$el);
+        that.fullscreen_button = $(window.yat.templates.timelineFullScreen());
+        that.fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd());
+        that.fullscreen_button_end.hide();
+        that.fullscreen_button.click(function() {
+          return that.options.dispatcher.trigger('fullscreen_start');
+        });
+        that.fullscreen_button_end.click(function() {
+          return that.options.dispatcher.trigger('fullscreen_end');
+        });
+        that.options.dispatcher.on('fullscreen_start', function() {
+          return that.fullscreen_start();
+        });
+        that.options.dispatcher.on('fullscreen_end', function() {
+          return that.fullscreen_end();
+        });
+        that.container.append(that.fullscreen_button);
+        return that.container.append(that.fullscreen_button_end);
+      }), 1);
     };
 
     _Class.prototype.fullscreen_start = function() {
