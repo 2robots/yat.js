@@ -82,7 +82,9 @@
       this.$el.find('.yat-current-position').scroll(function() {
         var offset;
         offset = that.get_percentage_for_offset($(this).scrollLeft());
-        return that.options.dispatcher.trigger('overview_position_change', offset);
+        if (that.scrollLeft !== $(this).scrollLeft()) {
+          return that.options.dispatcher.trigger('overview_position_change', offset);
+        }
       });
       return this.options.dispatcher.on('navigation_position_change', function(percentage) {
         return that.jump_to_percentage(percentage, false);
@@ -93,6 +95,7 @@
       var left, width;
       left = this.get_offset_for_percentage(percentage);
       width = $('.yat-current-position').width();
+      this.scrollLeft = Math.floor(width - left);
       if (animate) {
         return this.$el.find('.yat-current-position').animate({
           scrollLeft: width - left

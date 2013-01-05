@@ -74,7 +74,8 @@ window.yat.OverviewView = class extends Backbone.View
 
     @$el.find('.yat-current-position').scroll ->
       offset = that.get_percentage_for_offset $(@).scrollLeft()
-      that.options.dispatcher.trigger 'overview_position_change', offset
+      if that.scrollLeft != $(@).scrollLeft()
+        that.options.dispatcher.trigger 'overview_position_change', offset
 
     # bind the overview to navigation changes
     @options.dispatcher.on 'navigation_position_change', (percentage) ->
@@ -85,6 +86,7 @@ window.yat.OverviewView = class extends Backbone.View
 
     left = @get_offset_for_percentage(percentage)
     width = $('.yat-current-position').width()
+    @scrollLeft = Math.floor(width - left)
     if animate
       @$el.find('.yat-current-position').animate({
         scrollLeft: (width - left)
