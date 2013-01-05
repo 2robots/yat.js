@@ -24,6 +24,7 @@
     _Class.prototype.current_date = void 0;
 
     _Class.prototype.initialize = function() {
+      this.scrollLeft = 0;
       return this.render();
     };
 
@@ -78,26 +79,10 @@
         }
         return that.jump_to(arguments[0], animate);
       });
-      this.$el.find('.yat-current-position').bind('scrollstop', function() {
-        var element;
-        element = $(this);
-        return that.options.dispatcher.trigger('overview_position_change', 1 - element.scrollLeft() / element.width());
-      });
-      this.options.dispatcher.on('viewport_scrollstop', function() {
-        var index;
-        return;
-        if (_.first(arguments[0]).model.get("date") === that.model.start) {
-          return that.jump_to(moment(that.model.start), true);
-        } else if (_.last(arguments[0]).model.get("date") === that.model.end) {
-          return that.jump_to(moment(that.model.end), true);
-        } else {
-          if (arguments[0].length % 2 !== 0) {
-            index = (arguments[0].length - 1) / 2;
-          } else {
-            index = arguments[0].length / 2;
-          }
-          return that.jump_to(moment(arguments[0][index].model.get("date")), true);
-        }
+      this.$el.find('.yat-current-position').scroll(function() {
+        var offset;
+        offset = that.get_percentage_for_offset($(this).scrollLeft());
+        return that.options.dispatcher.trigger('overview_position_change', offset);
       });
       return this.options.dispatcher.on('navigation_position_change', function(percentage) {
         return that.jump_to_percentage(percentage, false);
@@ -129,6 +114,12 @@
         this.$el.find('.yat-current-position').scrollLeft(width - left);
       }
       return this.current_date = date;
+    };
+
+    _Class.prototype.get_percentage_for_offset = function(offset) {
+      var width;
+      width = $('.yat-current-position').width();
+      return 1 - (offset / width);
     };
 
     _Class.prototype.get_offset_for_percentage = function(percentage) {

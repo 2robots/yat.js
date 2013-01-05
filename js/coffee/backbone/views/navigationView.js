@@ -57,15 +57,32 @@
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.$el.scrollLeft()));
       });
       this.$el.scroll(function() {
-        var percentage;
-        percentage = that.viewManager.get_percentage_for_offset(that.$el.scrollLeft());
+        var offset, percentage;
+        offset = that.$el.scrollLeft();
+        that.scrollOffset = offset;
+        percentage = that.viewManager.get_percentage_for_offset(offset);
         return that.options.dispatcher.trigger('navigation_position_change', percentage);
+      });
+      this.options.dispatcher.on('viewport_scrollstop', function() {
+        var index;
+        if (_.first(arguments[0]).model.get("date") === that.model.start) {
+          return that.jump_to(moment(that.model.start), true);
+        } else if (_.last(arguments[0]).model.get("date") === that.model.end) {
+          return that.jump_to(moment(that.model.end), true);
+        } else {
+          if (arguments[0].length % 2 !== 0) {
+            index = (arguments[0].length - 1) / 2;
+          } else {
+            index = arguments[0].length / 2;
+          }
+          return that.jump_to(moment(arguments[0][index].model.get("date")), true);
+        }
       });
       this.options.dispatcher.on('navigation_position_change', function() {
         return that._updateViewportPos();
       });
       return this.options.dispatcher.on('overview_position_change', function(percentage) {
-        return that.jump_to_percentage(percentage, true);
+        return that.jump_to_percentage(percentage, false);
       });
     };
 

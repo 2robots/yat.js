@@ -42,7 +42,7 @@
       start = moment(this.startEnd.start).clone();
       end = moment(this.startEnd.end).clone();
       daysTotal = end.diff(start, 'days');
-      days = Math.round(offset / this.pixelPerDay);
+      days = offset / this.pixelPerDay;
       widthInDays = Math.round(this.viewportPos.width / this.pixelPerDay);
       days += (days / (daysTotal - widthInDays)) * widthInDays;
       return start.add('days', days);
@@ -65,7 +65,6 @@
       start = moment(this.startEnd.start).clone();
       end = moment(this.startEnd.end).clone();
       daysTotal = end.diff(start, 'days');
-      console.log('bla', offset, daysTotal, this.pixelPerDay, offset / (daysTotal * this.pixelPerDay));
       return offset / (daysTotal * this.pixelPerDay);
     };
 
