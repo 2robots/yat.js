@@ -24,5 +24,8 @@ window.yat.NavigationElementView = class extends Backbone.View
   render: ->
     @$el.append(window.yat.templates.timelineNavigationElement {shorttitle: @model.get('shorttitle'), linkHref: '#'})
 
+    if @model.get('category') != undefined
+      @$el.addClass 'cat-' + @model.get('category')
+
   width: ->
     @$el.width()

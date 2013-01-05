@@ -27,10 +27,13 @@
     };
 
     _Class.prototype.render = function() {
-      return this.$el.append(window.yat.templates.timelineNavigationElement({
+      this.$el.append(window.yat.templates.timelineNavigationElement({
         shorttitle: this.model.get('shorttitle'),
         linkHref: '#'
       }));
+      if (this.model.get('category') !== void 0) {
+        return this.$el.addClass('cat-' + this.model.get('category'));
+      }
     };
 
     _Class.prototype.width = function() {

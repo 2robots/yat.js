@@ -24,7 +24,9 @@
     _Class.prototype.options = {
       position: {
         top: '2.5'
-      }
+      },
+      vertical_offset: 5,
+      horizontal_offset: 5
     };
 
     _Class.prototype.className = 'yat-inner';
@@ -85,15 +87,16 @@
     };
 
     _Class.prototype.render = function() {
-      var elements, item;
+      var elements, item, _results;
       this._updateViewportPos();
       elements = [];
+      _results = [];
       while (this.viewManager.hasRenderCandidate()) {
         item = this.viewManager.getNextElement();
         item.view = this.renderMore(item);
-        elements.push(item);
+        _results.push(elements.push(item));
       }
-      return this.repositionElements(elements);
+      return _results;
     };
 
     _Class.prototype.renderMore = function(item) {
@@ -104,7 +107,52 @@
         dispatcher: that.options.dispatcher
       });
       this.elementList.append(navElement.$el);
+      setTimeout((function() {
+        return that.repositionElement(navElement);
+      }), 1);
       return navElement;
+    };
+
+    _Class.prototype.repositionElement = function(navElement) {
+      var distance, distance_to_prev, element, height, interval, last_index, last_model, model, offset_left, offset_top, parent_height, prev;
+      element = navElement.$el;
+      prev = $(element).prev();
+      if (prev[0] !== void 0) {
+        model = navElement.model;
+        last_index = _.indexOf(this.model.models, model) - 1;
+        last_model = this.model.at(last_index);
+        interval = Math.abs(moment(model.get("date")).diff(last_model.get("date"), 'days'));
+        this.startEnd = this.model.getStartEnd();
+        distance = Math.abs(moment(this.startEnd.start).diff(this.startEnd.end, 'days'));
+        distance_to_prev = parseInt(((this.model.length * element.width() / distance) * interval) / 10, 10);
+        height = prev.height();
+        parent_height = prev.parent().height();
+        offset_top = prev.position().top;
+        offset_left = prev.position().left;
+        if (offset_top >= (height + this.options.vertical_offset) && !this.is_there_an_element_at_this_positon(element.siblings(), offset_left, offset_top, element.width(), element.height())) {
+          element.css("top", prev.position().top - height - this.options.vertical_offset);
+          return element.css("left", prev.position().left + distance_to_prev);
+        } else if ((height * 2 + offset_top + this.options.vertical_offset) < parent_height) {
+          element.css("top", height + this.options.vertical_offset);
+          return element.css("left", prev.position().left + distance_to_prev);
+        } else {
+          if (prev.position().left + prev.width() > distance_to_prev) {
+            distance_to_prev = prev.position().left + prev.width();
+          }
+          return element.css("left", distance_to_prev + this.options.horizontal_offset);
+        }
+      }
+    };
+
+    _Class.prototype.is_there_an_element_at_this_positon = function(elements, left, top, width, height) {
+      elements.each(function(i, e) {
+        if ($(e).position().top <= top && $(e).position().top + height >= top) {
+          if ($(e).position().left <= left && $(e).position().left + width >= left) {
+            return true;
+          }
+        }
+      });
+      return false;
     };
 
     _Class.prototype.repositionElements = function(elements) {

@@ -70,6 +70,8 @@ $navigation-height: 150px;
 @mixin navigation-styles() {
   .yat-elements {
 
+    height: $navigation-height - 50;
+
     li {
       a {
         background: $white;
@@ -79,12 +81,24 @@ $navigation-height: 150px;
         float: left;
         text-decoration: none;
         color: $grey2;
-        max-width: 250px;
+        width: 16.7em;
+        max-height: 3em;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: 5px center;
+        padding-left: 24px;
 
         &.active, &:hover {
           border-color: $grey2;
         }
       }
+
+      &.cat-1 a { background-image: url("../categories/1.png"); }
+      &.cat-2 a { background-image: url("../categories/2.png"); background-position: 9px center; }
+      &.cat-3 a { background-image: url("../categories/3.png"); }
+      &.cat-4 a { background-image: url("../categories/4.png"); }
+      &.cat-5 a { background-image: url("../categories/5.png"); }
+      &.cat-6 a { background-image: url("../categories/6.png"); }
     }
   }
 
@@ -161,6 +175,12 @@ $viewport-element-outer-height: 82px;
     }
   }
 
+  &.overflow.important {
+    .yat-readmore {
+      display: none;
+    }
+  }
+
   .yat-element-inner {
     height: 100%;
     width: 100%;
@@ -200,7 +220,7 @@ $viewport-element-outer-height: 82px;
     width: 28px;
     height: 16px;
     background: url("../img/entry_arrow_bottom.png") no-repeat center bottom;
-    bottom: -16px;
+    bottom: -15px;
     left: 50%;
     margin-left: -14px;
   }
@@ -208,6 +228,10 @@ $viewport-element-outer-height: 82px;
   &.important {
     width: 40em;
     border-color: $grey2;
+
+    .yat-element-inner {
+      overflow-y: auto;
+    }
 
     span.arrow {
       background-image: url("../img/entry_arrow_bottom_important.png");

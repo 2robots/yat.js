@@ -150,14 +150,14 @@
   left: auto;
   right: 0;
 }
-/* line 234, ../../src/scss/layouts/bmg.scss */
+/* line 258, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   width: 50px;
   top: 30px;
   bottom: 30px;
   background: url("../img/grad_left.png") repeat-y;
 }
-/* line 240, ../../src/scss/layouts/bmg.scss */
+/* line 264, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   position: absolute;
   left: 0;
@@ -168,16 +168,16 @@
   overflow: hidden;
   background: url("../img/arrow_big_left.png") no-repeat left center;
 }
-/* line 252, ../../src/scss/layouts/bmg.scss */
+/* line 276, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left {
   left: 20px;
 }
-/* line 256, ../../src/scss/layouts/bmg.scss */
+/* line 280, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right {
   right: 20px;
   background: url("../img/grad_right.png") repeat-y;
 }
-/* line 260, ../../src/scss/layouts/bmg.scss */
+/* line 284, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right a {
   background-image: url("../img/arrow_big_right.png");
   background-position: center right;
@@ -221,21 +221,25 @@
   display: block;
   cursor: pointer;
 }
-/* line 159, ../../src/scss/layouts/bmg.scss */
+/* line 173, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.overflow:hover {
   border: 1px solid #666666;
 }
-/* line 164, ../../src/scss/layouts/bmg.scss */
+/* line 179, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.overflow.important .yat-readmore {
+  display: none;
+}
+/* line 184, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
   height: 100%;
   width: 100%;
   position: relative;
 }
-/* line 169, ../../src/scss/layouts/bmg.scss */
+/* line 189, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 {
   padding-top: 10px;
 }
-/* line 172, ../../src/scss/layouts/bmg.scss */
+/* line 192, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 h3 {
   line-height: 120%;
   padding: 1em 0 0.5em 0;
@@ -243,11 +247,11 @@
   font-weight: bold;
   font-size: 1.08em;
 }
-/* line 180, ../../src/scss/layouts/bmg.scss */
+/* line 200, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 img {
   height: 130px !important;
 }
-/* line 186, ../../src/scss/layouts/bmg.scss */
+/* line 206, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore {
   color: #2B3ABC;
   text-decoration: underline;
@@ -255,38 +259,42 @@
   padding-top: 25px;
   background: url("../img/grad_white.png") repeat-x left top;
 }
-/* line 193, ../../src/scss/layouts/bmg.scss */
+/* line 213, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore:hover {
   color: #850D19;
 }
-/* line 198, ../../src/scss/layouts/bmg.scss */
+/* line 218, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li span.arrow {
   position: absolute;
   width: 28px;
   height: 16px;
   background: url("../img/entry_arrow_bottom.png") no-repeat center bottom;
-  bottom: -16px;
+  bottom: -15px;
   left: 50%;
   margin-left: -14px;
 }
-/* line 208, ../../src/scss/layouts/bmg.scss */
+/* line 228, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important {
   width: 40em;
   border-color: #666666;
 }
-/* line 212, ../../src/scss/layouts/bmg.scss */
+/* line 232, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner {
+  overflow-y: auto;
+}
+/* line 236, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important span.arrow {
   background-image: url("../img/entry_arrow_bottom_important.png");
 }
-/* line 217, ../../src/scss/layouts/bmg.scss */
+/* line 241, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open {
   width: 40em;
 }
-/* line 220, ../../src/scss/layouts/bmg.scss */
+/* line 244, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner {
   overflow-y: auto;
 }
-/* line 225, ../../src/scss/layouts/bmg.scss */
+/* line 249, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .datetime {
   position: absolute;
   right: 0;
@@ -296,12 +304,12 @@
 .yat-timeline .yat-viewport .yat-elements li.open .yat-readmore {
   display: none;
 }
-/* line 140, ../../src/scss/layouts/bmg.scss */
+/* line 154, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-inner {
   left: 30px;
   right: 30px;
 }
-/* line 144, ../../src/scss/layouts/bmg.scss */
+/* line 158, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-inner .yat-elements {
   margin-left: 8px;
 }
@@ -347,7 +355,7 @@
 .yat-timeline .yat-navigation .yat-timeline-overview ol li.last span {
   margin-right: 0;
 }
-/* line 106, ../../src/scss/layouts/bmg.scss */
+/* line 120, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   border-bottom: 10px solid #cccccc;
   height: 1.2em;
@@ -356,11 +364,11 @@
   padding-left: 5px;
   color: #666666;
 }
-/* line 117, ../../src/scss/layouts/bmg.scss */
+/* line 131, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position {
   background: url("../img/op0.png") repeat-x left top;
 }
-/* line 121, ../../src/scss/layouts/bmg.scss */
+/* line 135, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-inner {
   height: 25px;
   margin-top: 1.2em;
@@ -405,9 +413,13 @@
 /* line 219, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li a {
   display: block;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
-/* line 74, ../../src/scss/layouts/bmg.scss */
+/* line 71, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements {
+  height: 100px;
+}
+/* line 76, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-elements li a {
   background: white;
   border: 1px solid #cccccc;
@@ -416,13 +428,43 @@
   float: left;
   text-decoration: none;
   color: #666666;
-  max-width: 250px;
+  width: 16.7em;
+  max-height: 3em;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  padding-left: 24px;
 }
-/* line 84, ../../src/scss/layouts/bmg.scss */
+/* line 91, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-elements li a.active, .yat-timeline .yat-navigation .yat-elements li a:hover {
   border-color: #666666;
 }
-/* line 91, ../../src/scss/layouts/bmg.scss */
+/* line 96, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-1 a {
+  background-image: url("../categories/1.png");
+}
+/* line 97, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-2 a {
+  background-image: url("../categories/2.png");
+  background-position: 9px center;
+}
+/* line 98, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-3 a {
+  background-image: url("../categories/3.png");
+}
+/* line 99, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-4 a {
+  background-image: url("../categories/4.png");
+}
+/* line 100, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-5 a {
+  background-image: url("../categories/5.png");
+}
+/* line 101, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-6 a {
+  background-image: url("../categories/6.png");
+}
+/* line 105, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-inner {
   left: 30px;
   right: 30px;
@@ -445,12 +487,12 @@
 }
 
 /* fallbacks for no-css3-browser */
-/* line 277, ../../src/scss/layouts/bmg.scss */
+/* line 301, ../../src/scss/layouts/bmg.scss */
 html.no-boxshadow .yat-timeline {
   border: 1px solid #cccccc;
 }
 
-/* line 283, ../../src/scss/layouts/bmg.scss */
+/* line 307, ../../src/scss/layouts/bmg.scss */
 .yat-fullscreen {
   background: url("../img/op40.png") repeat;
 }
