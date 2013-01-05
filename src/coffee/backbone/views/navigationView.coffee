@@ -46,6 +46,7 @@ window.yat.NavigationView = class extends Backbone.View
   registerEventListener: ->
 
     that = @
+    startEnd = that.model.getStartEnd()
 
     # trigger events
 
@@ -60,14 +61,14 @@ window.yat.NavigationView = class extends Backbone.View
       that.options.dispatcher.trigger 'navigation_position_change', percentage
 
     # bind the overview to viewport changes
-    @options.dispatcher.on 'viewport_scrollstop', ->
+    @options.dispatcher.on 'viewport_scrollstop', (elements) ->
       # if the first of this elements is the global first
-      if _.first(arguments[0]).model.get("date") == that.model.start
-        that.jump_to moment(that.model.start), true
+      if _.first(arguments[0]).model.get("date") == startEnd.start
+        that.jump_to moment(startEnd.start), true
 
       # if the last of this elements is the global last
-      else if _.last(arguments[0]).model.get("date") == that.model.end
-        that.jump_to moment(that.model.end), true
+      else if _.last(arguments[0]).model.get("date") == startEnd.end
+        that.jump_to moment(startEnd.end), true
 
       # default take the middle one
       else
