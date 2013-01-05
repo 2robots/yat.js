@@ -114,7 +114,7 @@
     };
 
     _Class.prototype.repositionElement = function(navElement) {
-      var distance, distance_to_prev, element, height, interval, last_index, last_model, model, offset_left, offset_top, parent_height, prev;
+      var distance, distance_to_prev, element, height, interval, last_index, last_model, model, next, offset_left, offset_top, parent_height, prev;
       element = navElement.$el;
       prev = $(element).prev();
       if (prev[0] !== void 0) {
@@ -129,13 +129,26 @@
         parent_height = prev.parent().height();
         offset_top = prev.position().top;
         offset_left = prev.position().left;
-        if (offset_top >= (height + this.options.vertical_offset) && !this.is_there_an_element_at_this_positon(element.siblings(), offset_left, offset_top - height - this.options.vertical_offset, element.width(), element.height())) {
+        next = true;
+        if (offset_top >= (height + this.options.vertical_offset)) {
           element.css("top", prev.position().top - height - this.options.vertical_offset);
-          return element.css("left", prev.position().left + distance_to_prev);
-        } else if ((height * 2 + offset_top + this.options.vertical_offset) < parent_height) {
+          element.css("left", prev.position().left + distance_to_prev);
+          if (this.is_there_an_element_at_this_positon(element.siblings(), element)) {
+            next = true;
+          } else {
+            next = false;
+          }
+        }
+        if (next && (height * 2 + offset_top + this.options.vertical_offset) < parent_height) {
           element.css("top", height + this.options.vertical_offset);
-          return element.css("left", prev.position().left + distance_to_prev);
-        } else {
+          element.css("left", prev.position().left + distance_to_prev);
+          if (this.is_there_an_element_at_this_positon(element.siblings(), element)) {
+            next = true;
+          } else {
+            next = false;
+          }
+        }
+        if (next) {
           if (prev.position().left + prev.width() > distance_to_prev) {
             distance_to_prev = prev.position().left + prev.width();
           }
@@ -144,8 +157,10 @@
       }
     };
 
-    _Class.prototype.is_there_an_element_at_this_positon = function(elements, left, top, width, height) {
-      var ret;
+    _Class.prototype.is_there_an_element_at_this_positon = function(elements, element) {
+      var left, ret, top;
+      left = element.position().left;
+      top = element.position().top;
       ret = false;
       elements.each(function(i, e) {
         if ($(e).position().top <= top && $(e).position().top + $(e).height() >= top) {

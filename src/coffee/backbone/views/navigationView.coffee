@@ -126,37 +126,40 @@ window.yat.NavigationView = class extends Backbone.View
       offset_top = prev.position().top
       offset_left = prev.position().left
 
-
+      next = true
       # try to place it on top of last element
-      if (
-        offset_top >= (height + @options.vertical_offset) &&
-        !@is_there_an_element_at_this_positon(
-          element.siblings(),
-          offset_left,
-          offset_top - height - @options.vertical_offset,
-          element.width(),
-          element.height())
-      )
+      if offset_top >= (height + @options.vertical_offset)
         element.css("top", prev.position().top - height - @options.vertical_offset)
         element.css("left", prev.position().left + distance_to_prev)
 
+        if @is_there_an_element_at_this_positon(element.siblings(), element)
+          next = true
+        else
+          next = false
+
       # try to place it under last element
-      else if (height*2 + offset_top + @options.vertical_offset) < parent_height
+      if next && (height*2 + offset_top + @options.vertical_offset) < parent_height
         element.css("top", height + @options.vertical_offset)
         element.css("left", prev.position().left + distance_to_prev)
 
-      # try to place it next to last element
-      else
+        if @is_there_an_element_at_this_positon(element.siblings(), element)
+          next = true
+        else
+          next = false
 
+      # try to place it next to last element
+      if next
         if prev.position().left + prev.width() > distance_to_prev
           distance_to_prev = prev.position().left + prev.width()
-
         element.css("left", distance_to_prev + @options.horizontal_offset )
 
 
 
 
-  is_there_an_element_at_this_positon: (elements, left, top, width, height)->
+  is_there_an_element_at_this_positon: (elements, element)->
+
+    left = element.position().left
+    top = element.position().top
 
     ret = false
 
