@@ -112,7 +112,7 @@ window.yat.NavigationView = class extends Backbone.View
         !@is_there_an_element_at_this_positon(
           element.siblings(),
           offset_left,
-          offset_top,
+          offset_top - height - @options.vertical_offset,
           element.width(),
           element.height())
       )
@@ -136,13 +136,17 @@ window.yat.NavigationView = class extends Backbone.View
 
 
   is_there_an_element_at_this_positon: (elements, left, top, width, height)->
+
+    ret = false
+
     elements.each (i,e)->
 
-      if $(e).position().top <= top && $(e).position().top+height >= top
-        if $(e).position().left <= left && $(e).position().left+width >= left
-          return true
+      if $(e).position().top <= top && $(e).position().top+$(e).height() >= top
+        if $(e).position().left <= left && $(e).position().left+$(e).width() >= left
+          ret = true
+          return
 
-    return false
+    return ret
 
   repositionElements: (elements) ->
 

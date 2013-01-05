@@ -112,7 +112,7 @@
         parent_height = prev.parent().height();
         offset_top = prev.position().top;
         offset_left = prev.position().left;
-        if (offset_top >= (height + this.options.vertical_offset) && !this.is_there_an_element_at_this_positon(element.siblings(), offset_left, offset_top, element.width(), element.height())) {
+        if (offset_top >= (height + this.options.vertical_offset) && !this.is_there_an_element_at_this_positon(element.siblings(), offset_left, offset_top - height - this.options.vertical_offset, element.width(), element.height())) {
           element.css("top", prev.position().top - height - this.options.vertical_offset);
           return element.css("left", prev.position().left + distance_to_prev);
         } else if ((height * 2 + offset_top + this.options.vertical_offset) < parent_height) {
@@ -128,14 +128,16 @@
     };
 
     _Class.prototype.is_there_an_element_at_this_positon = function(elements, left, top, width, height) {
+      var ret;
+      ret = false;
       elements.each(function(i, e) {
-        if ($(e).position().top <= top && $(e).position().top + height >= top) {
-          if ($(e).position().left <= left && $(e).position().left + width >= left) {
-            return true;
+        if ($(e).position().top <= top && $(e).position().top + $(e).height() >= top) {
+          if ($(e).position().left <= left && $(e).position().left + $(e).width() >= left) {
+            ret = true;
           }
         }
       });
-      return false;
+      return ret;
     };
 
     _Class.prototype.repositionElements = function(elements) {
