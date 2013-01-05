@@ -47,6 +47,7 @@
     _Class.prototype.render = function() {
       var navlinks, that, viewport;
       that = this;
+      that.options.dispatcher.trigger('load_component_start');
       viewport = $(window.yat.templates.timelineViewportElementList());
       navlinks = $(window.yat.templates.timelineViewportNavlinks());
       this.$el.html(viewport);
@@ -58,7 +59,8 @@
       setTimeout((function() {
         that.$el.find('ol.yat-elements').css('width', 0);
         return _.times(that.options.initial_element_count, (function() {
-          return that.insert_next_element();
+          that.insert_next_element();
+          return that.options.dispatcher.trigger('load_component_end');
         }));
       }), 10);
       return this.registerEventListener();

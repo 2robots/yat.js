@@ -26,6 +26,8 @@
       position: {
         top: '2.5'
       },
+      id_prefix: '',
+      id_postfix: '',
       vertical_offset: 5,
       horizontal_offset: 5
     };
@@ -36,6 +38,7 @@
 
     _Class.prototype.initialize = function() {
       var navlinks;
+      this.options.dispatcher.trigger('load_component_start');
       this.viewManager = new window.yat.NavigationViewManager(this.model);
       this.elementList = $(window.yat.templates.timelineNavigationElementList());
       this.mainElement = $("<div class='yat-inner' />");
@@ -84,7 +87,7 @@
           } else {
             index = arguments[0].length / 2;
           }
-          return that.jump_to(moment(arguments[0][index].model.get("date")), true);
+          return that.jump_to_cid(arguments[0][index].model.cid, true);
         }
       });
       this.options.dispatcher.on('navigation_position_change', function() {
@@ -134,6 +137,7 @@
         model: item.model,
         dispatcher: that.options.dispatcher
       });
+      navElement.$el.attr("id", this.options.id_prefix + item.model.cid + this.options.id_postfix);
       this.elementList.append(navElement.$el);
       return navElement;
     };
@@ -281,8 +285,7 @@
       var that;
       that = this;
       return window.setTimeout(function() {
-        var item, line, position, _i, _len, _results;
-        _results = [];
+        var item, line, position, _i, _len;
         for (_i = 0, _len = elements.length; _i < _len; _i++) {
           item = elements[_i];
           line = 0;
@@ -298,9 +301,11 @@
           }
           _lastElements[line] = position + item.view.width() + 5;
           item.view.$el.css('top', line * that.options.position.top + 'em');
-          _results.push(item.view.$el.css('left', position + 'px'));
+          item.view.$el.css('left', position + 'px');
         }
-        return _results;
+        that.viewManager.paneWidth = position + item.view.$el.outerWidth() - that.$el.outerWidth();
+        that.viewManager.pixelPerDay = Math.round(that.viewManager.paneWidth / that.viewManager.interval);
+        return that.options.dispatcher.trigger('load_component_end');
       }, 0);
     };
 
@@ -327,6 +332,20 @@
         }, this.options.animation_duration);
       } else {
         return this.mainElement.scrollLeft(scrollLeft);
+      }
+    };
+
+    _Class.prototype.jump_to_cid = function(cid, animate) {
+      var scrollLeft;
+      if ($('#' + this.options.id_prefix + cid + this.options.id_postfix)[0] !== void 0) {
+        scrollLeft = $('#' + this.options.id_prefix + cid + this.options.id_postfix).position().left - this.$el.outerWidth() / 2;
+        if (animate) {
+          return this.mainElement.animate({
+            scrollLeft: scrollLeft
+          }, this.options.animation_duration);
+        } else {
+          return this.mainElement.scrollLeft(scrollLeft);
+        }
       }
     };
 

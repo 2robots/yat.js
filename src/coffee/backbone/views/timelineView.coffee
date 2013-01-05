@@ -21,56 +21,76 @@ window.yat.TimelineView = class extends Backbone.View
   fullscreen_button: undefined
   fullscreen_button_end: undefined
 
+  compontent_load_counter: 0
+
   initialize: ->
     @render()
 
   render: ->
     that = @
 
-    @options.id_prefix = 'table' + _.random(0, 1000)
-
     @container = $(window.yat.templates.timelineContainer())
 
-    @viewport = new window.yat.ViewportView {
-        model: @model,
-        dispatcher: @options.dispatcher,
-        id_prefix: @options.id_prefix
-    }
+    # LOADING
+    @container.addClass 'loading'
 
-    @overview = new window.yat.OverviewView {
-        model: @model.getStartEnd(),
-        dispatcher: @options.dispatcher
-    }
+    that.options.dispatcher.on 'load_component_start', ->
+      that.compontent_load_counter++
 
-    @navigation = new window.yat.NavigationView {
-      model: @model,
-      dispatcher: @options.dispatcher
-    }
-    @navigation.$el.append(@overview.$el)
+    that.options.dispatcher.on 'load_component_end', ->
+      that.compontent_load_counter--
 
-    @container.children('.yat-timeline-inner1').append(@navigation.$el)
-    @container.children('.yat-timeline-inner1').append(@viewport.$el)
+      if that.compontent_load_counter <= 0
+        that.container.removeClass 'loading'
 
-    @fullscreen_button = $(window.yat.templates.timelineFullScreen())
-    @fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd())
-    @fullscreen_button_end.hide()
+    @$el.append(that.container)
 
-    @fullscreen_button.click ->
-      that.options.dispatcher.trigger 'fullscreen_start'
+    window.setTimeout (->
+      that.options.id_prefix = 'table' + _.random(0, 1000)
 
-    @fullscreen_button_end.click ->
-      that.options.dispatcher.trigger 'fullscreen_end'
+      that.viewport = new window.yat.ViewportView {
+          model: that.model,
+          dispatcher: that.options.dispatcher,
+          id_prefix: that.options.id_prefix
+      }
 
-    @options.dispatcher.on 'fullscreen_start', ->
-      that.fullscreen_start()
+      that.overview = new window.yat.OverviewView {
+          model: that.model.getStartEnd(),
+          dispatcher: that.options.dispatcher
+      }
 
-    @options.dispatcher.on 'fullscreen_end', ->
-      that.fullscreen_end()
+      that.navigation = new window.yat.NavigationView {
+        model: that.model,
+        dispatcher: that.options.dispatcher,
+        id_prefix: that.options.id_prefix,
+        id_postfix: 'navigation'
+      }
+      that.navigation.$el.append(that.overview.$el)
 
-    @container.append @fullscreen_button
-    @container.append @fullscreen_button_end
+      that.container.children('.yat-timeline-inner1').append(that.navigation.$el)
+      that.container.children('.yat-timeline-inner1').append(that.viewport.$el)
 
-    that.$el.append(@container)
+      that.fullscreen_button = $(window.yat.templates.timelineFullScreen())
+      that.fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd())
+      that.fullscreen_button_end.hide()
+
+      that.fullscreen_button.click ->
+        that.options.dispatcher.trigger 'fullscreen_start'
+
+      that.fullscreen_button_end.click ->
+        that.options.dispatcher.trigger 'fullscreen_end'
+
+      that.options.dispatcher.on 'fullscreen_start', ->
+        that.fullscreen_start()
+
+      that.options.dispatcher.on 'fullscreen_end', ->
+        that.fullscreen_end()
+
+      that.container.append that.fullscreen_button
+      that.container.append that.fullscreen_button_end
+    ), 1
+
+
 
   fullscreen_start: ->
     that = @
