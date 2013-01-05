@@ -21,6 +21,10 @@
 
     _Class.prototype.fullscreen_placeholder = void 0;
 
+    _Class.prototype.fullscreen_button = void 0;
+
+    _Class.prototype.fullscreen_button_end = void 0;
+
     _Class.prototype.initialize = function() {
       return this.render();
     };
@@ -48,47 +52,60 @@
       this.navigation.append(this.navigationBar.$el);
       this.container.children('.yat-timeline-inner1').append(this.navigation);
       this.container.children('.yat-timeline-inner1').append(this.viewport.$el);
+      this.fullscreen_button = $(window.yat.templates.timelineFullScreen());
+      this.fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd());
+      this.fullscreen_button_end.hide();
+      this.fullscreen_button.click(function() {
+        return that.options.dispatcher.trigger('fullscreen_start');
+      });
+      this.fullscreen_button_end.click(function() {
+        return that.options.dispatcher.trigger('fullscreen_end');
+      });
+      this.options.dispatcher.on('fullscreen_start', function() {
+        return that.fullscreen_start();
+      });
+      this.options.dispatcher.on('fullscreen_end', function() {
+        return that.fullscreen_end();
+      });
+      this.container.append(this.fullscreen_button);
+      this.container.append(this.fullscreen_button_end);
       return that.$el.append(this.container);
     };
 
-    _Class.prototype.fullscreen = function() {
-      var current_element, that;
+    _Class.prototype.fullscreen_start = function() {
+      var container, current_element, that;
       that = this;
       current_element = that.viewport.getCurrentElement();
-      return setTimeout((function() {
-        var container;
-        that.$el.after('<div class="yat-fullscreen-placeholder" style="display:none" />');
-        that.fullscreen_placeholder = that.$el.next();
-        container = $('body').append('<div id="yat-fullscreen-' + that.options.id_prefix + '" />');
-        container.append(that.$el);
-        that.viewport.insert_prev_element();
-        that.viewport.insert_prev_element();
-        that.viewport.insert_prev_element();
-        that.viewport.insert_next_element();
-        that.viewport.insert_next_element();
-        that.viewport.insert_next_element();
-        that.viewport.disable_load_more_till_scrollend = true;
-        return that.viewport.jump_to(current_element);
-      }), 1);
+      that.$el.after('<div class="yat-fullscreen-placeholder" style="display:none" />');
+      that.fullscreen_placeholder = that.$el.next();
+      container = $('<div class="yat-fullscreen" id="yat-fullscreen-' + that.options.id_prefix + '" />');
+      $('body').append(container);
+      container.append(that.$el);
+      that.viewport.insert_prev_element(that.viewport.getCurrentElements().length + 2);
+      that.viewport.insert_next_element(that.viewport.getCurrentElements().length + 2);
+      that.viewport.disable_load_more_till_scrollend = true;
+      that.viewport.jump_to(current_element, true, (function() {
+        return that.viewport.disable_load_more_till_scrollend = false;
+      }));
+      that.fullscreen_button_end.show();
+      return that.fullscreen_button.hide();
     };
 
     _Class.prototype.fullscreen_end = function() {
       var current_element, that;
       that = this;
       current_element = that.viewport.getCurrentElement();
-      return setTimeout((function() {
-        that.fullscreen_placeholder.after(that.$el);
-        $('#yat-fullscreen-' + that.options.id_prefix).remove();
-        that.fullscreen_placeholder.remove();
-        that.viewport.insert_prev_element();
-        that.viewport.insert_prev_element();
-        that.viewport.insert_prev_element();
-        that.viewport.insert_next_element();
-        that.viewport.insert_next_element();
-        that.viewport.insert_next_element();
-        that.viewport.disable_load_more_till_scrollend = true;
-        return that.viewport.jump_to(current_element);
-      }), 1);
+      that.fullscreen_placeholder.after(that.$el);
+      $('#yat-fullscreen-' + that.options.id_prefix).remove();
+      that.fullscreen_placeholder.remove();
+      that.viewport.insert_prev_element(that.viewport.getCurrentElements().length + 2);
+      that.viewport.insert_next_element(that.viewport.getCurrentElements().length + 2);
+      that.viewport.disable_load_more_till_scrollend = true;
+      that.viewport.jump_to(current_element, true, (function() {
+        return that.viewport.disable_load_more_till_scrollend = false;
+      }));
+      that.fullscreen_button_end.hide();
+      return that.fullscreen_button.show();
     };
 
     return _Class;

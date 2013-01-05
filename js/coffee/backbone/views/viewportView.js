@@ -99,18 +99,14 @@
       that.options.dispatcher.on('viewport_prev', function() {
         var element;
         element = _.first(that.getCurrentElements()).prev();
-        that.insert_prev_element();
-        that.insert_prev_element();
-        that.insert_prev_element();
+        that.insert_prev_element(that.getCurrentElements().length + 2);
         that.disable_load_more_till_scrollend = true;
         return that.options.dispatcher.trigger('viewport_jump_to', element);
       });
       that.options.dispatcher.on('viewport_next', function() {
         var element;
         element = _.last(that.getCurrentElements()).next();
-        that.insert_next_element();
-        that.insert_next_element();
-        that.insert_next_element();
+        that.insert_next_element(that.getCurrentElements().length + 2);
         that.disable_load_more_till_scrollend = true;
         return that.options.dispatcher.trigger('viewport_jump_to', element);
       });
@@ -131,12 +127,8 @@
         position = _.indexOf(that.model.models, navigationView.model);
         if (that.not_rendered_yet[position] === false) {
           that.insert_element_at_position(position);
-          that.insert_prev_element();
-          that.insert_prev_element();
-          that.insert_prev_element();
-          that.insert_next_element();
-          that.insert_next_element();
-          that.insert_next_element();
+          that.insert_prev_element(that.getCurrentElements().length + 2);
+          that.insert_next_element(that.getCurrentElements().length + 2);
         }
         that.disable_load_more_till_scrollend = true;
         that.jump_to($('#' + that.options.id_prefix + navigationView.model.cid));
@@ -207,26 +199,40 @@
       return 0;
     };
 
-    _Class.prototype.insert_next_element = function() {
-      var el, index;
-      index = this.find_next_not_rendered_element();
-      if (index > 0) {
-        el = jQuery('#' + this.options.id_prefix + (this.model.at(index - 1)).cid);
-      } else {
-        el = void 0;
+    _Class.prototype.insert_next_element = function(count) {
+      var that;
+      that = this;
+      if (count === void 0) {
+        count = 1;
       }
-      return this.insert_element_at_position(index, void 0, el);
+      return _(count).times(function() {
+        var el, index;
+        index = that.find_next_not_rendered_element();
+        if (index > 0) {
+          el = jQuery('#' + that.options.id_prefix + (that.model.at(index - 1)).cid);
+        } else {
+          el = void 0;
+        }
+        return that.insert_element_at_position(index, void 0, el);
+      });
     };
 
-    _Class.prototype.insert_prev_element = function() {
-      var el, index;
-      index = this.find_prev_not_rendered_element();
-      if (index <= this.total_index) {
-        el = jQuery('#' + this.options.id_prefix + (this.model.at(index + 1)).cid);
-      } else {
-        el = void 0;
+    _Class.prototype.insert_prev_element = function(count) {
+      var that;
+      that = this;
+      if (count === void 0) {
+        count = 1;
       }
-      return this.insert_element_at_position(index, el, void 0);
+      return _(count).times(function() {
+        var el, index;
+        index = that.find_prev_not_rendered_element();
+        if (index <= that.total_index) {
+          el = jQuery('#' + that.options.id_prefix + (that.model.at(index + 1)).cid);
+        } else {
+          el = void 0;
+        }
+        return that.insert_element_at_position(index, el, void 0);
+      });
     };
 
     _Class.prototype.insert_element_at_position = function(position, before, after) {
@@ -281,17 +287,23 @@
     };
 
     _Class.prototype.jump_to = function() {
-      var container_width, element_width;
+      var cb, container_width, element_width;
       if (arguments[0][0] !== void 0) {
         container_width = this.$el.find('> .yat-inner').outerWidth();
         element_width = arguments[0].outerWidth() + parseInt(arguments[0].css("margin-left"), 10) + parseInt(arguments[0].css("margin-right"), 10);
+        cb = arguments[2];
         if (arguments[1] !== void 0 && arguments[1] === false) {
           this.$el.find('> .yat-inner').scrollLeft(arguments[0].position().left - (container_width / 2 - element_width / 2));
         } else {
           this.$el.find('> .yat-inner').animate({
             scrollLeft: arguments[0].position().left - (container_width / 2 - element_width / 2)
           }, {
-            duration: this.options.animation_duration
+            duration: this.options.animation_duration,
+            complete: function() {
+              if (cb !== void 0) {
+                return cb();
+              }
+            }
           });
         }
         this.not_rendered_yet_position = arguments[0].data("yat-position");

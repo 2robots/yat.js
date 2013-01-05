@@ -5,6 +5,8 @@
 
   window.yat.templates = {
     timelineContainer: _.template('<div class="yat-timeline"><div class="yat-timeline-inner1"></div></div>'),
+    timelineFullScreen: _.template('<a class="yat-fullscreen-start">Zur Vollansicht wechseln.</a>'),
+    timelineFullScreenEnd: _.template('<a class="yat-fullscreen-end">Zur Normalansicht wechseln.</a>'),
     timelineViewportElementList: _.template('<div class="yat-inner"><ol class="yat-elements"></ol></div>'),
     timelineViewportElement: _.template('<div class="yat-element-inner"><div class="yat-element-inner2"><%= content %></div></div><span class="arrow"></span>'),
     timelineViewportReadMore: _.template('<span class="yat-readmore">Mehr lesen</span>'),

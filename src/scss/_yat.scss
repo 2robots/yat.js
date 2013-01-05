@@ -12,7 +12,15 @@
 .yat-timeline {
   height: $height;
   position: relative;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
+
+  .yat-fullscreen-start, .yat-fullscreen-end {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    cursor: pointer;
+  }
 
   .yat-timeline-inner1 {
     position: absolute;
@@ -219,3 +227,22 @@
     @include navigation-styles();
   }
 }
+
+/* fullscreen container */
+.yat-fullscreen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .yat-timeline {
+    margin-top: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+
+
+

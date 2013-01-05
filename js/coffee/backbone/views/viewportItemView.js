@@ -26,7 +26,7 @@
       this.$el.html(window.yat.templates.timelineViewportElement(this.model.toJSON()));
       that = this;
       return setTimeout((function() {
-        if ($(that.$el).find('.yat-element-inner2').height() > $(that.$el).find('.yat-element-inner').height()) {
+        if ($(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 10)) {
           that.$el.addClass('overflow');
           return that.$el.append(window.yat.templates.timelineViewportReadMore);
         }
