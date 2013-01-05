@@ -222,7 +222,8 @@ window.yat.ViewportView = class extends Backbone.View
     scroll_l = @$el.find('> .yat-inner').scrollLeft()
     scroll_r = scroll_l + @$el.find('> .yat-inner').width()
 
-    current_elements = [];
+    alternative_elements = []
+    current_elements = []
 
     @$el.find('ol.yat-elements').children().each ->
 
@@ -233,10 +234,16 @@ window.yat.ViewportView = class extends Backbone.View
       if $(this).position().left >= scroll_l && ($(this).position().left + el_width) <= scroll_r
         current_elements.push($(this));
 
+      if $(this).position().left >= scroll_l-el_width && ($(this).position().left + el_width) <= scroll_r+el_width
+        alternative_elements.push($(this));
+
       if $(this).position().left > scroll_r
         return false;
 
-    current_elements
+    if current_elements.length > 0
+      current_elements
+    else
+      alternative_elements
 
   # get the current centered element
   getCurrentElement: ->
@@ -427,7 +434,10 @@ window.yat.ViewportView = class extends Backbone.View
     @change_list_width new_element_width - old_element_width, true
 
     # center the element
-    @options.dispatcher.trigger 'viewport_jump_to', element
+    @disable_load_more_till_scrollend = true
+    @jump_to element, true, (->
+      @disable_load_more_till_scrollend = false
+    )
 
 
 

@@ -37,20 +37,18 @@ window.yat.TimelineView = class extends Backbone.View
         id_prefix: @options.id_prefix
     }
 
-    @navigation = $(window.yat.templates.timelineNavigation())
     @overview = new window.yat.OverviewView {
         model: @model.getStartEnd(),
         dispatcher: @options.dispatcher
     }
 
-    @navigationBar = new window.yat.NavigationView {
+    @navigation = new window.yat.NavigationView {
       model: @model,
       dispatcher: @options.dispatcher
     }
-    @navigation.append(@overview.$el)
-    @navigation.append(@navigationBar.$el)
+    @navigation.$el.append(@overview.$el)
 
-    @container.children('.yat-timeline-inner1').append(@navigation)
+    @container.children('.yat-timeline-inner1').append(@navigation.$el)
     @container.children('.yat-timeline-inner1').append(@viewport.$el)
 
     @fullscreen_button = $(window.yat.templates.timelineFullScreen())

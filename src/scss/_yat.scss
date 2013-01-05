@@ -15,6 +15,10 @@
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
 
+  a {
+    outline:none;
+  }
+
   .yat-fullscreen-start, .yat-fullscreen-end {
     position: absolute;
     right: 2px;

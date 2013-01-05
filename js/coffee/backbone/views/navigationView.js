@@ -14,6 +14,7 @@
   _lastElements = [-10000, -10000, -10000];
 
   window.yat.NavigationView = (function(_super) {
+    var mainElement;
 
     __extends(_Class, _super);
 
@@ -29,23 +30,30 @@
       horizontal_offset: 5
     };
 
-    _Class.prototype.className = 'yat-inner';
+    mainElement = void 0;
+
+    _Class.prototype.className = 'yat-navigation';
 
     _Class.prototype.initialize = function() {
-      this.registerEventListener();
+      var navlinks;
       this.viewManager = new window.yat.NavigationViewManager(this.model);
       this.elementList = $(window.yat.templates.timelineNavigationElementList());
-      this.$el.html(this.elementList);
+      this.mainElement = $("<div class='yat-inner' />");
+      this.mainElement.append(this.elementList);
+      navlinks = $(window.yat.templates.timelineNavigationNavlinks());
+      this.$el.html(this.mainElement);
+      this.$el.append(navlinks);
+      this.registerEventListener();
       return this.render();
     };
 
     _Class.prototype._updateViewportPos = function() {
       var scrollLeft;
-      scrollLeft = this.$el.scrollLeft();
+      scrollLeft = this.mainElement.scrollLeft();
       _viewportPos = {
         left: scrollLeft,
-        right: scrollLeft + this.$el.width(),
-        width: this.$el.width()
+        right: scrollLeft + this.mainElement.width(),
+        width: this.mainElement.width()
       };
       return this.viewManager.updateViewport(_viewportPos);
     };
@@ -54,12 +62,12 @@
       var startEnd, that;
       that = this;
       startEnd = that.model.getStartEnd();
-      this.$el.bind('touchmove', function() {
-        return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.$el.scrollLeft()));
+      this.mainElement.bind('touchmove', function() {
+        return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.mainElement.scrollLeft()));
       });
-      this.$el.scroll(function() {
+      this.mainElement.scroll(function() {
         var offset, percentage;
-        offset = that.$el.scrollLeft();
+        offset = that.mainElement.scrollLeft();
         that.scrollOffset = offset;
         percentage = that.viewManager.get_percentage_for_offset(offset);
         return that.options.dispatcher.trigger('navigation_position_change', percentage);
@@ -82,22 +90,41 @@
       this.options.dispatcher.on('navigation_position_change', function() {
         return that._updateViewportPos();
       });
-      return this.options.dispatcher.on('overview_position_change', function(percentage) {
+      this.options.dispatcher.on('overview_position_change', function(percentage) {
         return that.jump_to_percentage(percentage, false);
+      });
+      this.$el.find('.yat-navlinks .yat-left a').click(function() {
+        return that.options.dispatcher.trigger('navigation_prev');
+      });
+      this.$el.find('.yat-navlinks .yat-right a').click(function() {
+        return that.options.dispatcher.trigger('navigation_next');
+      });
+      this.options.dispatcher.on('navigation_prev', function() {
+        var current_position, offset, percentage;
+        current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft());
+        offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2;
+        percentage = current_position - offset;
+        return that.jump_to_percentage(percentage, true);
+      });
+      return this.options.dispatcher.on('navigation_next', function() {
+        var current_position, offset, percentage;
+        current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft());
+        offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2;
+        percentage = current_position + offset;
+        return that.jump_to_percentage(percentage, true);
       });
     };
 
     _Class.prototype.render = function() {
-      var elements, item, _results;
+      var elements, item;
       this._updateViewportPos();
       elements = [];
-      _results = [];
       while (this.viewManager.hasRenderCandidate()) {
         item = this.viewManager.getNextElement();
         item.view = this.renderMore(item);
-        _results.push(elements.push(item));
+        elements.push(item);
       }
-      return _results;
+      return this.repositionElements(elements);
     };
 
     _Class.prototype.renderMore = function(item) {
@@ -108,9 +135,6 @@
         dispatcher: that.options.dispatcher
       });
       this.elementList.append(navElement.$el);
-      setTimeout((function() {
-        return that.repositionElement(navElement);
-      }), 1);
       return navElement;
     };
 
@@ -210,11 +234,11 @@
       var scrollLeft;
       scrollLeft = this.viewManager.get_offset_for_percentage(percentage);
       if (animate) {
-        return this.$el.animate({
+        return this.mainElement.animate({
           scrollLeft: scrollLeft
         }, this.options.animation_duration);
       } else {
-        return this.$el.scrollLeft(scrollLeft);
+        return this.mainElement.scrollLeft(scrollLeft);
       }
     };
 
@@ -222,11 +246,11 @@
       var scrollLeft;
       scrollLeft = this.viewManager.get_offset_for_date(date);
       if (animate) {
-        return this.$el.animate({
+        return this.mainElement.animate({
           scrollLeft: scrollLeft
         }, this.options.animation_duration);
       } else {
-        return this.$el.scrollLeft(scrollLeft);
+        return this.mainElement.scrollLeft(scrollLeft);
       }
     };
 

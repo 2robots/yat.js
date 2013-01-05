@@ -16,7 +16,8 @@
     timelineOverviewSelection: _.template('<div class="yat-current-position"><div class="yat-position-container"><div class="yat-position-inner">Aktueller Ausschnitt</div></div></div>'),
     timelineNavigation: _.template('<div class="yat-navigation"></div>'),
     timelineNavigationElementList: _.template('<ol class="yat-elements"></ol>'),
-    timelineNavigationElement: _.template('<a href="<%= linkHref %>"><%= shorttitle %></a>')
+    timelineNavigationElement: _.template('<a href="<%= linkHref %>"><%= shorttitle %></a>'),
+    timelineNavigationNavlinks: _.template('<div class="yat-navlinks"><span class="yat-left"><a href="javascript:void(0);">In der Navigation nach links navigieren</a></span><span class="yat-right"><a href="javascript:void(0);">In der Navigation nach rechts navigieren</a></span></div>')
   };
 
 }).call(this);

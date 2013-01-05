@@ -39,18 +39,16 @@
         dispatcher: this.options.dispatcher,
         id_prefix: this.options.id_prefix
       });
-      this.navigation = $(window.yat.templates.timelineNavigation());
       this.overview = new window.yat.OverviewView({
         model: this.model.getStartEnd(),
         dispatcher: this.options.dispatcher
       });
-      this.navigationBar = new window.yat.NavigationView({
+      this.navigation = new window.yat.NavigationView({
         model: this.model,
         dispatcher: this.options.dispatcher
       });
-      this.navigation.append(this.overview.$el);
-      this.navigation.append(this.navigationBar.$el);
-      this.container.children('.yat-timeline-inner1').append(this.navigation);
+      this.navigation.$el.append(this.overview.$el);
+      this.container.children('.yat-timeline-inner1').append(this.navigation.$el);
       this.container.children('.yat-timeline-inner1').append(this.viewport.$el);
       this.fullscreen_button = $(window.yat.templates.timelineFullScreen());
       this.fullscreen_button_end = $(window.yat.templates.timelineFullScreenEnd());

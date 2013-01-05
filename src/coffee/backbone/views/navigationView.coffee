@@ -26,21 +26,33 @@ window.yat.NavigationView = class extends Backbone.View
     horizontal_offset: 5
   }
 
-  className: 'yat-inner'
+  mainElement = undefined
+
+  className: 'yat-navigation'
 
   initialize: ->
-    @registerEventListener()
     @viewManager = new window.yat.NavigationViewManager(@model)
     @elementList = $(window.yat.templates.timelineNavigationElementList())
-    @$el.html(@elementList)
+    @mainElement = $("<div class='yat-inner' />")
+    @mainElement.append(@elementList)
+
+    # render the navlinks
+    navlinks = $(window.yat.templates.timelineNavigationNavlinks())
+
+    @$el.html(@mainElement)
+
+    # render the viewport at all
+    @$el.append(navlinks)
+
+    @registerEventListener()
     @render()
 
   _updateViewportPos: ->
-    scrollLeft = @$el.scrollLeft()
+    scrollLeft = @mainElement.scrollLeft()
     _viewportPos =
       left: scrollLeft
-      right: scrollLeft + @$el.width()
-      width: @$el.width()
+      right: scrollLeft + @mainElement.width()
+      width: @mainElement.width()
     @viewManager.updateViewport(_viewportPos)
 
   registerEventListener: ->
@@ -51,11 +63,11 @@ window.yat.NavigationView = class extends Backbone.View
     # trigger events
 
     # bind touchmove (ios) and scroll (other browser) events
-    @$el.bind 'touchmove', ->
-      that.options.dispatcher.trigger 'navigation_position_change', that.viewManager.get_date_for_offset that.$el.scrollLeft()
+    @mainElement.bind 'touchmove', ->
+      that.options.dispatcher.trigger 'navigation_position_change', that.viewManager.get_date_for_offset that.mainElement.scrollLeft()
 
-    @$el.scroll ->
-      offset = that.$el.scrollLeft()
+    @mainElement.scroll ->
+      offset = that.mainElement.scrollLeft()
       that.scrollOffset = offset
       percentage = that.viewManager.get_percentage_for_offset offset
       that.options.dispatcher.trigger 'navigation_position_change', percentage
@@ -85,6 +97,29 @@ window.yat.NavigationView = class extends Backbone.View
     @options.dispatcher.on 'overview_position_change', (percentage) ->
       that.jump_to_percentage percentage, false
 
+
+    # navlinks click
+    @$el.find('.yat-navlinks .yat-left a').click ->
+      that.options.dispatcher.trigger 'navigation_prev'
+
+    # navlinks click
+    @$el.find('.yat-navlinks .yat-right a').click ->
+      that.options.dispatcher.trigger 'navigation_next'
+
+    @options.dispatcher.on 'navigation_prev', ->
+
+      current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft())
+      offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2
+      percentage = current_position - offset
+      that.jump_to_percentage percentage, true
+
+    @options.dispatcher.on 'navigation_next', ->
+      current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft())
+      offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2
+      percentage = current_position + offset
+      that.jump_to_percentage percentage, true
+
+
   render: ->
     @_updateViewportPos()
     elements = []
@@ -92,16 +127,16 @@ window.yat.NavigationView = class extends Backbone.View
       item = @viewManager.getNextElement()
       item.view = @renderMore(item)
       elements.push item
-    #@repositionElements(elements)
+    @repositionElements(elements)
 
   renderMore: (item) ->
     that = @
     navElement = new window.yat.NavigationElementView( model: item.model, dispatcher: that.options.dispatcher)
     @elementList.append(navElement.$el)
 
-    setTimeout (->
-      that.repositionElement(navElement)
-    ), 1
+    #setTimeout (->
+    #  that.repositionElement(navElement)
+    #), 1
 
     navElement
 
@@ -201,19 +236,19 @@ window.yat.NavigationView = class extends Backbone.View
   jump_to_percentage: (percentage, animate)->
     scrollLeft = @viewManager.get_offset_for_percentage(percentage)
     if animate
-      @$el.animate({
+      @mainElement.animate({
         scrollLeft: scrollLeft
       }, @options.animation_duration)
     else
-      @$el.scrollLeft(scrollLeft)
+      @mainElement.scrollLeft(scrollLeft)
 
   # jumps to the date
   jump_to: (date, animate)->
     scrollLeft = @viewManager.get_offset_for_date(date)
     if animate
-      @$el.animate({
+      @mainElement.animate({
         scrollLeft: scrollLeft
       }, @options.animation_duration)
     else
-      @$el.scrollLeft(scrollLeft)
+      @mainElement.scrollLeft(scrollLeft)
 

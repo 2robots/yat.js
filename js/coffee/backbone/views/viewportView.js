@@ -138,9 +138,10 @@
     };
 
     _Class.prototype.getCurrentElements = function() {
-      var current_elements, scroll_l, scroll_r;
+      var alternative_elements, current_elements, scroll_l, scroll_r;
       scroll_l = this.$el.find('> .yat-inner').scrollLeft();
       scroll_r = scroll_l + this.$el.find('> .yat-inner').width();
+      alternative_elements = [];
       current_elements = [];
       this.$el.find('ol.yat-elements').children().each(function() {
         var el_width;
@@ -148,11 +149,18 @@
         if ($(this).position().left >= scroll_l && ($(this).position().left + el_width) <= scroll_r) {
           current_elements.push($(this));
         }
+        if ($(this).position().left >= scroll_l - el_width && ($(this).position().left + el_width) <= scroll_r + el_width) {
+          alternative_elements.push($(this));
+        }
         if ($(this).position().left > scroll_r) {
           return false;
         }
       });
-      return current_elements;
+      if (current_elements.length > 0) {
+        return current_elements;
+      } else {
+        return alternative_elements;
+      }
     };
 
     _Class.prototype.getCurrentElement = function() {
@@ -320,7 +328,10 @@
       element.addClass('open');
       new_element_width = this.element_width(element);
       this.change_list_width(new_element_width - old_element_width, true);
-      return this.options.dispatcher.trigger('viewport_jump_to', element);
+      this.disable_load_more_till_scrollend = true;
+      return this.jump_to(element, true, (function() {
+        return this.disable_load_more_till_scrollend = false;
+      }));
     };
 
     _Class.prototype.close_open_element = function() {

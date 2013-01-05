@@ -1,0 +1,920 @@
+
+
+<tr class="">
+  <th class="yat-date">
+     2013-01-05
+  </th>
+
+  <td class="yat-title">Abmahnung - Facebook-Nutzer wegen Miniaturbild in geteiltem Link verklagt</td>
+  <td class="yat-content">
+
+    <h3><strong>Abmahnung - Facebook-Nutzer wegen Miniaturbild in geteiltem Link verklagt</strong></h3>
+    <span class="datetime">05.1.2013</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2013/01/05/1356449747382.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Automatisch generiertes Bild in der Größe einer Briefmarke könnte User teuer zu stehen kommen.</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426819602/Facebook-Nutzer-wegen-Miniaturbild-in-geteiltem-Link-verklagt" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-04
+  </th>
+
+  <td class="yat-title">Netzpolitik - Datenleck: Buchungen tausender Ryanair-Kunden änderbar</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - Datenleck: Buchungen tausender Ryanair-Kunden änderbar</strong></h3>
+    <span class="datetime">04.1.2013</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2013/01/04/1356447926140.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Ryanair: Flüge-Vermittlung über Anbieter Urlaubstours ohne Einwilligung </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426768491/Datenleck-Buchungen-tausender-Ryanair-Kunden-aenderbar" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-04
+  </th>
+
+  <td class="yat-title">Netzpolitik - Chinas Zensoren sperrten Internetseite eines Reformmagazins</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - Chinas Zensoren sperrten Internetseite eines Reformmagazins</strong></h3>
+    <span class="datetime">04.1.2013</span>
+
+    <p class="timeline_lead">Seit Freitag kein Zugang mehr möglich</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426768080/Chinas-Zensoren-sperrten-Internetseite-eines-Reformmagazins" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-04
+  </th>
+
+  <td class="yat-title">AK Burgenland - AK Burgenland: Betrügerische Aktivitäten im Internet nehmen zu</td>
+  <td class="yat-content">
+
+    <h3><strong>AK Burgenland - AK Burgenland: Betrügerische Aktivitäten im Internet nehmen zu</strong></h3>
+    <span class="datetime">04.1.2013</span>
+
+    <p class="timeline_lead">Immer wieder neue Formen der Abzocke - Konsumentenschützer führten im Vorjahr 11.600 Beratungsgespräche</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426759045/AK-Burgenland-Betruegerische-Aktivitaeten-im-Internet-nehmen-zu" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">4</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-03
+  </th>
+
+  <td class="yat-title">Videoüberwachung - Mehr Kameras für die Wiener Öffis</td>
+  <td class="yat-content">
+
+    <h3><strong>Videoüberwachung - Mehr Kameras für die Wiener Öffis</strong></h3>
+    <span class="datetime">03.1.2013</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2013/01/03/1356445830186.png" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead"> Aufzeichnungen müssen aus Datenschutzgründen allerdings nach 48 Stunden wieder gelöscht werden</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426710288/Mehr-Kameras-fuer-die-Wiener-Oeffis" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">5</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-03
+  </th>
+
+  <td class="yat-title">Deal - RIM zahlt Nokia für Beilegung des Patentstreits 50 Millionen Euro</td>
+  <td class="yat-content">
+
+    <h3><strong>Deal - RIM zahlt Nokia für Beilegung des Patentstreits 50 Millionen Euro</strong></h3>
+    <span class="datetime">03.1.2013</span>
+
+    <p class="timeline_lead">Lizenzgebühr für jedes verkaufte Gerät zusätzlich fällig</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426661696/RIM-zahlt-Nokia-fuer-Beilegung-des-Patentstreits-50-Millionen-Euro" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">6</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-03
+  </th>
+
+  <td class="yat-title">Namensstreit - US-Richterin weist Apples Klage gegen Amazons App Store ab</td>
+  <td class="yat-content">
+
+    <h3><strong>Namensstreit - US-Richterin weist Apples Klage gegen Amazons App Store ab</strong></h3>
+    <span class="datetime">03.1.2013</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2013/01/03/1356442378498.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">iPhone-Hersteller sah durch Verwendung des Begriffs die eigenen Rechte verletzt</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426622097/US-Richterin-weist-Apples-Klage-gegen-Amazons-App-Store-ab" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-02
+  </th>
+
+  <td class="yat-title">Netzpolitik - Free Software Foundation kämpft weiter gegen "Restricted Boot"</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - Free Software Foundation kämpft weiter gegen "Restricted Boot"</strong></h3>
+    <span class="datetime">02.1.2013</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2013/01/02/1356441215294.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Spendenaufruf soll 350.000 Dollar bis Ende Januar einbringen</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426593135/Free-Software-Foundation-kaempft-weiter-gegen-Restricted-Boot" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-02
+  </th>
+
+  <td class="yat-title">Patente - Samsung muss US-Verkaufszahlen in Patentprozess offenlegen</td>
+  <td class="yat-content">
+
+    <h3><strong>Patente - Samsung muss US-Verkaufszahlen in Patentprozess offenlegen</strong></h3>
+    <span class="datetime">02.1.2013</span>
+
+    <p class="timeline_lead">Die Verkaufszahlen sind wichtig für die Berechnung der Schadenersatzhöhe </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426588817/Samsung-muss-US-Verkaufszahlen-in-Patentprozess-offenlegen" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-02
+  </th>
+
+  <td class="yat-title">IT-Security - "Niemand behauptet, dass es mit Antivirensoftware getan ist"</td>
+  <td class="yat-content">
+
+    <h3><strong>IT-Security - "Niemand behauptet, dass es mit Antivirensoftware getan ist"</strong></h3>
+    <span class="datetime">02.1.2013</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2013/01/01/1356438633022.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Klassischen Antivirenprogrammen geht die Puste aus - Neue Ansätze gesucht</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426524416/Niemand-behauptet-dass-es-mit-Antivirensoftware-getan-ist" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">4</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2013-01-01
+  </th>
+
+  <td class="yat-title">Netzpolitik - ÖVP startet "Arbeitskreis Netzpolitik" - mit virtuellem Auftakt</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - ÖVP startet "Arbeitskreis Netzpolitik" - mit virtuellem Auftakt</strong></h3>
+    <span class="datetime">01.1.2013</span>
+
+    <p class="timeline_lead"> Anmeldung bis Ende Jänner möglich</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426512034/OeVP-startet-Arbeitskreis-Netzpolitik---mit-virtuellem-Auftakt" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">5</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-31
+  </th>
+
+  <td class="yat-title">29C3 - CCC will Druck gegen den Überwachungsstaat machen</td>
+  <td class="yat-content">
+
+    <h3><strong>29C3 - CCC will Druck gegen den Überwachungsstaat machen</strong></h3>
+    <span class="datetime">31.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/30/1356436038355.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">29. Kongress des Chaos Computer Clubs geht am Sonntag in Hamburg zu Ende</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426463747/Chaos-Computer-Club-will-Druck-gegen-den-Ueberwachungsstaat-machen" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">6</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-31
+  </th>
+
+  <td class="yat-title">Patente - Im Mobilfunk-Patentkrieg bröckeln die Fronten</td>
+  <td class="yat-content">
+
+    <h3><strong>Patente - Im Mobilfunk-Patentkrieg bröckeln die Fronten</strong></h3>
+    <span class="datetime">31.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/28/1356432446536.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Patente, Urheberrecht und Handelsmarken/Weltweit - Unternehmen vergeht langsam die Lust am juristischen Schlagabtausch </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426366080/Im-Mobilfunk-Patentkrieg-broeckeln-die-Fronten" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-30
+  </th>
+
+  <td class="yat-title">29C3 - Hardwareverschlüsselung von Festplatten lässt sich oft austricksen</td>
+  <td class="yat-content">
+
+    <h3><strong>29C3 - Hardwareverschlüsselung von Festplatten lässt sich oft austricksen</strong></h3>
+    <span class="datetime">30.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/30/1356435696063.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Experte zeigt im Rahmen des 29C3 besonders simplen, neuen Angriffstyp namens "Warm Replug"</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426457262/Hardwareverschluesselung-von-Festplatten-laesst-sich-oft-austricksen" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-29
+  </th>
+
+  <td class="yat-title">Netzpolitik - Nach drei Stunden wieder gesperrt: YouTube-Posse in Pakistan</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - Nach drei Stunden wieder gesperrt: YouTube-Posse in Pakistan</strong></h3>
+    <span class="datetime">29.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/29/1356435012637.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Weitere Verfügbarkeit von "Mohammed"-Film als mögliche Ursache</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426439985/Nach-drei-Stunden-wieder-gesperrt-YouTube-Posse-in-Pakistan" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-29
+  </th>
+
+  <td class="yat-title">29c3 - Ex-US-Geheimdienstler: "Die Stasi hätte ihre Freude an unserer Ausrüstung"</td>
+  <td class="yat-content">
+
+    <h3><strong>29c3 - Ex-US-Geheimdienstler: "Die Stasi hätte ihre Freude an unserer Ausrüstung"</strong></h3>
+    <span class="datetime">29.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/29/1356434539572.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Ehemalige Mitarbeiter der NSA packen am "29c3"-Kongress aus</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426429251/Ex-US-Geheimdienstler-Die-Stasi-haette-ihre-Freude-an-unserer-Ausruestung" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">4</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-29
+  </th>
+
+  <td class="yat-title">USA - Apple verzichtet auf Patentklage gegen Galaxy S3 Mini</td>
+  <td class="yat-content">
+
+    <h3><strong>USA - Apple verzichtet auf Patentklage gegen Galaxy S3 Mini</strong></h3>
+    <span class="datetime">29.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/29/1356434463551.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Samsung verzichtet auf Vertrieb des Smartphones in den USA</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426427299/Apple-verzichtet-auf-Patentklage-gegen-Galaxy-S3-Mini" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">5</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-28
+  </th>
+
+  <td class="yat-title">Netzpolitik - Chinesische Führung zwingt Internet-Nutzer zu Klarnamen</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - Chinesische Führung zwingt Internet-Nutzer zu Klarnamen</strong></h3>
+    <span class="datetime">28.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/28/1356432427009.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Ausweispflicht gegenüber Providern zum "Schutz privater Informationen und der Sicherung öffentlicher Interessen" </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426366582/Chinesische-Fuehrung-zwingt-Internet-Nutzer-zu-Klarnamen" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">6</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-28
+  </th>
+
+  <td class="yat-title">Ausgetauscht - Audiogalaxy wird eingestellt</td>
+  <td class="yat-content">
+
+    <h3><strong>Ausgetauscht - Audiogalaxy wird eingestellt</strong></h3>
+    <span class="datetime">28.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/28/1356432338500.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Musik-Service wird mit Ende Jänner eingestellt - P2P-Tauschplattform uletzt als Streaming-Angebot für den Fernzugriff</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426362911/Das-Ende-ist-da-Audiogalaxy-wird-eingestellt" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">6</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-26
+  </th>
+
+  <td class="yat-title">Realitätscheck - Hollywood-Studios beim Film-Download erwischt</td>
+  <td class="yat-content">
+
+    <h3><strong>Realitätscheck - Hollywood-Studios beim Film-Download erwischt</strong></h3>
+    <span class="datetime">26.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/26/1356427142920.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Eifriger Tausch per Bittorrent - Interesse an Filmen der Konkurrenz, Pornos und aktuellen Spielen</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1356426218228/Hollywood-Studios-beim-Film-Download-erwischt" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">5</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-24
+  </th>
+
+  <td class="yat-title">Fernsehen - "Game of Thrones" führt Piraterie-Ranking 2012 an</td>
+  <td class="yat-content">
+
+    <h3><strong>Fernsehen - "Game of Thrones" führt Piraterie-Ranking 2012 an</strong></h3>
+    <span class="datetime">24.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/24/1355490834521.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">4,28 Millionen Downloads für eine einzelne Folge, Mangel an Angebot als treibendes Motiv</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460502205/Game-of-Thrones-fuehrt-Piraterie-Ranking-2012-an" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">4</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-22
+  </th>
+
+  <td class="yat-title">Copyrights - "Massenhafte Kriminalisierung": IG Kultur kritisiert Entwurf zur Urheberrechts-Novelle</td>
+  <td class="yat-content">
+
+    <h3><strong>Copyrights - "Massenhafte Kriminalisierung": IG Kultur kritisiert Entwurf zur Urheberrechts-Novelle</strong></h3>
+    <span class="datetime">22.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/22/1355488535183.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead"> Festplattenabgabe solle nur Einnahmen erhöhen, bringe aber keinen Mehrwert </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460441966/Massenhafte-Kriminalisierung-IG-Kultur-kritisiert-Entwurf-zur-Urheberrechts-Novelle" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-22
+  </th>
+
+  <td class="yat-title">Filme - "We Steal Secrets" - Hollywood stürzt sich auf Wikileaks</td>
+  <td class="yat-content">
+
+    <h3><strong>Filme - "We Steal Secrets" - Hollywood stürzt sich auf Wikileaks</strong></h3>
+    <span class="datetime">22.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/22/1355488259237.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Leben und Tun des Wikileaks-Gründers Julian Assange fasziniert seine Anhänger und empört seine politischen Gegner</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460435886/We-Steal-Secrets---Hollywood-stuertzt-sich-auch-Wikileaks" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-21
+  </th>
+
+  <td class="yat-title">Wikileaks - Assange: Wikileaks veröffentlicht 2013 eine Million Dokumente</td>
+  <td class="yat-content">
+
+    <h3><strong>Wikileaks - Assange: Wikileaks veröffentlicht 2013 eine Million Dokumente</strong></h3>
+    <span class="datetime">21.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/21/1355485075994.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Netzaktivist wirft westlichen Ländern "Lügen" vor</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460340419/Assange-Wikileaks-veroeffentlicht-2013-eine-Million-Dokumente" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-20
+  </th>
+
+  <td class="yat-title">Vorratsdaten - AKVorrat erfreut über Prüfung der Vorratsdatenspeicherung</td>
+  <td class="yat-content">
+
+    <h3><strong>Vorratsdaten - AKVorrat erfreut über Prüfung der Vorratsdatenspeicherung</strong></h3>
+    <span class="datetime">20.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/20/1355482923673.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">"Schade, dass sie nicht vorläufig außer Kraft gesetzt werden konnte"</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460279423/AKVorrat-erfreut-ueber-Pruefung-der-Vorratsdatenspeicherung" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-19
+  </th>
+
+  <td class="yat-title">Copyrights - Britische Piratenpartei muss Pirate Bay Proxy abdrehen</td>
+  <td class="yat-content">
+
+    <h3><strong>Copyrights - Britische Piratenpartei muss Pirate Bay Proxy abdrehen</strong></h3>
+    <span class="datetime">19.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/19/1355477251565.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Die Piratenpartei musste nach Drohungen von der Musikindustrie den beliebten Proxy Server offline nehmen</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460115822/Britische-Piratenpartei-muss-Pirate-Bay-Proxy-abdrehen" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-18
+  </th>
+
+  <td class="yat-title">Vorratsdatenspeicherung - Vorratsdaten: Entscheidung des VfGH rundum begrüßt</td>
+  <td class="yat-content">
+
+    <h3><strong>Vorratsdatenspeicherung - Vorratsdaten: Entscheidung des VfGH rundum begrüßt</strong></h3>
+    <span class="datetime">18.12.2012</span>
+
+    <p class="timeline_lead">Bures hofft auf endgültige Klärung - Steinhauser: Gesetz außer Kraft setzen </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355460034587/Vorratsdaten-Entscheidung-des-VfGH-rundum-begruesst" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-18
+  </th>
+
+  <td class="yat-title">Vorratsdatenspeicherung - Vorratsdatenspeicherung wackelt: Verfassungsrichter haben Bedenken</td>
+  <td class="yat-content">
+
+    <h3><strong>Vorratsdatenspeicherung - Vorratsdatenspeicherung wackelt: Verfassungsrichter haben Bedenken</strong></h3>
+    <span class="datetime">18.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/18/1355472105244.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">VfGH schaltet den Europäischen Gerichtshof ein - "Könnte EU‐Grundrechtecharta widersprechen"</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355459980072/Vorratsdatenspeicherung-wackelt--Verfassungsgerichtshof-hat-Bedenken" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">4</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-17
+  </th>
+
+  <td class="yat-title">Copyrights - Zu hohe Gebühren: Suche nach neuem "Happy Birthday" läuft</td>
+  <td class="yat-content">
+
+    <h3><strong>Copyrights - Zu hohe Gebühren: Suche nach neuem "Happy Birthday" läuft</strong></h3>
+    <span class="datetime">17.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/17/1355467537722.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Free Music Archive sucht freie Alternative – jährlich Millionen Dollar an Nutzungsgebühren in USA</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1355459848476/Zu-hohe-Gebuehren-Suche-nach-neuem-Happy-Birthday-laeuft" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">5</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-13
+  </th>
+
+  <td class="yat-title">Festplattenabgabe - "Kunst hat Recht": "Den Unternehmen geht es nur um Gewinnmaximierung"</td>
+  <td class="yat-content">
+
+    <h3><strong>Festplattenabgabe - "Kunst hat Recht": "Den Unternehmen geht es nur um Gewinnmaximierung"</strong></h3>
+    <span class="datetime">13.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/13/1353295938217.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">KünstlerInnen-Initiative kritisiert den Schulterschluss namhafter Unternehmen gegen die Festplattenabgabe. Diese sehen den Konsumenten als Leidtragenden.</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353209047698/Kunst-hat-Recht-Den-Unternehmen-geht-es-nur-um-Gewinnmaximierung" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">6</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-12
+  </th>
+
+  <td class="yat-title">VDS - Offener Urheberrechtsdialog: Offensive statt Bekämpfung gefordert</td>
+  <td class="yat-content">
+
+    <h3><strong>VDS - Offener Urheberrechtsdialog: Offensive statt Bekämpfung gefordert</strong></h3>
+    <span class="datetime">12.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/12/1353293123052.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Der Gegengipfel zur Diskussion im Justizministerium brachte Skeptiker der aktuellen Diskussion zusammen</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353208968568/Offener-Urheberrechtsdialog-Offensive-statt-Bekaempfung-gefordert" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">6</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-12
+  </th>
+
+  <td class="yat-title">Connected Devices - Totalüberwachung möglich: Schwere Lücke in Samsungs Smart TVs</td>
+  <td class="yat-content">
+
+    <h3><strong>Connected Devices - Totalüberwachung möglich: Schwere Lücke in Samsungs Smart TVs</strong></h3>
+    <span class="datetime">12.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/12/1353292157657.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Zugriff auf Mikrofon, Kamera, Software und USB-Laufwerk</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353208947293/Totalueberwachung-moeglich-Schwere-Luecke-in-Samsung-SmartTVs" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">5</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-11
+  </th>
+
+  <td class="yat-title">Österreich - Hack-Angriff auf Salzburger Rechenzentrums-Betreiber</td>
+  <td class="yat-content">
+
+    <h3><strong>Österreich - Hack-Angriff auf Salzburger Rechenzentrums-Betreiber</strong></h3>
+    <span class="datetime">11.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/11/1353288387789.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Zugangsdaten entwendet, "professioneller Insider" als Urheber vermutet</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353208844761/Hack-Angriff-auf-Salzburger-Rechenzentrums-Betreiber" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">4</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-10
+  </th>
+
+  <td class="yat-title">Netzpolitik - Vorratsdaten: Rechtsanwälte attestieren Justiz "Fieber"</td>
+  <td class="yat-content">
+
+    <h3><strong>Netzpolitik - Vorratsdaten: Rechtsanwälte attestieren Justiz "Fieber"</strong></h3>
+    <span class="datetime">10.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/10/1353283357389.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Rechtsanwaltskammer bemängelt auch "schleichende Aushöhlung" von Grund- und Freiheitsrechten</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353208708525/Vorratsdaten-OeRAK-attestiert-Justiz-konstantes-Fieber" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-10
+  </th>
+
+  <td class="yat-title">Offensiv - Musikindustrie droht britischer Piratenpartei mit Klage</td>
+  <td class="yat-content">
+
+    <h3><strong>Offensiv - Musikindustrie droht britischer Piratenpartei mit Klage</strong></h3>
+    <span class="datetime">10.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/10/1353283216855.png" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Wegen Betrieb eines Proxy-Servers mit dem sich Pirate-Bay-Sperre austricksen lässt - Piratenpartei will nicht nachgeben</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353208704030/Musikindustrie-droht-britischer-Piratenpartei-mit-Klage" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-12-07
+  </th>
+
+  <td class="yat-title">Sicherheit - Ransomware: Virus nimmt Computer in Geiselhaft</td>
+  <td class="yat-content">
+
+    <h3><strong>Sicherheit - Ransomware: Virus nimmt Computer in Geiselhaft</strong></h3>
+    <span class="datetime">07.12.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/12/07/1353276060426.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Neue Masche beschert Cyberkriminellen hohe Einnahmen - Bis zu 15 Prozent der User zahlen</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1353208502247/Ransomware-Virus-nimmt-Computer-in-Geiselhaft" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-08-14
+  </th>
+
+  <td class="yat-title">Überwachung - Überwachungssystem "TrapWire" soll Verbrechen vorhersehen</td>
+  <td class="yat-content">
+
+    <h3><strong>Überwachung - Überwachungssystem "TrapWire" soll Verbrechen vorhersehen</strong></h3>
+    <span class="datetime">14.08.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/08/14/1343794066651.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Ein System, das voraussagen kann, wer wann und wo Verbrechen begeht, etabliert sich </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1343744796343/Ueberwachungssystem-TrapWire-soll-Verbrechen-vorhersehen" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">1</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-07-13
+  </th>
+
+  <td class="yat-title">Copyrights - US-Gericht erwägt ewiges Urheberrecht</td>
+  <td class="yat-content">
+
+    <h3><strong>Copyrights - US-Gericht erwägt ewiges Urheberrecht</strong></h3>
+    <span class="datetime">13.07.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/07/13/1342141208887.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">Für den Verkauf echter Lehrbücher wurde ein Student wegen Urheberrechtsverletzung zu 600.000 Dollar Strafe verurteilt</p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1341526759646/US-Gericht-erwaegt-ewiges-Urheberrecht" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">2</td>
+</tr>
+<tr class="">
+  <th class="yat-date">
+     2012-06-09
+  </th>
+
+  <td class="yat-title">Überwachung - "Schwein" und "Brücke" - Die US-Liste der 377 verdächtigen Begriffe</td>
+  <td class="yat-content">
+
+    <h3><strong>Überwachung - "Schwein" und "Brücke" - Die US-Liste der 377 verdächtigen Begriffe</strong></h3>
+    <span class="datetime">09.06.2012</span>
+
+    <div class="timeline_image">
+      <img src="http://images.derstandard.at/t/1/2012/06/09/1338583610850.jpg" width="240px" height="120px" alt="img" />
+    </div>
+<p class="timeline_lead">US-Ministerium durchforstet Netz nach Schlüsselwörtern - Kritiker sehen Spionagewerkzeug </p>
+
+    <div class="detail">
+      <span>
+        <a href="http://derstandard.at/1338559066202/Ueberwachung-Schwein-und-Bruecke---Die-US-Liste-der-377-verdaechtigen-Begriffe" class="link_intern">Mehr lesen ....</a>
+      </span>
+    </div>
+  </td>
+  <td class="yat-category">3</td>
+</tr>
