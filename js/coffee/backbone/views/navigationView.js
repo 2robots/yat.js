@@ -29,7 +29,8 @@
       id_prefix: '',
       id_postfix: '',
       vertical_offset: 5,
-      horizontal_offset: 5
+      horizontal_offset: 5,
+      navigation_height: 100
     };
 
     mainElement = void 0;
@@ -79,9 +80,9 @@
       this.options.dispatcher.on('viewport_scrollstop', function(elements) {
         var index;
         if (_.first(arguments[0]).model.get("date") === startEnd.start) {
-          return that.jump_to(moment(startEnd.start), true);
+          return that.jump_to_cid(_.first(arguments[0]).model.cid, true);
         } else if (_.last(arguments[0]).model.get("date") === startEnd.end) {
-          return that.jump_to(moment(startEnd.end), true);
+          return that.jump_to_cid(_.last(arguments[0]).model.cid, true);
         } else {
           if (arguments[0].length % 2 !== 0) {
             index = (arguments[0].length - 1) / 2;
@@ -161,7 +162,8 @@
     };
 
     _Class.prototype.arrange_element = function(element) {
-      var shortest_right, success;
+      var shortest_right, success, that;
+      that = this;
       success = false;
       if (!element.pos) {
         element.pos = {
@@ -172,10 +174,10 @@
         };
       }
       element.pos.nextLeft = function() {
-        return this.left + this.width + 10;
+        return this.left + this.width + that.options.horizontal_offset;
       };
       element.pos.nextTop = function() {
-        return this.top + this.height + 10;
+        return this.top + this.height + that.options.vertical_offset;
       };
       if (element.pos.left > this.line) {
         this.line = element.pos.left;
@@ -217,7 +219,7 @@
         if (shortest_right > this.line) {
           this.line = shortest_right;
         } else {
-          this.line += 10;
+          this.line += this.options.horizontal_offset;
         }
         this.cleanup_current_objects();
         element.pos.top = 0;
@@ -228,8 +230,7 @@
 
     _Class.prototype.position_is_valid = function(elements, position) {
       var result;
-      console.log(position.nextTop(), 'a');
-      if (position.nextTop() < 110) {
+      if (position.nextTop() < this.options.navigation_height + this.options.vertical_offset) {
         result = !_.some(elements, function(el) {
           return el.pos.left < position.nextLeft() && position.left < el.pos.nextLeft() && el.pos.top < position.nextTop() && position.top < el.pos.nextTop();
         });
@@ -274,6 +275,7 @@
 
     _Class.prototype.jump_to_cid = function(cid, animate) {
       var scrollLeft;
+      console.log('jumping to', cid);
       if ($('#' + this.options.id_prefix + cid + this.options.id_postfix)[0] !== void 0) {
         scrollLeft = $('#' + this.options.id_prefix + cid + this.options.id_postfix).position().left - this.$el.outerWidth() / 2;
         if (animate) {

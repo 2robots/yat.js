@@ -25,6 +25,7 @@ window.yat.NavigationView = class extends Backbone.View
     id_postfix: ''
     vertical_offset: 5
     horizontal_offset: 5
+    navigation_height: 100
   }
 
   mainElement = undefined
@@ -80,11 +81,11 @@ window.yat.NavigationView = class extends Backbone.View
     @options.dispatcher.on 'viewport_scrollstop', (elements) ->
       # if the first of this elements is the global first
       if _.first(arguments[0]).model.get("date") == startEnd.start
-        that.jump_to moment(startEnd.start), true
+        that.jump_to_cid _.first(arguments[0]).model.cid, true
 
       # if the last of this elements is the global last
       else if _.last(arguments[0]).model.get("date") == startEnd.end
-        that.jump_to moment(startEnd.end), true
+        that.jump_to_cid _.last(arguments[0]).model.cid, true
 
       # default take the middle one
       else
@@ -134,7 +135,9 @@ window.yat.NavigationView = class extends Backbone.View
 
   renderMore: (item) ->
     that = @
-    navElement = new window.yat.NavigationElementView( model: item.model, dispatcher: that.options.dispatcher)
+    navElement = new window.yat.NavigationElementView
+      model: item.model
+      dispatcher: that.options.dispatcher
     navElement.$el.attr("id", @options.id_prefix + item.model.cid + @options.id_postfix)
     @elementList.append(navElement.$el)
 
@@ -160,6 +163,7 @@ window.yat.NavigationView = class extends Backbone.View
     , 10)
 
   arrange_element: (element) ->
+    that = @
     success = false
 
     if !element.pos
@@ -170,9 +174,9 @@ window.yat.NavigationView = class extends Backbone.View
         width: parseInt(element.view.$el.css('width'), 10)
 
     element.pos.nextLeft = ->
-      @left + @width + 10
+      @left + @width + that.options.horizontal_offset
     element.pos.nextTop = ->
-      @top + @height + 10
+      @top + @height + that.options.vertical_offset
 
     if element.pos.left > @line
       @line = element.pos.left
@@ -214,7 +218,7 @@ window.yat.NavigationView = class extends Backbone.View
       if shortest_right > @line
         @line = shortest_right
       else
-        @line += 10
+        @line += @options.horizontal_offset
 
       @cleanup_current_objects()
       element.pos.top = 0
@@ -223,8 +227,7 @@ window.yat.NavigationView = class extends Backbone.View
 
   # checks whether the position intersects with any of the elements or is outside the navigation borders
   position_is_valid: (elements, position) ->
-    console.log position.nextTop(), 'a'
-    if position.nextTop() < 110
+    if position.nextTop() < @options.navigation_height + @options.vertical_offset
       result = !_.some elements, (el) ->
         el.pos.left < position.nextLeft() && position.left < el.pos.nextLeft() &&
         el.pos.top < position.nextTop() && position.top < el.pos.nextTop()
@@ -261,6 +264,7 @@ window.yat.NavigationView = class extends Backbone.View
 
   # jumps to element with Client ID
   jump_to_cid: (cid, animate)->
+    console.log 'jumping to', cid
     if $('#' + @options.id_prefix + cid + @options.id_postfix)[0] != undefined
       scrollLeft = $('#' + @options.id_prefix + cid + @options.id_postfix).position().left - @$el.outerWidth()/2
       if animate
