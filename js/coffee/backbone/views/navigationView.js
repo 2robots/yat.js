@@ -73,6 +73,7 @@
         offset = that.mainElement.scrollLeft();
         that.scrollOffset = offset;
         percentage = that.viewManager.get_percentage_for_offset(offset);
+        percentage = offset / that.line;
         return that.options.dispatcher.trigger('navigation_position_change', percentage);
       });
       this.options.dispatcher.on('viewport_scrollstop', function(elements) {
@@ -153,8 +154,7 @@
         for (_i = 0, _len = elements.length; _i < _len; _i++) {
           el = elements[_i];
           this.callIndex = 0;
-          that.arrange_element(el);
-          _results.push(console.log(that.line));
+          _results.push(that.arrange_element(el));
         }
         return _results;
       }, 10);
@@ -191,7 +191,6 @@
         if (shortest_right != null) {
           shortest_right = shortest_right.pos.nextLeft();
         }
-        console.log('shortest_right', shortest_right);
         this.current_objects = _.sortBy(this.current_objects, function(item) {
           return item.pos.top;
         });
@@ -215,23 +214,21 @@
         element.view.$el.css('left', element.pos.left + 'px');
         return element.view.$el.css('top', element.pos.top + 'px');
       } else {
-        console.log(shortest_right, this.line, element.pos.nextLeft(), element.pos);
         if (shortest_right > this.line) {
           this.line = shortest_right;
         } else {
-          console.log('+10');
           this.line += 10;
         }
         this.cleanup_current_objects();
         element.pos.top = 0;
         element.pos.left = this.line;
-        console.log('line pos', this.line);
         return this.arrange_element(element);
       }
     };
 
     _Class.prototype.position_is_valid = function(elements, position) {
       var result;
+      console.log(position.nextTop(), 'a');
       if (position.nextTop() < 110) {
         result = !_.some(elements, function(el) {
           return el.pos.left < position.nextLeft() && position.left < el.pos.nextLeft() && el.pos.top < position.nextTop() && position.top < el.pos.nextTop();
@@ -253,6 +250,7 @@
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
       var scrollLeft;
       scrollLeft = this.viewManager.get_offset_for_percentage(percentage);
+      scrollLeft = this.line * percentage;
       if (animate) {
         return this.mainElement.animate({
           scrollLeft: scrollLeft

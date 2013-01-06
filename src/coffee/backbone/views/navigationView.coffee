@@ -72,6 +72,7 @@ window.yat.NavigationView = class extends Backbone.View
       offset = that.mainElement.scrollLeft()
       that.scrollOffset = offset
       percentage = that.viewManager.get_percentage_for_offset offset
+      percentage = offset / that.line
       #percentage = offset / _.max(_lastElements)
       that.options.dispatcher.trigger 'navigation_position_change', percentage
 
@@ -156,7 +157,6 @@ window.yat.NavigationView = class extends Backbone.View
       for el in elements
         @callIndex = 0
         that.arrange_element(el)
-        console.log that.line
     , 10)
 
   arrange_element: (element) ->
@@ -187,7 +187,6 @@ window.yat.NavigationView = class extends Backbone.View
       shortest_right = _.min @current_objects, (item) ->
         item.pos.nextLeft()
       shortest_right = shortest_right.pos.nextLeft() if shortest_right?
-      console.log 'shortest_right', shortest_right
 
       # current_objects wird nach top-Wert ASC sortiert, durchgegangen:
       @current_objects = _.sortBy @current_objects, (item) ->
@@ -212,21 +211,19 @@ window.yat.NavigationView = class extends Backbone.View
       element.view.$el.css('left', element.pos.left + 'px')
       element.view.$el.css('top', element.pos.top + 'px')
     else
-      console.log shortest_right, @line, element.pos.nextLeft(), element.pos
       if shortest_right > @line
         @line = shortest_right
       else
-        console.log '+10'
         @line += 10
 
       @cleanup_current_objects()
       element.pos.top = 0
       element.pos.left = @line
-      console.log 'line pos', @line
       @arrange_element element
 
   # checks whether the position intersects with any of the elements or is outside the navigation borders
   position_is_valid: (elements, position) ->
+    console.log position.nextTop(), 'a'
     if position.nextTop() < 110
       result = !_.some elements, (el) ->
         el.pos.left < position.nextLeft() && position.left < el.pos.nextLeft() &&
@@ -244,6 +241,7 @@ window.yat.NavigationView = class extends Backbone.View
   # jumps to a percentage position
   jump_to_percentage: (percentage, animate)->
     scrollLeft = @viewManager.get_offset_for_percentage(percentage)
+    scrollLeft = @line * percentage
     if animate
       @mainElement.animate({
         scrollLeft: scrollLeft
