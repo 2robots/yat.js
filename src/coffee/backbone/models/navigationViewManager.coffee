@@ -10,12 +10,12 @@ window.yat = window.yat || {};
 
 # The item is one "event" at a specific time on the timeline
 window.yat.NavigationViewManager = class
-  constructor: (@model) ->
+  constructor: (@model, @options) ->
     @initialize()
     @index = 0
 
   initialize: ->
-    @paneWidth =  200 * (@model.length / 2)
+    @paneWidth =  @options.element_width * (@model.length / 2) + @options.margin_left + @options.margin_right
     @startEnd = @model.getStartEnd()
     @interval = Math.abs(moment(@startEnd.start).diff(@startEnd.end, 'days'))
     @pixelPerDay = Math.round(@paneWidth / @interval)
@@ -27,7 +27,7 @@ window.yat.NavigationViewManager = class
     item = @model.at(@index++)
     days = moment(item.get('date')).diff(@startEnd.start, 'days')
     {
-      position: days * @pixelPerDay
+      position: days * @pixelPerDay + @options.margin_left
       model: item
     }
 

@@ -25,8 +25,8 @@ window.yat.NavigationView = class extends Backbone.View
     vertical_offset: 5
     horizontal_offset: 5
     navigation_height: 100
-    margin_left: 0
-    margin_right: 0
+    margin_left: 30
+    margin_right: 30
 
   mainElement = undefined
 
@@ -34,7 +34,14 @@ window.yat.NavigationView = class extends Backbone.View
 
   initialize: ->
     @options.dispatcher.trigger 'load_component_start'
-    @viewManager = new window.yat.NavigationViewManager(@model)
+    @viewManager = new window.yat.NavigationViewManager(
+      @model
+      {
+        element_width: 200
+        margin_left: @options.margin_left
+        margin_right: @options.margin_right
+      }
+    )
     @elementList = $(window.yat.templates.timelineNavigationElementList())
     @mainElement = $("<div class='yat-inner' />")
     @mainElement.append(@elementList)
@@ -60,10 +67,10 @@ window.yat.NavigationView = class extends Backbone.View
     @viewManager.updateViewport(_viewportPos)
 
   offset_to_percentage: (offset) ->
-    offset / ( @navigation_width - @mainElement.width() - @options.horizontal_offset )
+    offset / ( @navigation_width - @mainElement.width() - @options.horizontal_offset + @options.margin_right )
 
   percentage_to_offset: (percentage) ->
-    percentage * ( @navigation_width - @mainElement.width() - @options.horizontal_offset )
+    percentage * ( @navigation_width - @mainElement.width() - @options.horizontal_offset + @options.margin_right )
 
   registerEventListener: ->
     that = @
@@ -136,6 +143,9 @@ window.yat.NavigationView = class extends Backbone.View
       item = @viewManager.getNextElement()
       item.view = @renderMore(item)
       elements.push item
+    @placeholder_right = $(window.yat.templates.timelineNavigationPlaceholder())
+    @placeholder_right.css('width', @options.margin_right)
+    @elementList.append @placeholder_right
     @repositionElements(elements)
 
   renderMore: (item) ->
@@ -151,7 +161,7 @@ window.yat.NavigationView = class extends Backbone.View
     that = @
 
     # Abstand nach Links in Pixeln, die neue Elemente mindestens haben m√ºssen
-    @line = 0
+    @line = @options.margin_left
 
     # array: Speichert alle Elemente, deren rechter Rand rechts von der line sind
     @current_objects = []
@@ -217,6 +227,7 @@ window.yat.NavigationView = class extends Backbone.View
       @current_objects = _.uniq @current_objects
       element.view.$el.css('left', element.pos.left + 'px')
       element.view.$el.css('top', element.pos.top + 'px')
+      @placeholder_right.css('left', element.pos.left + element.pos.width)
       @navigation_width = element.pos.nextLeft()
     else
       if shortest_right > @line

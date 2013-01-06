@@ -31,8 +31,8 @@
       vertical_offset: 5,
       horizontal_offset: 5,
       navigation_height: 100,
-      margin_left: 0,
-      margin_right: 0
+      margin_left: 30,
+      margin_right: 30
     };
 
     mainElement = void 0;
@@ -42,7 +42,11 @@
     _Class.prototype.initialize = function() {
       var navlinks;
       this.options.dispatcher.trigger('load_component_start');
-      this.viewManager = new window.yat.NavigationViewManager(this.model);
+      this.viewManager = new window.yat.NavigationViewManager(this.model, {
+        element_width: 200,
+        margin_left: this.options.margin_left,
+        margin_right: this.options.margin_right
+      });
       this.elementList = $(window.yat.templates.timelineNavigationElementList());
       this.mainElement = $("<div class='yat-inner' />");
       this.mainElement.append(this.elementList);
@@ -66,11 +70,11 @@
     };
 
     _Class.prototype.offset_to_percentage = function(offset) {
-      return offset / (this.navigation_width - this.mainElement.width() - this.options.horizontal_offset);
+      return offset / (this.navigation_width - this.mainElement.width() - this.options.horizontal_offset + this.options.margin_right);
     };
 
     _Class.prototype.percentage_to_offset = function(percentage) {
-      return percentage * (this.navigation_width - this.mainElement.width() - this.options.horizontal_offset);
+      return percentage * (this.navigation_width - this.mainElement.width() - this.options.horizontal_offset + this.options.margin_right);
     };
 
     _Class.prototype.registerEventListener = function() {
@@ -138,6 +142,9 @@
         item.view = this.renderMore(item);
         elements.push(item);
       }
+      this.placeholder_right = $(window.yat.templates.timelineNavigationPlaceholder());
+      this.placeholder_right.css('width', this.options.margin_right);
+      this.elementList.append(this.placeholder_right);
       return this.repositionElements(elements);
     };
 
@@ -156,7 +163,7 @@
     _Class.prototype.repositionElements = function(elements) {
       var that;
       that = this;
-      this.line = 0;
+      this.line = this.options.margin_left;
       this.current_objects = [];
       return window.setTimeout(function() {
         var el, _i, _len, _results;
@@ -228,6 +235,7 @@
         this.current_objects = _.uniq(this.current_objects);
         element.view.$el.css('left', element.pos.left + 'px');
         element.view.$el.css('top', element.pos.top + 'px');
+        this.placeholder_right.css('left', element.pos.left + element.pos.width);
         return this.navigation_width = element.pos.nextLeft();
       } else {
         if (shortest_right > this.line) {

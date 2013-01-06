@@ -55,7 +55,7 @@
  * Licence: GPL v3
  */
 /* General Layout */
-/* line 12, ../../src/scss/_yat.scss */
+/* line 12, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline {
   height: 500px;
   position: relative;
@@ -68,18 +68,18 @@
   -moz-box-shadow: 0 0 5px 0 #cccccc;
   box-shadow: 0 0 5px 0 #cccccc;
 }
-/* line 18, ../../src/scss/_yat.scss */
+/* line 18, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline a {
   outline: none;
 }
-/* line 22, ../../src/scss/_yat.scss */
+/* line 22, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-fullscreen-start, .yat-timeline .yat-fullscreen-end {
   position: absolute;
   right: 2px;
   top: 2px;
   cursor: pointer;
 }
-/* line 29, ../../src/scss/_yat.scss */
+/* line 29, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-timeline-inner1 {
   position: absolute;
   left: 0;
@@ -121,7 +121,7 @@
   -moz-box-shadow: inset 0px 0px 50px 0px #d9d9d9;
   box-shadow: inset 0px 0px 50px 0px #d9d9d9;
 }
-/* line 39, ../../src/scss/_yat.scss */
+/* line 39, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport, .yat-timeline .yat-navigation {
   position: absolute;
   left: 0;
@@ -130,7 +130,7 @@
   top: 0;
   overflow: hidden;
 }
-/* line 48, ../../src/scss/_yat.scss */
+/* line 48, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-inner {
   position: absolute;
   top: 0;
@@ -141,7 +141,7 @@
   overflow-x: scroll;
   overflow-y: hidden;
 }
-/* line 58, ../../src/scss/_yat.scss */
+/* line 58, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-inner .yat-elements {
   width: 200%;
   margin: 0;
@@ -152,13 +152,13 @@
   position: absolute;
   overflow: visible;
 }
-/* line 71, ../../src/scss/_yat.scss */
+/* line 71, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-inner {
   overflow: hidden;
   overflow-x: scroll;
   overflow-y: hidden;
 }
-/* line 79, ../../src/scss/_yat.scss */
+/* line 79, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   position: absolute;
   top: 0;
@@ -168,11 +168,11 @@
   display: block;
   z-index: 50;
 }
-/* line 88, ../../src/scss/_yat.scss */
+/* line 88, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-/* line 93, ../../src/scss/_yat.scss */
+/* line 93, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navlinks .yat-right {
   left: auto;
   right: 0;
@@ -209,17 +209,17 @@
   background-image: url("../img/arrow_big_right.png");
   background-position: center right;
 }
-/* line 101, ../../src/scss/_yat.scss */
+/* line 101, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport {
   bottom: 150px;
 }
-/* line 104, ../../src/scss/_yat.scss */
+/* line 104, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements {
   top: 0;
   bottom: 0;
   overflow: hidden;
 }
-/* line 110, ../../src/scss/_yat.scss */
+/* line 110, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li {
   height: 258px;
   float: left;
@@ -231,11 +231,11 @@
   background: white;
   position: relative;
 }
-/* line 116, ../../src/scss/_yat.scss */
+/* line 116, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
   overflow: hidden;
 }
-/* line 120, ../../src/scss/_yat.scss */
+/* line 120, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore {
   position: absolute;
   left: 0;
@@ -319,7 +319,7 @@
   right: 0;
   top: 0;
 }
-/* line 136, ../../src/scss/_yat.scss */
+/* line 136, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-readmore {
   display: none;
 }
@@ -332,14 +332,14 @@
 .yat-timeline .yat-viewport .yat-inner .yat-elements {
   margin-left: 8px;
 }
-/* line 146, ../../src/scss/_yat.scss */
+/* line 146, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation {
   top: auto;
   height: 150px;
   overflow: visible;
   z-index: 10;
 }
-/* line 152, ../../src/scss/_yat.scss */
+/* line 152, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview {
   position: absolute;
   left: 0;
@@ -349,7 +349,7 @@
   padding-top: 20px;
   overflow: hidden;
 }
-/* line 161, ../../src/scss/_yat.scss */
+/* line 161, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol {
   margin: 0;
   padding: 0;
@@ -359,18 +359,18 @@
   right: 0;
   overflow: none;
 }
-/* line 170, ../../src/scss/_yat.scss */
+/* line 170, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li {
   float: left;
   margin: 0;
   padding: 0;
 }
-/* line 176, ../../src/scss/_yat.scss */
+/* line 176, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   display: block;
   height: 60px;
 }
-/* line 182, ../../src/scss/_yat.scss */
+/* line 182, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li.last span {
   margin-right: 0;
 }
@@ -396,7 +396,7 @@
   cursor: move;
   background: url("../img/current_position.png") no-repeat center top;
 }
-/* line 191, ../../src/scss/_yat.scss */
+/* line 191, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position {
   position: absolute;
   z-index: 20;
@@ -409,30 +409,34 @@
   overflow-y: hidden;
   height: 80px;
 }
-/* line 204, ../../src/scss/_yat.scss */
+/* line 204, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container {
   width: 100%;
   padding-left: 100%;
   position: absolute;
   margin-top: 20px;
 }
-/* line 210, ../../src/scss/_yat.scss */
+/* line 210, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container .yat-position-inner {
   width: 100px;
 }
-/* line 217, ../../src/scss/_yat.scss */
+/* line 217, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner {
   top: 40px;
 }
-/* line 220, ../../src/scss/_yat.scss */
+/* line 220, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li {
   position: absolute;
   display: block;
 }
-/* line 223, ../../src/scss/_yat.scss */
+/* line 223, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li a {
   display: block;
   /*white-space: nowrap;*/
+}
+/* line 228, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
+.yat-timeline .yat-navigation .yat-inner .yat-elements .yat-navigation-placeholder-right {
+  height: 1px;
 }
 /* line 79, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-elements {
@@ -490,7 +494,7 @@
 }
 
 /* fullscreen container */
-/* line 236, ../../src/scss/_yat.scss */
+/* line 239, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-fullscreen {
   position: fixed;
   top: 0;
@@ -498,7 +502,7 @@
   left: 0;
   right: 0;
 }
-/* line 243, ../../src/scss/_yat.scss */
+/* line 246, /Users/ben/Dropbox/bmg_timeline2012/dev/yat.js/src/scss/layouts/../_yat.scss */
 .yat-fullscreen .yat-timeline {
   margin-top: 100px;
   margin-left: 20px;

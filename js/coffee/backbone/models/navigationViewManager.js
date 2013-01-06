@@ -5,14 +5,15 @@
 
   window.yat.NavigationViewManager = (function() {
 
-    function _Class(model) {
+    function _Class(model, options) {
       this.model = model;
+      this.options = options;
       this.initialize();
       this.index = 0;
     }
 
     _Class.prototype.initialize = function() {
-      this.paneWidth = 200 * (this.model.length / 2);
+      this.paneWidth = this.options.element_width * (this.model.length / 2) + this.options.margin_left + this.options.margin_right;
       this.startEnd = this.model.getStartEnd();
       this.interval = Math.abs(moment(this.startEnd.start).diff(this.startEnd.end, 'days'));
       return this.pixelPerDay = Math.round(this.paneWidth / this.interval);
@@ -27,7 +28,7 @@
       item = this.model.at(this.index++);
       days = moment(item.get('date')).diff(this.startEnd.start, 'days');
       return {
-        position: days * this.pixelPerDay,
+        position: days * this.pixelPerDay + this.options.margin_left,
         model: item
       };
     };
