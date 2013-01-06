@@ -44,6 +44,7 @@
       this.elementList = $(window.yat.templates.timelineNavigationElementList());
       this.mainElement = $("<div class='yat-inner' />");
       this.mainElement.append(this.elementList);
+      this.navigation_width = 0;
       navlinks = $(window.yat.templates.timelineNavigationNavlinks());
       this.$el.html(this.mainElement);
       this.$el.append(navlinks);
@@ -62,6 +63,14 @@
       return this.viewManager.updateViewport(_viewportPos);
     };
 
+    _Class.prototype.offset_to_percentage = function(offset) {
+      return offset / (this.navigation_width - this.mainElement.width() - this.options.horizontal_offset);
+    };
+
+    _Class.prototype.percentage_to_offset = function(percentage) {
+      return percentage * (this.navigation_width - this.mainElement.width() - this.options.horizontal_offset);
+    };
+
     _Class.prototype.registerEventListener = function() {
       var startEnd, that;
       that = this;
@@ -70,12 +79,10 @@
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.mainElement.scrollLeft()));
       });
       this.mainElement.scroll(function() {
-        var offset, percentage;
+        var offset;
         offset = that.mainElement.scrollLeft();
         that.scrollOffset = offset;
-        percentage = that.viewManager.get_percentage_for_offset(offset);
-        percentage = offset / that.line;
-        return that.options.dispatcher.trigger('navigation_position_change', percentage);
+        return that.options.dispatcher.trigger('navigation_position_change', that.offset_to_percentage(offset));
       });
       this.options.dispatcher.on('viewport_scrollstop', function(elements) {
         var index;
@@ -106,14 +113,14 @@
       });
       this.options.dispatcher.on('navigation_prev', function() {
         var current_position, offset, percentage;
-        current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft());
+        current_position = that.offset_to_percentage(that.mainElement.scrollLeft());
         offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2;
         percentage = current_position - offset;
         return that.jump_to_percentage(percentage, true);
       });
       return this.options.dispatcher.on('navigation_next', function() {
         var current_position, offset, percentage;
-        current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft());
+        current_position = that.offset_to_percentage(that.mainElement.scrollLeft());
         offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2;
         percentage = current_position + offset;
         return that.jump_to_percentage(percentage, true);
@@ -214,7 +221,8 @@
         this.current_objects.push(element);
         this.current_objects = _.uniq(this.current_objects);
         element.view.$el.css('left', element.pos.left + 'px');
-        return element.view.$el.css('top', element.pos.top + 'px');
+        element.view.$el.css('top', element.pos.top + 'px');
+        return this.navigation_width = element.pos.nextLeft();
       } else {
         if (shortest_right > this.line) {
           this.line = shortest_right;
@@ -251,7 +259,7 @@
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
       var scrollLeft;
       scrollLeft = this.viewManager.get_offset_for_percentage(percentage);
-      scrollLeft = this.line * percentage;
+      scrollLeft = this.percentage_to_offset(percentage);
       if (animate) {
         return this.mainElement.animate({
           scrollLeft: scrollLeft
@@ -275,7 +283,6 @@
 
     _Class.prototype.jump_to_cid = function(cid, animate) {
       var scrollLeft;
-      console.log('jumping to', cid);
       if ($('#' + this.options.id_prefix + cid + this.options.id_postfix)[0] !== void 0) {
         scrollLeft = $('#' + this.options.id_prefix + cid + this.options.id_postfix).position().left - this.$el.outerWidth() / 2;
         if (animate) {

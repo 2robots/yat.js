@@ -38,6 +38,7 @@ window.yat.NavigationView = class extends Backbone.View
     @elementList = $(window.yat.templates.timelineNavigationElementList())
     @mainElement = $("<div class='yat-inner' />")
     @mainElement.append(@elementList)
+    @navigation_width = 0
 
     # render the navlinks
     navlinks = $(window.yat.templates.timelineNavigationNavlinks())
@@ -58,8 +59,13 @@ window.yat.NavigationView = class extends Backbone.View
       width: @mainElement.width()
     @viewManager.updateViewport(_viewportPos)
 
-  registerEventListener: ->
+  offset_to_percentage: (offset) ->
+    offset / ( @navigation_width - @mainElement.width() - @options.horizontal_offset )
 
+  percentage_to_offset: (percentage) ->
+    percentage * ( @navigation_width - @mainElement.width() - @options.horizontal_offset )
+
+  registerEventListener: ->
     that = @
     startEnd = that.model.getStartEnd()
 
@@ -72,10 +78,10 @@ window.yat.NavigationView = class extends Backbone.View
     @mainElement.scroll ->
       offset = that.mainElement.scrollLeft()
       that.scrollOffset = offset
-      percentage = that.viewManager.get_percentage_for_offset offset
-      percentage = offset / that.line
+      #percentage = that.viewManager.get_percentage_for_offset offset
+      #percentage = offset / that.line
       #percentage = offset / _.max(_lastElements)
-      that.options.dispatcher.trigger 'navigation_position_change', percentage
+      that.options.dispatcher.trigger 'navigation_position_change', that.offset_to_percentage( offset )
 
     # bind the overview to viewport changes
     @options.dispatcher.on 'viewport_scrollstop', (elements) ->
@@ -111,14 +117,13 @@ window.yat.NavigationView = class extends Backbone.View
       that.options.dispatcher.trigger 'navigation_next'
 
     @options.dispatcher.on 'navigation_prev', ->
-
-      current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft())
+      current_position = that.offset_to_percentage(that.mainElement.scrollLeft())
       offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2
       percentage = current_position - offset
       that.jump_to_percentage percentage, true
 
     @options.dispatcher.on 'navigation_next', ->
-      current_position = that.viewManager.get_percentage_for_offset(that.mainElement.scrollLeft())
+      current_position = that.offset_to_percentage(that.mainElement.scrollLeft())
       offset = (that.elementList.parent().width() / that.viewManager.paneWidth) / 2
       percentage = current_position + offset
       that.jump_to_percentage percentage, true
@@ -140,11 +145,6 @@ window.yat.NavigationView = class extends Backbone.View
       dispatcher: that.options.dispatcher
     navElement.$el.attr("id", @options.id_prefix + item.model.cid + @options.id_postfix)
     @elementList.append(navElement.$el)
-
-    #setTimeout (->
-    #  that.repositionElement(navElement)
-    #), 1
-
     navElement
 
   repositionElements: (elements) ->
@@ -214,6 +214,7 @@ window.yat.NavigationView = class extends Backbone.View
       @current_objects = _.uniq @current_objects
       element.view.$el.css('left', element.pos.left + 'px')
       element.view.$el.css('top', element.pos.top + 'px')
+      @navigation_width = element.pos.nextLeft()
     else
       if shortest_right > @line
         @line = shortest_right
@@ -244,7 +245,7 @@ window.yat.NavigationView = class extends Backbone.View
   # jumps to a percentage position
   jump_to_percentage: (percentage, animate)->
     scrollLeft = @viewManager.get_offset_for_percentage(percentage)
-    scrollLeft = @line * percentage
+    scrollLeft = @percentage_to_offset percentage
     if animate
       @mainElement.animate({
         scrollLeft: scrollLeft
@@ -264,7 +265,6 @@ window.yat.NavigationView = class extends Backbone.View
 
   # jumps to element with Client ID
   jump_to_cid: (cid, animate)->
-    console.log 'jumping to', cid
     if $('#' + @options.id_prefix + cid + @options.id_postfix)[0] != undefined
       scrollLeft = $('#' + @options.id_prefix + cid + @options.id_postfix).position().left - @$el.outerWidth()/2
       if animate
