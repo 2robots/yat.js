@@ -145,175 +145,101 @@ window.yat.NavigationView = class extends Backbone.View
 
   repositionElements: (elements) ->
     that = @
-    window.setTimeout(->
-      for item in elements
-        if _lastElements.length > 4
-          _lastElements.shift()
-#        line = 0
-#        position = item.position
-#        if _lastElements[line] >= position
-#          # there's not enough space in the first line --> reposition element
-#          while _lastElements[line] >= position && line < 3
-#            line++
-#          if line > 2
-#            position = _.min(_lastElements)
-#            line = _.indexOf(_lastElements, position)
-#        _lastElements[line] = position + item.view.width() + 5
-#        item.view.$el.css('top', line * that.options.position.top + 'em')
-#        item.view.$el.css('left', position + 'px')
-        item.pos = {
-          left: item.position,
-          top: 0,
-          height: parseInt(item.view.$el.css('height'), 10)
-          width: parseInt(item.view.$el.css('width'), 10)
-        }
-        item.pos.nextLeft = item.pos.left + item.pos.width + 10
-        item.pos.nextTop = ->
-          @top + @height + 10
 
+    # Abstand nach Links in Pixeln, die neue Elemente mindestens haben m√ºssen
+    @line = 0
 
-        if _lastElements.length > 0
-          maxLeft = _.max _lastElements, (it) ->
-            it.pos.nextLeft
-          maxLeft = maxLeft.pos.nextLeft
-        else
-          maxLeft = 0
+    # array: Speichert alle Elemente, deren rechter Rand rechts von der line sind
+    @current_objects = []
 
-        if item.pos.left < maxLeft
-          if _lastElements.length > 0
-            maxTop = _.max _lastElements, (it) ->
-              if item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left
-                it.pos.nextTop()
-              else
-                0
-            if typeof maxTop == 'object'
-              maxTop = maxTop.pos.nextTop()
-            maxTop = Math.max(maxTop, 0)
-            item.pos.top = maxTop
+    window.setTimeout( ->
+      for el in elements
+        @callIndex = 0
+        that.arrange_element(el)
+        console.log that.line
+    , 10)
 
-            if item.pos.nextTop() > 110
-              item.pos.top = 0
-              firstLineItem = _.find _lastElements, (it) ->
-                it.pos.top == 0
-              if typeof firstLineItem == 'object'
-                item.pos.left = firstLineItem.pos.nextLeft
-            
-            relevantItems = _.filter _lastElements, (it) ->
-              item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left
+  arrange_element: (element) ->
+    success = false
 
-            relevantItems = _.sortBy relevantItems, (it) ->
-              it.pos.top
+    if !element.pos
+      element.pos =
+        left: element.position,
+        top: 0,
+        height: parseInt(element.view.$el.css('height'), 10)
+        width: parseInt(element.view.$el.css('width'), 10)
 
-            if relevantItems.length > 0
-              console.log relevantItems.length
-              leftMost = _.min relevantItems, (it) ->
-                it.pos.nextLeft
-              item.pos.left = leftMost.pos.nextLeft
-              item.pos.top = leftMost.pos.top
+    element.pos.nextLeft = ->
+      @left + @width + 10
+    element.pos.nextTop = ->
+      @top + @height + 10
 
-        item.view.$el.css('left', item.pos.left + 'px')
-        item.view.$el.css('top', item.pos.top + 'px')
+    if element.pos.left > @line
+      @line = element.pos.left
 
-        _lastElements.push(item)
-    , 0)
+    @cleanup_current_objects()
 
+    if @current_objects.length == 0
+      element.pos.top = 0
+      #element.pos.left = @line
+      success = true
+    else
+      shortest_right = _.min @current_objects, (item) ->
+        item.pos.nextLeft()
+      shortest_right = shortest_right.pos.nextLeft() if shortest_right?
+      console.log 'shortest_right', shortest_right
 
+      # current_objects wird nach top-Wert ASC sortiert, durchgegangen:
+      @current_objects = _.sortBy @current_objects, (item) ->
+        item.pos.top
 
-  # reposition an element next to last elements
-  repositionElement2: (navElement) ->
+      element.pos.left = @line
+      element.pos.top = 0
 
-    element = navElement.$el
-    prev = $(element).prev()
+      if @position_is_valid @current_objects, element.pos
+        success = true
+      else
+        _.each( @current_objects, (item) ->
+          element.pos.left = @line
+          element.pos.top = item.pos.nextTop()
+          if @position_is_valid @current_objects, element.pos
+            success = true
+        , @ )
 
-    if prev[0] != undefined
+    if success
+      @current_objects.push element
+      @current_objects = _.uniq @current_objects
+      element.view.$el.css('left', element.pos.left + 'px')
+      element.view.$el.css('top', element.pos.top + 'px')
+    else
+      console.log shortest_right, @line, element.pos.nextLeft(), element.pos
+      if shortest_right > @line
+        @line = shortest_right
+      else
+        console.log '+10'
+        @line += 10
 
-      model = navElement.model
-      last_index = _.indexOf(@model.models, model) - 1
-      last_model = @model.at(last_index)
+      @cleanup_current_objects()
+      element.pos.top = 0
+      element.pos.left = @line
+      console.log 'line pos', @line
+      @arrange_element element
 
-      interval = Math.abs(moment(model.get("date")).diff(last_model.get("date"), 'days'))
-      @startEnd = @model.getStartEnd()
-      distance = Math.abs(moment(@startEnd.start).diff(@startEnd.end, 'days'))
-      distance_to_prev = parseInt(((@model.length * element.width() / distance) * interval) / 10, 10)
+  # checks whether the position intersects with any of the elements or is outside the navigation borders
+  position_is_valid: (elements, position) ->
+    if position.nextTop() < 110
+      result = !_.some elements, (el) ->
+        el.pos.left < position.nextLeft() && position.left < el.pos.nextLeft() &&
+        el.pos.top < position.nextTop() && position.top < el.pos.nextTop()
+      result
+    else
+      false
 
-      height = prev.height()
-      parent_height = prev.parent().height()
-      offset_top = prev.position().top
-      offset_left = prev.position().left
-
-      next = true
-      # try to place it on top of last element
-      if offset_top >= (height + @options.vertical_offset)
-        element.css("top", prev.position().top - height - @options.vertical_offset)
-        element.css("left", prev.position().left + distance_to_prev)
-
-        if @is_there_an_element_at_this_positon(element.siblings(), element)
-          next = true
-        else
-          next = false
-
-      # try to place it under last element
-      if next && (height*2 + offset_top + @options.vertical_offset) < parent_height
-        element.css("top", height + offset_top + @options.vertical_offset)
-        element.css("left", prev.position().left + distance_to_prev)
-
-        if @is_there_an_element_at_this_positon(element.siblings(), element)
-          next = true
-        else
-          next = false
-
-      # try to place it next to last element
-      if next
-        if prev.position().left + prev.width() > distance_to_prev
-          distance_to_prev = prev.position().left + prev.width()
-        element.css("left", distance_to_prev + @options.horizontal_offset )
-
-
-
-
-  is_there_an_element_at_this_positon: (elements, element)->
-
-    left = element.position().left
-    top = element.position().top
-
-    ret = false
-
-    elements.each (i,e)->
-
-      if $(e).position().top <= top && $(e).position().top+$(e).height() >= top
-        if $(e).position().left <= left && $(e).position().left+$(e).width() >= left
-          ret = true
-          return
-
-      if ($(e).position().left + $(e).width() + $(e).width()) < left
-        return
-
-    return ret
-
-  repositionElements2: (elements) ->
-
-    that = @
-    window.setTimeout(->
-      for item in elements
-        line = 0
-        position = item.position
-        if _lastElements[line] >= position
-          # there's not enough space in the first line --> reposition element
-          while _lastElements[line] >= position && line < 3
-            line++
-          if line > 2
-            position = _.min(_lastElements)
-            line = _.indexOf(_lastElements, position)
-        _lastElements[line] = position + item.view.width() + 5
-        item.view.$el.css('top', line * that.options.position.top + 'em')
-        item.view.$el.css('left', position + 'px')
-
-      that.viewManager.paneWidth = position + item.view.$el.outerWidth() - that.$el.outerWidth()
-      that.viewManager.pixelPerDay = Math.round(that.viewManager.paneWidth / that.viewManager.interval)
-      that.options.dispatcher.trigger 'load_component_end'
-    , 0)
-
-  addElement: ->
+  cleanup_current_objects: ->
+    start = @current_objects.length
+    @current_objects = _.reject @current_objects, (item) ->
+      item.pos.nextLeft() <= @line
+    , @
 
   # jumps to a percentage position
   jump_to_percentage: (percentage, animate)->

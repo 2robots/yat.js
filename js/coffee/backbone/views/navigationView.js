@@ -145,171 +145,110 @@
     _Class.prototype.repositionElements = function(elements) {
       var that;
       that = this;
+      this.line = 0;
+      this.current_objects = [];
       return window.setTimeout(function() {
-        var firstLineItem, item, leftMost, maxLeft, maxTop, relevantItems, _i, _len, _results;
+        var el, _i, _len, _results;
         _results = [];
         for (_i = 0, _len = elements.length; _i < _len; _i++) {
-          item = elements[_i];
-          if (_lastElements.length > 4) {
-            _lastElements.shift();
-          }
-          item.pos = {
-            left: item.position,
-            top: 0,
-            height: parseInt(item.view.$el.css('height'), 10),
-            width: parseInt(item.view.$el.css('width'), 10)
-          };
-          item.pos.nextLeft = item.pos.left + item.pos.width + 10;
-          item.pos.nextTop = function() {
-            return this.top + this.height + 10;
-          };
-          if (_lastElements.length > 0) {
-            maxLeft = _.max(_lastElements, function(it) {
-              return it.pos.nextLeft;
-            });
-            maxLeft = maxLeft.pos.nextLeft;
-          } else {
-            maxLeft = 0;
-          }
-          if (item.pos.left < maxLeft) {
-            if (_lastElements.length > 0) {
-              maxTop = _.max(_lastElements, function(it) {
-                if (item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left) {
-                  return it.pos.nextTop();
-                } else {
-                  return 0;
-                }
-              });
-              if (typeof maxTop === 'object') {
-                maxTop = maxTop.pos.nextTop();
-              }
-              maxTop = Math.max(maxTop, 0);
-              item.pos.top = maxTop;
-              if (item.pos.nextTop() > 110) {
-                item.pos.top = 0;
-                firstLineItem = _.find(_lastElements, function(it) {
-                  return it.pos.top === 0;
-                });
-                if (typeof firstLineItem === 'object') {
-                  item.pos.left = firstLineItem.pos.nextLeft;
-                }
-              }
-              relevantItems = _.filter(_lastElements, function(it) {
-                return item.pos.left < it.pos.nextLeft && item.pos.left > it.pos.left;
-              });
-              relevantItems = _.sortBy(relevantItems, function(it) {
-                return it.pos.top;
-              });
-              if (relevantItems.length > 0) {
-                console.log(relevantItems.length);
-                leftMost = _.min(relevantItems, function(it) {
-                  return it.pos.nextLeft;
-                });
-                item.pos.left = leftMost.pos.nextLeft;
-                item.pos.top = leftMost.pos.top;
-              }
-            }
-          }
-          item.view.$el.css('left', item.pos.left + 'px');
-          item.view.$el.css('top', item.pos.top + 'px');
-          _results.push(_lastElements.push(item));
+          el = elements[_i];
+          this.callIndex = 0;
+          that.arrange_element(el);
+          _results.push(console.log(that.line));
         }
         return _results;
-      }, 0);
+      }, 10);
     };
 
-    _Class.prototype.repositionElement2 = function(navElement) {
-      var distance, distance_to_prev, element, height, interval, last_index, last_model, model, next, offset_left, offset_top, parent_height, prev;
-      element = navElement.$el;
-      prev = $(element).prev();
-      if (prev[0] !== void 0) {
-        model = navElement.model;
-        last_index = _.indexOf(this.model.models, model) - 1;
-        last_model = this.model.at(last_index);
-        interval = Math.abs(moment(model.get("date")).diff(last_model.get("date"), 'days'));
-        this.startEnd = this.model.getStartEnd();
-        distance = Math.abs(moment(this.startEnd.start).diff(this.startEnd.end, 'days'));
-        distance_to_prev = parseInt(((this.model.length * element.width() / distance) * interval) / 10, 10);
-        height = prev.height();
-        parent_height = prev.parent().height();
-        offset_top = prev.position().top;
-        offset_left = prev.position().left;
-        next = true;
-        if (offset_top >= (height + this.options.vertical_offset)) {
-          element.css("top", prev.position().top - height - this.options.vertical_offset);
-          element.css("left", prev.position().left + distance_to_prev);
-          if (this.is_there_an_element_at_this_positon(element.siblings(), element)) {
-            next = true;
-          } else {
-            next = false;
-          }
+    _Class.prototype.arrange_element = function(element) {
+      var shortest_right, success;
+      success = false;
+      if (!element.pos) {
+        element.pos = {
+          left: element.position,
+          top: 0,
+          height: parseInt(element.view.$el.css('height'), 10),
+          width: parseInt(element.view.$el.css('width'), 10)
+        };
+      }
+      element.pos.nextLeft = function() {
+        return this.left + this.width + 10;
+      };
+      element.pos.nextTop = function() {
+        return this.top + this.height + 10;
+      };
+      if (element.pos.left > this.line) {
+        this.line = element.pos.left;
+      }
+      this.cleanup_current_objects();
+      if (this.current_objects.length === 0) {
+        element.pos.top = 0;
+        success = true;
+      } else {
+        shortest_right = _.min(this.current_objects, function(item) {
+          return item.pos.nextLeft();
+        });
+        if (shortest_right != null) {
+          shortest_right = shortest_right.pos.nextLeft();
         }
-        if (next && (height * 2 + offset_top + this.options.vertical_offset) < parent_height) {
-          element.css("top", height + offset_top + this.options.vertical_offset);
-          element.css("left", prev.position().left + distance_to_prev);
-          if (this.is_there_an_element_at_this_positon(element.siblings(), element)) {
-            next = true;
-          } else {
-            next = false;
-          }
+        console.log('shortest_right', shortest_right);
+        this.current_objects = _.sortBy(this.current_objects, function(item) {
+          return item.pos.top;
+        });
+        element.pos.left = this.line;
+        element.pos.top = 0;
+        if (this.position_is_valid(this.current_objects, element.pos)) {
+          success = true;
+        } else {
+          _.each(this.current_objects, function(item) {
+            element.pos.left = this.line;
+            element.pos.top = item.pos.nextTop();
+            if (this.position_is_valid(this.current_objects, element.pos)) {
+              return success = true;
+            }
+          }, this);
         }
-        if (next) {
-          if (prev.position().left + prev.width() > distance_to_prev) {
-            distance_to_prev = prev.position().left + prev.width();
-          }
-          return element.css("left", distance_to_prev + this.options.horizontal_offset);
+      }
+      if (success) {
+        this.current_objects.push(element);
+        this.current_objects = _.uniq(this.current_objects);
+        element.view.$el.css('left', element.pos.left + 'px');
+        return element.view.$el.css('top', element.pos.top + 'px');
+      } else {
+        console.log(shortest_right, this.line, element.pos.nextLeft(), element.pos);
+        if (shortest_right > this.line) {
+          this.line = shortest_right;
+        } else {
+          console.log('+10');
+          this.line += 10;
         }
+        this.cleanup_current_objects();
+        element.pos.top = 0;
+        element.pos.left = this.line;
+        console.log('line pos', this.line);
+        return this.arrange_element(element);
       }
     };
 
-    _Class.prototype.is_there_an_element_at_this_positon = function(elements, element) {
-      var left, ret, top;
-      left = element.position().left;
-      top = element.position().top;
-      ret = false;
-      elements.each(function(i, e) {
-        if ($(e).position().top <= top && $(e).position().top + $(e).height() >= top) {
-          if ($(e).position().left <= left && $(e).position().left + $(e).width() >= left) {
-            ret = true;
-            return;
-          }
-        }
-        if (($(e).position().left + $(e).width() + $(e).width()) < left) {
-
-        }
-      });
-      return ret;
+    _Class.prototype.position_is_valid = function(elements, position) {
+      var result;
+      if (position.nextTop() < 110) {
+        result = !_.some(elements, function(el) {
+          return el.pos.left < position.nextLeft() && position.left < el.pos.nextLeft() && el.pos.top < position.nextTop() && position.top < el.pos.nextTop();
+        });
+        return result;
+      } else {
+        return false;
+      }
     };
 
-    _Class.prototype.repositionElements2 = function(elements) {
-      var that;
-      that = this;
-      return window.setTimeout(function() {
-        var item, line, position, _i, _len;
-        for (_i = 0, _len = elements.length; _i < _len; _i++) {
-          item = elements[_i];
-          line = 0;
-          position = item.position;
-          if (_lastElements[line] >= position) {
-            while (_lastElements[line] >= position && line < 3) {
-              line++;
-            }
-            if (line > 2) {
-              position = _.min(_lastElements);
-              line = _.indexOf(_lastElements, position);
-            }
-          }
-          _lastElements[line] = position + item.view.width() + 5;
-          item.view.$el.css('top', line * that.options.position.top + 'em');
-          item.view.$el.css('left', position + 'px');
-        }
-        that.viewManager.paneWidth = position + item.view.$el.outerWidth() - that.$el.outerWidth();
-        that.viewManager.pixelPerDay = Math.round(that.viewManager.paneWidth / that.viewManager.interval);
-        return that.options.dispatcher.trigger('load_component_end');
-      }, 0);
+    _Class.prototype.cleanup_current_objects = function() {
+      var start;
+      start = this.current_objects.length;
+      return this.current_objects = _.reject(this.current_objects, function(item) {
+        return item.pos.nextLeft() <= this.line;
+      }, this);
     };
-
-    _Class.prototype.addElement = function() {};
 
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
       var scrollLeft;
