@@ -17,16 +17,16 @@ _lastElements = []
 # The item is one "event" at a specific time on the timeline
 window.yat.NavigationView = class extends Backbone.View
 
-  options: {
-    position: {
+  options:
+    position:
       top: '2.5'
-    }
     id_prefix: ''
     id_postfix: ''
     vertical_offset: 5
     horizontal_offset: 5
     navigation_height: 100
-  }
+    margin_left: 0
+    margin_right: 0
 
   mainElement = undefined
 
@@ -203,9 +203,12 @@ window.yat.NavigationView = class extends Backbone.View
         success = true
       else
         _.each( @current_objects, (item) ->
-          element.pos.left = @line
-          element.pos.top = item.pos.nextTop()
-          if @position_is_valid @current_objects, element.pos
+          pos = _.clone element.pos
+          pos.left = @line
+          pos.top = item.pos.nextTop()
+          if @position_is_valid @current_objects, pos
+            element.pos.left = pos.left
+            element.pos.top = pos.top
             success = true
         , @ )
 

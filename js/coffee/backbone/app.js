@@ -7,9 +7,7 @@
 
     function _Class(options) {
       this.dispatcher = _.extend({}, Backbone.Events);
-      this.dispatcher.on('all', function() {
-        return console.log(arguments);
-      });
+      this.dispatcher.on('all', function() {});
       this.items = new window.yat.ItemList(options.items);
       this.timelineView = new window.yat.TimelineView({
         el: options.containerElement,

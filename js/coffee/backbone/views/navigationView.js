@@ -30,7 +30,9 @@
       id_postfix: '',
       vertical_offset: 5,
       horizontal_offset: 5,
-      navigation_height: 100
+      navigation_height: 100,
+      margin_left: 0,
+      margin_right: 0
     };
 
     mainElement = void 0;
@@ -209,9 +211,13 @@
           success = true;
         } else {
           _.each(this.current_objects, function(item) {
-            element.pos.left = this.line;
-            element.pos.top = item.pos.nextTop();
-            if (this.position_is_valid(this.current_objects, element.pos)) {
+            var pos;
+            pos = _.clone(element.pos);
+            pos.left = this.line;
+            pos.top = item.pos.nextTop();
+            if (this.position_is_valid(this.current_objects, pos)) {
+              element.pos.left = pos.left;
+              element.pos.top = pos.top;
               return success = true;
             }
           }, this);

@@ -15,7 +15,7 @@ window.yat.App = class
   constructor: (options) ->
     @dispatcher = _.extend({}, Backbone.Events)
     @dispatcher.on('all', ->
-      console.log(arguments)
+      #console.log(arguments)
     )
     @items = new window.yat.ItemList options.items
     @timelineView = new window.yat.TimelineView {
