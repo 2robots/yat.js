@@ -216,8 +216,9 @@ $viewport-element-outer-height: 82px;
         font-size: 1.08em;
       }
 
-      img {
-        height: 130px !important;
+      .timeline_video, .timeline_image {
+        float:left;
+        margin-right: 10px;
       }
     }
   }
