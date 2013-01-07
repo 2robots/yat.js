@@ -296,9 +296,10 @@
     };
 
     _Class.prototype.jump_to_cid = function(cid, animate) {
-      var scrollLeft;
+      var domElement, scrollLeft;
       if ($('#' + this.options.id_prefix + cid + this.options.id_postfix)[0] !== void 0) {
-        scrollLeft = $('#' + this.options.id_prefix + cid + this.options.id_postfix).position().left - this.$el.outerWidth() / 2;
+        domElement = $('#' + this.options.id_prefix + cid + this.options.id_postfix);
+        scrollLeft = domElement.position().left + domElement.width() / 2 - this.$el.outerWidth() / 2;
         if (animate) {
           return this.mainElement.animate({
             scrollLeft: scrollLeft

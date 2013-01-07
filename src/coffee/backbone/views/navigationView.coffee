@@ -280,7 +280,8 @@ window.yat.NavigationView = class extends Backbone.View
   # jumps to element with Client ID
   jump_to_cid: (cid, animate)->
     if $('#' + @options.id_prefix + cid + @options.id_postfix)[0] != undefined
-      scrollLeft = $('#' + @options.id_prefix + cid + @options.id_postfix).position().left - @$el.outerWidth()/2
+      domElement = $('#' + @options.id_prefix + cid + @options.id_postfix)
+      scrollLeft = domElement.position().left + domElement.width() / 2 - @$el.outerWidth()/2
       if animate
         @mainElement.animate({
           scrollLeft: scrollLeft
