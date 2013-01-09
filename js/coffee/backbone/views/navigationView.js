@@ -134,17 +134,28 @@
     };
 
     _Class.prototype.render = function() {
-      var elements, item;
+      var elements, item, most_recent, that;
+      that = this;
       this._updateViewportPos();
       elements = [];
+      most_recent;
+
       while (this.viewManager.hasRenderCandidate()) {
         item = this.viewManager.getNextElement();
         item.view = this.renderMore(item);
+        if (item.model.get('date') <= moment()) {
+          most_recent = item;
+        }
         elements.push(item);
       }
       this.placeholder_right = $(window.yat.templates.timelineNavigationPlaceholder());
       this.placeholder_right.css('width', this.options.margin_right);
       this.elementList.append(this.placeholder_right);
+      if (most_recent != null) {
+        window.setTimeout(function() {
+          return that.options.dispatcher.trigger('navigation_element_selected', most_recent.view);
+        }, 0);
+      }
       return this.repositionElements(elements);
     };
 

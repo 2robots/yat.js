@@ -137,15 +137,24 @@ window.yat.NavigationView = class extends Backbone.View
 
 
   render: ->
+    that = @
     @_updateViewportPos()
     elements = []
+    most_recent
     while @viewManager.hasRenderCandidate()
       item = @viewManager.getNextElement()
       item.view = @renderMore(item)
+      if item.model.get('date') <= moment()
+        most_recent = item
       elements.push item
+
     @placeholder_right = $(window.yat.templates.timelineNavigationPlaceholder())
     @placeholder_right.css('width', @options.margin_right)
     @elementList.append @placeholder_right
+    if most_recent?
+      window.setTimeout ->
+        that.options.dispatcher.trigger 'navigation_element_selected', most_recent.view
+      , 0
     @repositionElements(elements)
 
   renderMore: (item) ->
