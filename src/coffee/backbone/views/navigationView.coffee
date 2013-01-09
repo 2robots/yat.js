@@ -14,6 +14,8 @@ _viewportPos =
 
 _lastElements = []
 
+_activated_elements = []
+
 # The item is one "event" at a specific time on the timeline
 window.yat.NavigationView = class extends Backbone.View
 
@@ -92,6 +94,7 @@ window.yat.NavigationView = class extends Backbone.View
 
     # bind the overview to viewport changes
     @options.dispatcher.on 'viewport_scrollstop', (elements) ->
+      that.activate_elements elements
       # if the first of this elements is the global first
       if _.first(arguments[0]).model.get("date") == startEnd.start
         that.jump_to_cid _.first(arguments[0]).model.cid, true
@@ -288,8 +291,8 @@ window.yat.NavigationView = class extends Backbone.View
 
   # jumps to element with Client ID
   jump_to_cid: (cid, animate)->
-    if $('#' + @options.id_prefix + cid + @options.id_postfix)[0] != undefined
-      domElement = $('#' + @options.id_prefix + cid + @options.id_postfix)
+    domElement = @get_element_by_cid cid
+    if domElement[0] != undefined
       scrollLeft = domElement.position().left + domElement.width() / 2 - @$el.outerWidth()/2
       if animate
         @mainElement.animate({
@@ -297,4 +300,19 @@ window.yat.NavigationView = class extends Backbone.View
         }, @options.animation_duration)
       else
         @mainElement.scrollLeft(scrollLeft)
+
+  get_element_by_cid: (cid) ->
+    $('#' + @options.id_prefix + cid + @options.id_postfix)
+
+  activate_elements: (elements) ->
+    _.each _activated_elements, (link) ->
+      link.removeClass('active')
+
+    _activated_elements = []
+
+    _.each elements, (el) ->
+      link = @get_element_by_cid(el.model.cid).find('a')
+      link.addClass('active')
+      _activated_elements.push link
+    , @
 
