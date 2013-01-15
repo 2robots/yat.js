@@ -192,8 +192,8 @@ window.yat.NavigationView = class extends Backbone.View
       element.pos =
         left: element.position,
         top: 0,
-        height: parseInt(element.view.$el.css('height'), 10)
-        width: parseInt(element.view.$el.css('width'), 10)
+        height: parseInt(element.view.$el.height(), 10)
+        width: parseInt(element.view.$el.width(), 10)
 
     element.pos.nextLeft = ->
       @left + @width + that.options.horizontal_offset
