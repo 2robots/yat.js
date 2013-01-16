@@ -267,16 +267,18 @@
         if (before !== void 0 && before[0] !== void 0) {
           before.before(element_view.$el);
           element = before.prev();
+          this.change_list_width(this.element_width(element));
           this.$el.find('> .yat-inner').scrollLeft(this.$el.find('> .yat-inner').scrollLeft() + this.element_width(element));
         } else if (after !== void 0 && after[0] !== void 0) {
           after.after(element_view.$el);
           element = after.next();
+          this.change_list_width(this.element_width(element));
         } else {
           all = this.$el.find('ol.yat-elements').append(element_view.$el);
           element = all.children().last();
+          this.change_list_width(this.element_width(element));
         }
         element.attr('id', this.options.id_prefix + model.cid);
-        this.change_list_width(this.element_width(element));
         element.click(function() {
           if ($(this).hasClass('overflow')) {
             if ($(this).hasClass('open')) {

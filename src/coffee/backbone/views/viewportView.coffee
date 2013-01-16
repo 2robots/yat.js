@@ -353,16 +353,18 @@ window.yat.ViewportView = class extends Backbone.View
       if before != undefined && before[0] != undefined
         before.before element_view.$el
         element = before.prev()
+        @change_list_width( @element_width element)
         @$el.find('> .yat-inner').scrollLeft(@$el.find('> .yat-inner').scrollLeft() + @element_width(element))
       else if after != undefined && after[0] != undefined
         after.after element_view.$el
         element = after.next()
+        @change_list_width( @element_width element)
       else
         all = @$el.find('ol.yat-elements').append(element_view.$el)
         element = all.children().last()
+        @change_list_width( @element_width element)
 
       element.attr('id', @options.id_prefix + model.cid)
-      @change_list_width( @element_width element)
 
       # viewport item select
       element.click ->
