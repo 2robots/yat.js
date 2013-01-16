@@ -14,6 +14,7 @@
     timelineOverview: _.template('<ol class="yat-years"></ol>'),
     timelineOverviewYear: _.template('<li style="width: <%= width %>;"><span><%= year %></span></li>'),
     timelineOverviewSelection: _.template('<div class="yat-current-position"><div class="yat-position-container"><div class="yat-position-inner">Aktueller Ausschnitt</div></div></div>'),
+    timelineOverviewQuarter: _.template('<span style="left:<%= offset %>%;" class="quarter"><%= title %></span>'),
     timelineNavigation: _.template('<div class="yat-navigation"></div>'),
     timelineNavigationElementList: _.template('<ol class="yat-elements"></ol>'),
     timelineNavigationElement: _.template('<a href="<%= linkHref %>"><%= shorttitle %></a>'),

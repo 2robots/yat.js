@@ -35,7 +35,13 @@ window.yat.OverviewView = class extends Backbone.View
       localEnd = _.min([moment([y, 11, 31]), moment(@model.end)], (moment) -> moment.valueOf())
       localDays = localEnd.diff(localStart, 'days') + 1
       itemWidth = 100 / (days / localDays)
-      overview.append(window.yat.templates.timelineOverviewYear {year: y, width: itemWidth + '%'})
+
+      year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y, width: itemWidth + '%'})
+
+      _.each @calculate_quarters(localStart, localEnd, localDays), (q)->
+        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: q.offset, title: q.date.format('D.M.')})
+
+      overview.append(year_view)
 
     @selection_element = $(window.yat.templates.timelineOverviewSelection())
 
@@ -80,6 +86,28 @@ window.yat.OverviewView = class extends Backbone.View
     # bind the overview to navigation changes
     @options.dispatcher.on 'navigation_position_change', (percentage) ->
       that.jump_to_percentage percentage, false
+
+
+  # calculate quarters
+  calculate_quarters: (start, end, days)->
+
+    quarters = [
+      moment([start.year(), 3])
+      moment([start.year(), 6])
+      moment([start.year(), 9])
+    ]
+
+    returns = []
+
+    _.each quarters, (m, i)->
+      if start <= m && m <= end
+        returns.push({
+          offset: parseInt((100*(m.diff start, 'days')/days), 10)
+          date: m
+        })
+
+    returns
+
 
   # jumps to a specific position expressed as percentage
   jump_to_percentage: (percentage, animate)->

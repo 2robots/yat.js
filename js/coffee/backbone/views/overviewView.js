@@ -29,7 +29,7 @@
     };
 
     _Class.prototype.render = function() {
-      var days, itemWidth, localDays, localEnd, localStart, overview, that, y, years, _i, _j, _len, _ref, _ref1, _results;
+      var days, itemWidth, localDays, localEnd, localStart, overview, that, y, year_view, years, _i, _j, _len, _ref, _ref1, _results;
       that = this;
       overview = $(window.yat.templates.timelineOverview());
       years = (function() {
@@ -48,10 +48,17 @@
         });
         localDays = localEnd.diff(localStart, 'days') + 1;
         itemWidth = 100 / (days / localDays);
-        overview.append(window.yat.templates.timelineOverviewYear({
+        year_view = jQuery(window.yat.templates.timelineOverviewYear({
           year: y,
           width: itemWidth + '%'
         }));
+        _.each(this.calculate_quarters(localStart, localEnd, localDays), function(q) {
+          return year_view.append(window.yat.templates.timelineOverviewQuarter({
+            offset: q.offset,
+            title: q.date.format('D.M.')
+          }));
+        });
+        overview.append(year_view);
       }
       this.selection_element = $(window.yat.templates.timelineOverviewSelection());
       setTimeout((function() {
@@ -89,6 +96,21 @@
       return this.options.dispatcher.on('navigation_position_change', function(percentage) {
         return that.jump_to_percentage(percentage, false);
       });
+    };
+
+    _Class.prototype.calculate_quarters = function(start, end, days) {
+      var quarters, returns;
+      quarters = [moment([start.year(), 3]), moment([start.year(), 6]), moment([start.year(), 9])];
+      returns = [];
+      _.each(quarters, function(m, i) {
+        if (start <= m && m <= end) {
+          return returns.push({
+            offset: parseInt(100 * (m.diff(start, 'days')) / days, 10),
+            date: m
+          });
+        }
+      });
+      return returns;
     };
 
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
