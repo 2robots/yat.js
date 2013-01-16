@@ -157,7 +157,7 @@ window.yat.NavigationView = class extends Backbone.View
     if most_recent?
       window.setTimeout ->
         that.options.dispatcher.trigger 'navigation_element_selected', most_recent.view
-      , 0
+      , 100
     @repositionElements(elements)
 
   renderMore: (item) ->

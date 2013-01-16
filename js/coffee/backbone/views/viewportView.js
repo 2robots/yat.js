@@ -125,10 +125,20 @@
         return that.disable_load_more_till_scrollend = false;
       });
       return that.options.dispatcher.on('navigation_element_selected', function(navigationView) {
-        var position;
+        var el, index, position;
         position = _.indexOf(that.model.models, navigationView.model);
         if (that.not_rendered_yet[position] === false) {
-          that.insert_element_at_position(position);
+          if (that.not_rendered_yet_position > position) {
+            index = that.find_prev_not_rendered_element();
+            if (index <= that.total_index) {
+              el = jQuery('#' + that.options.id_prefix + (that.model.at(index + 1)).cid);
+            } else {
+              el = void 0;
+            }
+            that.insert_element_at_position(position, el, void 0);
+          } else {
+            that.insert_element_at_position(position);
+          }
           that.insert_prev_element(that.getCurrentElements().length + 2);
           that.insert_next_element(that.getCurrentElements().length + 2);
         }

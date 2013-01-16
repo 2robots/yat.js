@@ -159,7 +159,19 @@ window.yat.ViewportView = class extends Backbone.View
         #_(elements_to_render_on_the_way).times (n)->
         #  that.insert_element_at_position that.rendered_count + dif * n
 
-        that.insert_element_at_position position
+        # if we need to insert the element left from us
+        if(that.not_rendered_yet_position > position)
+
+          index = that.find_prev_not_rendered_element()
+
+          if index <= that.total_index
+            el = jQuery('#' + that.options.id_prefix + (that.model.at index+1).cid)
+          else
+            el = undefined
+
+          that.insert_element_at_position position, el, undefined
+        else
+          that.insert_element_at_position position
 
         that.insert_prev_element(that.getCurrentElements().length + 2)
         that.insert_next_element(that.getCurrentElements().length + 2)

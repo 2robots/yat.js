@@ -157,7 +157,7 @@
       if (most_recent != null) {
         window.setTimeout(function() {
           return that.options.dispatcher.trigger('navigation_element_selected', most_recent.view);
-        }, 0);
+        }, 100);
       }
       return this.repositionElements(elements);
     };
