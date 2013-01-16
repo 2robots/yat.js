@@ -162,7 +162,7 @@ $timeline-overview-height: 60px;
       margin-top: 1.2em;
       text-indent: -9999px;
       overflow: hidden;
-      cursor: move;
+      cursor: col-resize;
       background: url("../img/current_position.png") no-repeat center top;
     }
   }
@@ -227,8 +227,8 @@ $viewport-element-outer-height: 82px;
     color: #2B3ABC;
     text-decoration: underline;
     height: 25px;
-    padding-top: 25px;
-    background: url("../img/grad_white.png") repeat-x left top;
+    padding-top: 7px;
+    background: $white;
 
     &:hover {
       color: #850D19;
@@ -248,9 +248,14 @@ $viewport-element-outer-height: 82px;
   &.important {
     width: 40em;
     border-color: $grey2;
+    background: #eee;
 
     span.arrow {
       background-image: url("../img/entry_arrow_bottom_important.png");
+    }
+
+    .yat-readmore {
+      background: #eee;
     }
   }
 
