@@ -15,6 +15,7 @@ window.yat.OverviewView = class extends Backbone.View
 
   options: {
     animation_duration: 200
+    quarter_dateformat: 'D.M.'
   }
 
   selection_element: undefined
@@ -27,21 +28,6 @@ window.yat.OverviewView = class extends Backbone.View
   render: ->
     that = @
     overview = $(window.yat.templates.timelineOverview())
-    years = [@model.start.getFullYear()..@model.end.getFullYear()]
-    days = moment(@model.end).clone().diff(moment(@model.start), 'days') + 1
-
-    for y in years
-      localStart = _.max([moment([y]), moment(@model.start)], (moment) -> moment.valueOf())
-      localEnd = _.min([moment([y, 11, 31]), moment(@model.end)], (moment) -> moment.valueOf())
-      localDays = localEnd.diff(localStart, 'days') + 1
-      itemWidth = 100 / (days / localDays)
-
-      year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y, width: itemWidth + '%'})
-
-      _.each @calculate_quarters(localStart, localEnd, localDays), (q)->
-        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: q.offset, title: q.date.format('D.M.')})
-
-      overview.append(year_view)
 
     @selection_element = $(window.yat.templates.timelineOverviewSelection())
 
@@ -87,27 +73,17 @@ window.yat.OverviewView = class extends Backbone.View
     @options.dispatcher.on 'navigation_position_change', (percentage) ->
       that.jump_to_percentage percentage, false
 
+    @options.dispatcher.on 'navigation_elements_positioned', (years) ->
+      that.render_quarters overview, years
 
-  # calculate quarters
-  calculate_quarters: (start, end, days)->
-
-    quarters = [
-      moment([start.year(), 3])
-      moment([start.year(), 6])
-      moment([start.year(), 9])
-    ]
-
-    returns = []
-
-    _.each quarters, (m, i)->
-      if start <= m && m <= end
-        returns.push({
-          offset: parseInt((100*(m.diff start, 'days')/days), 10)
-          date: m
-        })
-
-    returns
-
+  render_quarters: (overview, years) ->
+    that = @
+    _.each years, (y) ->
+      year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y.start.year(), width: (100 * y.width) + '%'})
+      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: y.start.format(that.options.quarter_dateformat)})
+      _.each y.quarters, (q)->
+        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: q.start.format(that.options.quarter_dateformat)})
+      overview.append(year_view)
 
   # jumps to a specific position expressed as percentage
   jump_to_percentage: (percentage, animate)->

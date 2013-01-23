@@ -76,7 +76,7 @@ window.yat.NavigationView = class extends Backbone.View
 
   registerEventListener: ->
     that = @
-    startEnd = that.model.getStartEnd()
+    @startEnd = that.model.getStartEnd()
 
     # trigger events
 
@@ -96,11 +96,11 @@ window.yat.NavigationView = class extends Backbone.View
     @options.dispatcher.on 'viewport_scrollstop', (elements) ->
       that.activate_elements elements
       # if the first of this elements is the global first
-      if _.first(arguments[0]).model.get("date") == startEnd.start
+      if _.first(arguments[0]).model.get("date") == that.startEnd.start
         that.jump_to_cid _.first(arguments[0]).model.cid, true
 
       # if the last of this elements is the global last
-      else if _.last(arguments[0]).model.get("date") == startEnd.end
+      else if _.last(arguments[0]).model.get("date") == that.startEnd.end
         that.jump_to_cid _.last(arguments[0]).model.cid, true
 
       # default take the middle one
@@ -182,6 +182,47 @@ window.yat.NavigationView = class extends Backbone.View
       for el in elements
         @callIndex = 0
         that.arrange_element(el)
+      years = [that.startEnd.start.getFullYear()..that.startEnd.end.getFullYear()]
+      days = moment(that.startEnd.end).clone().diff(moment(that.startEnd.start), 'days') + 1
+      quarters = []
+      _.each years, (year) ->
+        quarters.push start: moment([year, 0]), end: moment([year, 3])
+        quarters.push start: moment([year, 3]), end: moment([year, 6])
+        quarters.push start: moment([year, 6]), end: moment([year, 9])
+        quarters.push start: moment([year, 9]), end: moment([year+1, 0])
+      quarters = _.filter quarters, (quarter) ->
+        that.startEnd.start <= quarter.end && quarter.start <= that.startEnd.end
+
+      if _.first(quarters)?.start < moment(that.startEnd.start)
+        _.first(quarters).start = moment(that.startEnd.start)
+      if _.last(quarters)?.end > moment(that.startEnd.end)
+        _.last(quarters).end = moment(that.startEnd.end)
+      full_width = that.navigation_width - that.options.horizontal_offset + that.options.margin_right
+      _.each quarters, (quarter) ->
+        first_el = _.find elements, (el) ->
+          quarter.start <= moment(el.model.get('date'))
+        quarter_pos = (first_el.pos.left - that.options.margin_left) - that.viewManager.pixelPerDay * moment(first_el.model.get('date')).diff(quarter.start, 'days')
+        quarter.left = (quarter_pos) / (full_width - that.$el.outerWidth()/2)
+      _.first(quarters).left = 0
+
+      years = []
+      current_year = null
+      _.each quarters, (quarter) ->
+        if current_year != quarter.start.year()
+          current_year = quarter.start.year()
+          quarter.quarters = []
+          years.push quarter
+        else
+          _.last(years).quarters.push quarter
+
+      previous_year = null
+      _.each years, (y) ->
+        if previous_year?
+          previous_year.width = y.left - previous_year.left
+        previous_year = y
+      last_year = _.last(years)
+      last_year.width = 1 - last_year.left
+      that.options.dispatcher.trigger 'navigation_elements_positioned', years
     , 10)
 
   arrange_element: (element) ->

@@ -80,9 +80,9 @@
     };
 
     _Class.prototype.registerEventListener = function() {
-      var startEnd, that;
+      var that;
       that = this;
-      startEnd = that.model.getStartEnd();
+      this.startEnd = that.model.getStartEnd();
       this.mainElement.bind('touchmove', function() {
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.mainElement.scrollLeft()));
       });
@@ -95,9 +95,9 @@
       this.options.dispatcher.on('viewport_scrollstop', function(elements) {
         var index;
         that.activate_elements(elements);
-        if (_.first(arguments[0]).model.get("date") === startEnd.start) {
+        if (_.first(arguments[0]).model.get("date") === that.startEnd.start) {
           return that.jump_to_cid(_.first(arguments[0]).model.cid, true);
-        } else if (_.last(arguments[0]).model.get("date") === startEnd.end) {
+        } else if (_.last(arguments[0]).model.get("date") === that.startEnd.end) {
           return that.jump_to_cid(_.last(arguments[0]).model.cid, true);
         } else {
           if (arguments[0].length % 2 !== 0) {
@@ -180,14 +180,77 @@
       this.line = this.options.margin_left;
       this.current_objects = [];
       return window.setTimeout(function() {
-        var el, _i, _len, _results;
-        _results = [];
+        var current_year, days, el, full_width, last_year, previous_year, quarters, years, _i, _j, _len, _ref, _ref1, _ref2, _ref3, _results;
         for (_i = 0, _len = elements.length; _i < _len; _i++) {
           el = elements[_i];
           this.callIndex = 0;
-          _results.push(that.arrange_element(el));
+          that.arrange_element(el);
         }
-        return _results;
+        years = (function() {
+          _results = [];
+          for (var _j = _ref = that.startEnd.start.getFullYear(), _ref1 = that.startEnd.end.getFullYear(); _ref <= _ref1 ? _j <= _ref1 : _j >= _ref1; _ref <= _ref1 ? _j++ : _j--){ _results.push(_j); }
+          return _results;
+        }).apply(this);
+        days = moment(that.startEnd.end).clone().diff(moment(that.startEnd.start), 'days') + 1;
+        quarters = [];
+        _.each(years, function(year) {
+          quarters.push({
+            start: moment([year, 0]),
+            end: moment([year, 3])
+          });
+          quarters.push({
+            start: moment([year, 3]),
+            end: moment([year, 6])
+          });
+          quarters.push({
+            start: moment([year, 6]),
+            end: moment([year, 9])
+          });
+          return quarters.push({
+            start: moment([year, 9]),
+            end: moment([year + 1, 0])
+          });
+        });
+        quarters = _.filter(quarters, function(quarter) {
+          return that.startEnd.start <= quarter.end && quarter.start <= that.startEnd.end;
+        });
+        if (((_ref2 = _.first(quarters)) != null ? _ref2.start : void 0) < moment(that.startEnd.start)) {
+          _.first(quarters).start = moment(that.startEnd.start);
+        }
+        if (((_ref3 = _.last(quarters)) != null ? _ref3.end : void 0) > moment(that.startEnd.end)) {
+          _.last(quarters).end = moment(that.startEnd.end);
+        }
+        full_width = that.navigation_width - that.options.horizontal_offset + that.options.margin_right;
+        _.each(quarters, function(quarter) {
+          var first_el, quarter_pos;
+          first_el = _.find(elements, function(el) {
+            return quarter.start <= moment(el.model.get('date'));
+          });
+          quarter_pos = (first_el.pos.left - that.options.margin_left) - that.viewManager.pixelPerDay * moment(first_el.model.get('date')).diff(quarter.start, 'days');
+          return quarter.left = quarter_pos / (full_width - that.$el.outerWidth() / 2);
+        });
+        _.first(quarters).left = 0;
+        years = [];
+        current_year = null;
+        _.each(quarters, function(quarter) {
+          if (current_year !== quarter.start.year()) {
+            current_year = quarter.start.year();
+            quarter.quarters = [];
+            return years.push(quarter);
+          } else {
+            return _.last(years).quarters.push(quarter);
+          }
+        });
+        previous_year = null;
+        _.each(years, function(y) {
+          if (previous_year != null) {
+            previous_year.width = y.left - previous_year.left;
+          }
+          return previous_year = y;
+        });
+        last_year = _.last(years);
+        last_year.width = 1 - last_year.left;
+        return that.options.dispatcher.trigger('navigation_elements_positioned', years);
       }, 10);
     };
 

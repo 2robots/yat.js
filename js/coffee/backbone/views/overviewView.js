@@ -16,7 +16,8 @@
     _Class.prototype.className = 'yat-timeline-overview';
 
     _Class.prototype.options = {
-      animation_duration: 200
+      animation_duration: 200,
+      quarter_dateformat: 'D.M.'
     };
 
     _Class.prototype.selection_element = void 0;
@@ -29,37 +30,9 @@
     };
 
     _Class.prototype.render = function() {
-      var days, itemWidth, localDays, localEnd, localStart, overview, that, y, year_view, years, _i, _j, _len, _ref, _ref1, _results;
+      var overview, that;
       that = this;
       overview = $(window.yat.templates.timelineOverview());
-      years = (function() {
-        _results = [];
-        for (var _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; _ref <= _ref1 ? _i++ : _i--){ _results.push(_i); }
-        return _results;
-      }).apply(this);
-      days = moment(this.model.end).clone().diff(moment(this.model.start), 'days') + 1;
-      for (_j = 0, _len = years.length; _j < _len; _j++) {
-        y = years[_j];
-        localStart = _.max([moment([y]), moment(this.model.start)], function(moment) {
-          return moment.valueOf();
-        });
-        localEnd = _.min([moment([y, 11, 31]), moment(this.model.end)], function(moment) {
-          return moment.valueOf();
-        });
-        localDays = localEnd.diff(localStart, 'days') + 1;
-        itemWidth = 100 / (days / localDays);
-        year_view = jQuery(window.yat.templates.timelineOverviewYear({
-          year: y,
-          width: itemWidth + '%'
-        }));
-        _.each(this.calculate_quarters(localStart, localEnd, localDays), function(q) {
-          return year_view.append(window.yat.templates.timelineOverviewQuarter({
-            offset: q.offset,
-            title: q.date.format('D.M.')
-          }));
-        });
-        overview.append(year_view);
-      }
       this.selection_element = $(window.yat.templates.timelineOverviewSelection());
       setTimeout((function() {
         var scroll_inner_width;
@@ -93,24 +66,35 @@
           return that.options.dispatcher.trigger('overview_position_change', offset);
         }
       });
-      return this.options.dispatcher.on('navigation_position_change', function(percentage) {
+      this.options.dispatcher.on('navigation_position_change', function(percentage) {
         return that.jump_to_percentage(percentage, false);
+      });
+      return this.options.dispatcher.on('navigation_elements_positioned', function(years) {
+        return that.render_quarters(overview, years);
       });
     };
 
-    _Class.prototype.calculate_quarters = function(start, end, days) {
-      var quarters, returns;
-      quarters = [moment([start.year(), 3]), moment([start.year(), 6]), moment([start.year(), 9])];
-      returns = [];
-      _.each(quarters, function(m, i) {
-        if (start <= m && m <= end) {
-          return returns.push({
-            offset: parseInt(100 * (m.diff(start, 'days')) / days, 10),
-            date: m
-          });
-        }
+    _Class.prototype.render_quarters = function(overview, years) {
+      var that;
+      that = this;
+      return _.each(years, function(y) {
+        var year_view;
+        year_view = jQuery(window.yat.templates.timelineOverviewYear({
+          year: y.start.year(),
+          width: (100 * y.width) + '%'
+        }));
+        year_view.append(window.yat.templates.timelineOverviewQuarter({
+          offset: 100 * y.left,
+          title: y.start.format(that.options.quarter_dateformat)
+        }));
+        _.each(y.quarters, function(q) {
+          return year_view.append(window.yat.templates.timelineOverviewQuarter({
+            offset: 100 * q.left,
+            title: q.start.format(that.options.quarter_dateformat)
+          }));
+        });
+        return overview.append(year_view);
       });
-      return returns;
     };
 
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
