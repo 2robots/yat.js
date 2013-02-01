@@ -93,7 +93,7 @@ $navigation-height: 150px;
         max-height: 3em;
         overflow: hidden;
         background-repeat: no-repeat;
-        background-position: 5px center;
+        background-position: 3px 3px;
         padding-left: 24px;
 
         &.active, &:hover {
@@ -101,12 +101,12 @@ $navigation-height: 150px;
         }
       }
 
-      &.cat-1 a, &.cat-Allgemein a { background-image: url("../categories/1.png"); }
-      &.cat-2 a, &.cat-Rechtliches a { background-image: url("../categories/2.png"); background-position: 9px center; }
-      &.cat-3 a, &.cat-1 a { background-image: url("../categories/3.png"); }
-      &.cat-4 a, &.cat-Pressetermine a { background-image: url("../categories/4.png"); }
-      &.cat-5 a, &.cat-Publikationen a { background-image: url("../categories/5.png"); }
-      &.cat-6 a, &.cat-Fachinformationen a { background-image: url("../categories/6.png"); }
+      &.cat-1 a { background-image: url("../categories/1.png"); }
+      &.cat-2 a { background-image: url("../categories/2.png"); }
+      &.cat-3 a { background-image: url("../categories/3.png"); }
+      &.cat-4 a { background-image: url("../categories/4.png"); }
+      &.cat-5 a { background-image: url("../categories/5.png"); }
+      &.cat-6 a { background-image: url("../categories/6.png"); }
     }
   }
 
@@ -212,7 +212,7 @@ $viewport-element-outer-height: 82px;
         line-height: 120%;
         padding: 1em 0 0.5em 0;
         margin-bottom: 1em;
-        font-weight: bold;
+        font-weight: normal;
         font-size: 1.08em;
       }
 
@@ -232,6 +232,22 @@ $viewport-element-outer-height: 82px;
 
     &:hover {
       color: #850D19;
+    }
+  }
+
+  a.close {
+    width: 16px;
+    height: 16px;
+    background: url("../img/close.png") no-repeat center top;
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    text-indent: -9999px;
+    overflow: hidden;
+    display: none;
+
+    &:hover {
+      background-position: left -16px;
     }
   }
 
@@ -264,6 +280,10 @@ $viewport-element-outer-height: 82px;
 
     .yat-element-inner {
       overflow-y: auto;
+    }
+
+    .close {
+      display: block;
     }
   }
 

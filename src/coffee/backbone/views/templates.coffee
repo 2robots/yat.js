@@ -15,7 +15,7 @@ window.yat.templates =
    timelineFullScreenEnd: _.template('<a class="yat-fullscreen-end">Zur Normalansicht wechseln.</a>')
 
    timelineViewportElementList: _.template('<div class="yat-inner"><ol class="yat-elements"></ol></div>')
-   timelineViewportElement: _.template('<div class="yat-element-inner"><div class="yat-element-inner2"><%= content %></div></div><span class="arrow"></span>')
+   timelineViewportElement: _.template('<div class="yat-element-inner"><div class="yat-element-inner2"><%= content %></div></div><span class="arrow"></span><a class="close" href="javascript:void(0);">Close</a>')
    timelineViewportReadMore: _.template('<span class="yat-readmore">Mehr lesen</span>')
    timelineViewportNavlinks: _.template('<div class="yat-navlinks"><span class="yat-left"><a href="javascript:void(0);">Nach links navigieren</a></span><span class="yat-right"><a href="javascript:void(0);">Nach rechts navigieren</a></span></div>')
 
