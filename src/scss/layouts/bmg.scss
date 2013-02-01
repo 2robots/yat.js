@@ -216,9 +216,22 @@ $viewport-element-outer-height: 82px;
         font-size: 1.08em;
       }
 
+      .timeline_image {
+        height: 120px;
+      }
+
       .timeline_video, .timeline_image {
         float:left;
         margin-right: 10px;
+        width: 100%;
+        line-height: 1px;
+        text-align: center;
+        background: $grey1;
+
+        img {
+          height: 120px;
+          width: auto;
+        }
       }
     }
   }
@@ -273,10 +286,22 @@ $viewport-element-outer-height: 82px;
     .yat-readmore {
       background: #eee;
     }
+
+    .yat-element-inner .yat-element-inner2 {
+      .timeline_video, .timeline_image {
+        width: auto;
+      }
+    }
   }
 
   &.open {
     width: 40em;
+
+    .yat-element-inner .yat-element-inner2 {
+      .timeline_video, .timeline_image {
+        width: auto;
+      }
+    }
 
     .yat-element-inner {
       overflow-y: auto;
