@@ -101,12 +101,20 @@ $navigation-height: 150px;
         }
       }
 
-      &.cat-1 a { background-image: url("../categories/1.png"); }
-      &.cat-2 a { background-image: url("../categories/2.png"); }
-      &.cat-3 a { background-image: url("../categories/3.png"); }
-      &.cat-4 a { background-image: url("../categories/4.png"); }
-      &.cat-5 a { background-image: url("../categories/5.png"); }
-      &.cat-6 a { background-image: url("../categories/6.png"); }
+      &.cat-analyse a { background-image: url("../categories/analyse.png"); }
+      &.cat-ernaehrung a { background-image: url("../categories/ernaehrung.png"); }
+      &.cat-film a { background-image: url("../categories/film.png"); }
+      &.cat-gesundheitssystem a { background-image: url("../categories/gesundheitssystem.png"); }
+      &.cat-kriesenmanagement a { background-image: url("../categories/kriesenmanagement.png"); }
+      &.cat-presse a { background-image: url("../categories/presse.png"); }
+      &.cat-publikationen a { background-image: url("../categories/publikationen.png"); }
+      &.cat-rechtliches a { background-image: url("../categories/rechtliches.png"); }
+      &.cat-service a { background-image: url("../categories/service.png"); }
+      &.cat-statistik a { background-image: url("../categories/statistik.png"); }
+      &.cat-tiere a { background-image: url("../categories/tiere.png"); }
+      &.cat-vermischtes a { background-image: url("../categories/vermischtes.png"); }
+      &.cat-vorsorge a { background-image: url("../categories/vorsorge.png"); }
+      
     }
   }
 
@@ -211,7 +219,7 @@ $viewport-element-outer-height: 82px;
       h3 {
         line-height: 120%;
         padding: 1em 0 0.5em 0;
-        margin-bottom: 1em;
+        margin-bottom: 0.35em;
         font-weight: normal;
         font-size: 1.08em;
       }

@@ -29,7 +29,7 @@
         that.$el.addClass('important');
       }
       return setTimeout((function() {
-        if ($(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 10)) {
+        if ($(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 25)) {
           that.$el.addClass('overflow');
           return that.$el.append(window.yat.templates.timelineViewportReadMore);
         }
