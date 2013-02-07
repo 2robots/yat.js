@@ -93,7 +93,7 @@ window.yat.ViewportView = class extends Backbone.View
       that.options.dispatcher.trigger 'viewport_scrollstart'
 
     @$el.find('> .yat-inner').bind 'scrollstop', ->
-      that.options.dispatcher.trigger 'viewport_scrollstop', that.getCurrentElementModels()
+      that.options.dispatcher.trigger 'viewport_scrollstop', that.getCurrentElementModel()
 
     # navlinks click
     @$el.find('.yat-navlinks .yat-left a').click ->
@@ -263,6 +263,16 @@ window.yat.ViewportView = class extends Backbone.View
   getCurrentElement: ->
     elements = @getCurrentElements()
     index = parseInt(elements.length/2, 10)
+
+    # if we don't have on centered element, we need to find out which of the two
+    # centered elements is more centered
+    if elements.length % 2 == 0
+      right_element = elements[parseInt(elements.length/2, 10)]
+      center =  @$el.find('> .yat-inner').scrollLeft() + parseInt(@$el.width()/2)
+
+      if right_element.position().left > center
+        index = index - 1
+
     elements[index]
 
   # get element_models
@@ -278,6 +288,14 @@ window.yat.ViewportView = class extends Backbone.View
         })
     )
     elements
+
+  # get element_model
+  getCurrentElementModel: ->
+    element = @getCurrentElement()
+    return [{
+      dom: element,
+      model: @model.get(element.attr('id').substr @options.id_prefix.length)
+    }]
 
   # find next not rendered element
   find_next_not_rendered_element: ->

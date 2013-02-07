@@ -85,7 +85,7 @@
         return that.options.dispatcher.trigger('viewport_scrollstart');
       });
       this.$el.find('> .yat-inner').bind('scrollstop', function() {
-        return that.options.dispatcher.trigger('viewport_scrollstop', that.getCurrentElementModels());
+        return that.options.dispatcher.trigger('viewport_scrollstop', that.getCurrentElementModel());
       });
       this.$el.find('.yat-navlinks .yat-left a').click(function() {
         that.options.dispatcher.trigger('viewport_prev');
@@ -176,9 +176,16 @@
     };
 
     _Class.prototype.getCurrentElement = function() {
-      var elements, index;
+      var center, elements, index, right_element;
       elements = this.getCurrentElements();
       index = parseInt(elements.length / 2, 10);
+      if (elements.length % 2 === 0) {
+        right_element = elements[parseInt(elements.length / 2, 10)];
+        center = this.$el.find('> .yat-inner').scrollLeft() + parseInt(this.$el.width() / 2);
+        if (right_element.position().left > center) {
+          index = index - 1;
+        }
+      }
       return elements[index];
     };
 
@@ -193,6 +200,17 @@
         });
       }));
       return elements;
+    };
+
+    _Class.prototype.getCurrentElementModel = function() {
+      var element;
+      element = this.getCurrentElement();
+      return [
+        {
+          dom: element,
+          model: this.model.get(element.attr('id').substr(this.options.id_prefix.length))
+        }
+      ];
     };
 
     _Class.prototype.find_next_not_rendered_element = function() {
