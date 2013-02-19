@@ -87,15 +87,15 @@
   right: 0;
   bottom: 0;
 }
-/* line 38, ../../src/scss/layouts/bmg.scss */
+/* line 39, ../../src/scss/layouts/bmg.scss */
 .yat-timeline.loading {
   background: url("../img/loading.gif") no-repeat center center;
 }
-/* line 41, ../../src/scss/layouts/bmg.scss */
+/* line 42, ../../src/scss/layouts/bmg.scss */
 .yat-timeline.loading div, .yat-timeline.loading a, .yat-timeline.loading ol, .yat-timeline.loading ul {
   opacity: 0;
 }
-/* line 46, ../../src/scss/layouts/bmg.scss */
+/* line 47, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-fullscreen-start, .yat-timeline .yat-fullscreen-end {
   width: 20px;
   height: 20px;
@@ -103,19 +103,19 @@
   overflow: hidden;
   background: url("../img/fullscreen.png") no-repeat left top;
 }
-/* line 54, ../../src/scss/layouts/bmg.scss */
+/* line 55, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-fullscreen-end {
   background-position: left bottom;
 }
-/* line 58, ../../src/scss/layouts/bmg.scss */
+/* line 59, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-fullscreen-start:hover {
   background-position: right top;
 }
-/* line 62, ../../src/scss/layouts/bmg.scss */
+/* line 63, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-fullscreen-end:hover {
   background-position: right bottom;
 }
-/* line 66, ../../src/scss/layouts/bmg.scss */
+/* line 67, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-timeline-inner1 {
   -webkit-box-shadow: inset 0px 0px 50px 0px #d9d9d9;
   -moz-box-shadow: inset 0px 0px 50px 0px #d9d9d9;
@@ -177,14 +177,14 @@
   left: auto;
   right: 0;
 }
-/* line 333, ../../src/scss/layouts/bmg.scss */
+/* line 356, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   width: 50px;
   top: 30px;
   bottom: 30px;
   background: url("../img/grad_left.png") repeat-y;
 }
-/* line 339, ../../src/scss/layouts/bmg.scss */
+/* line 362, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   position: absolute;
   left: 0;
@@ -195,16 +195,16 @@
   overflow: hidden;
   background: url("../img/arrow_big_left.png") no-repeat left center;
 }
-/* line 351, ../../src/scss/layouts/bmg.scss */
+/* line 374, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left {
   left: 25px;
 }
-/* line 355, ../../src/scss/layouts/bmg.scss */
+/* line 378, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right {
   right: 25px;
   background: url("../img/grad_right.png") repeat-y;
 }
-/* line 359, ../../src/scss/layouts/bmg.scss */
+/* line 382, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right a {
   background-image: url("../img/arrow_big_right.png");
   background-position: center right;
@@ -235,7 +235,15 @@
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
   overflow: hidden;
 }
-/* line 120, ../../src/scss/_yat.scss */
+/* line 121, ../../src/scss/_yat.scss */
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 ul li, .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 ol li {
+  margin: 0;
+  padding: 0;
+  border: none;
+  height: auto;
+  width: auto;
+}
+/* line 132, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore {
   position: absolute;
   left: 0;
@@ -274,8 +282,12 @@
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_image {
   height: 120px;
 }
-/* line 232, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_video, .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_image {
+/* line 236, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_video,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_image,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-1,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-2,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-3 {
   float: left;
   margin-right: 10px;
   width: 100%;
@@ -283,12 +295,16 @@
   text-align: center;
   background: #cccccc;
 }
-/* line 240, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_video img, .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_image img {
+/* line 244, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_video img,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_image img,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-1 img,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-2 img,
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-3 img {
   height: 120px;
   width: auto;
 }
-/* line 248, ../../src/scss/layouts/bmg.scss */
+/* line 252, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore {
   color: #2B3ABC;
   text-decoration: underline;
@@ -296,11 +312,11 @@
   padding-top: 7px;
   background: white;
 }
-/* line 255, ../../src/scss/layouts/bmg.scss */
+/* line 259, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore:hover {
   color: #850D19;
 }
-/* line 260, ../../src/scss/layouts/bmg.scss */
+/* line 264, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li a.close {
   width: 16px;
   height: 16px;
@@ -312,11 +328,11 @@
   overflow: hidden;
   display: none;
 }
-/* line 271, ../../src/scss/layouts/bmg.scss */
+/* line 275, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li a.close:hover {
   background-position: left -16px;
 }
-/* line 276, ../../src/scss/layouts/bmg.scss */
+/* line 280, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li span.arrow {
   position: absolute;
   width: 28px;
@@ -326,47 +342,64 @@
   left: 50%;
   margin-left: -14px;
 }
-/* line 286, ../../src/scss/layouts/bmg.scss */
+/* line 290, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important {
   width: 40em;
-  border-color: #666666;
+  border-color: #aaaaaa;
   background: #eee;
 }
-/* line 291, ../../src/scss/layouts/bmg.scss */
+/* line 295, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important span.arrow {
   background-image: url("../img/entry_arrow_bottom_important.png");
 }
-/* line 295, ../../src/scss/layouts/bmg.scss */
+/* line 299, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important .yat-readmore {
   background: #eee;
 }
-/* line 300, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_video, .yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_image {
+/* line 308, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_video,
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_image,
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .image-size-1,
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .image-size-2,
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .image-size-3 {
   width: auto;
 }
-/* line 306, ../../src/scss/layouts/bmg.scss */
+/* line 313, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_video iframe {
+  width: 100% !important;
+  height: auto !important;
+}
+/* line 321, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open {
   width: 40em;
 }
-/* line 310, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_video, .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_image {
+/* line 329, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_video,
+.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_image,
+.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .image-size-1,
+.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .image-size-2,
+.yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .image-size-3 {
   width: auto;
 }
-/* line 315, ../../src/scss/layouts/bmg.scss */
+/* line 334, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner {
   overflow-y: auto;
 }
-/* line 319, ../../src/scss/layouts/bmg.scss */
+/* line 338, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .close {
   display: block;
 }
-/* line 324, ../../src/scss/layouts/bmg.scss */
+/* line 343, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .datetime {
   position: absolute;
   right: 0;
   top: 0;
 }
-/* line 136, ../../src/scss/_yat.scss */
+/* line 348, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li .datetime strong {
+  font-weight: normal;
+}
+/* line 148, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-readmore {
   display: none;
 }
@@ -379,14 +412,14 @@
 .yat-timeline .yat-viewport .yat-inner .yat-elements {
   margin-left: 8px;
 }
-/* line 146, ../../src/scss/_yat.scss */
+/* line 158, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation {
   top: auto;
   height: 150px;
   overflow: visible;
   z-index: 10;
 }
-/* line 152, ../../src/scss/_yat.scss */
+/* line 164, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview {
   position: absolute;
   left: 0;
@@ -396,7 +429,7 @@
   padding-top: 20px;
   overflow: hidden;
 }
-/* line 161, ../../src/scss/_yat.scss */
+/* line 173, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol {
   margin: 0;
   padding: 0;
@@ -406,18 +439,18 @@
   right: 0;
   overflow: none;
 }
-/* line 170, ../../src/scss/_yat.scss */
+/* line 182, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li {
   float: left;
   margin: 0;
   padding: 0;
 }
-/* line 176, ../../src/scss/_yat.scss */
+/* line 188, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   display: block;
   height: 60px;
 }
-/* line 181, ../../src/scss/_yat.scss */
+/* line 193, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span.quarter {
   position: absolute;
   height: 10px;
@@ -431,7 +464,7 @@
   line-height: 11px;
   color: white;
 }
-/* line 196, ../../src/scss/_yat.scss */
+/* line 208, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li.last span {
   margin-right: 0;
 }
@@ -457,7 +490,7 @@
   cursor: col-resize;
   background: url("../img/current_position.png") no-repeat center top;
 }
-/* line 205, ../../src/scss/_yat.scss */
+/* line 217, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position {
   position: absolute;
   z-index: 20;
@@ -470,40 +503,40 @@
   overflow-y: hidden;
   height: 80px;
 }
-/* line 218, ../../src/scss/_yat.scss */
+/* line 230, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container {
   width: 100%;
   padding-left: 100%;
   position: absolute;
   margin-top: 20px;
 }
-/* line 224, ../../src/scss/_yat.scss */
+/* line 236, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container .yat-position-inner {
   width: 100px;
 }
-/* line 231, ../../src/scss/_yat.scss */
+/* line 243, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner {
   top: 40px;
 }
-/* line 234, ../../src/scss/_yat.scss */
+/* line 246, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li {
   position: absolute;
   display: block;
 }
-/* line 237, ../../src/scss/_yat.scss */
+/* line 249, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li a {
   display: block;
   /*white-space: nowrap;*/
 }
-/* line 242, ../../src/scss/_yat.scss */
+/* line 254, ../../src/scss/_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements .yat-navigation-placeholder-right {
   height: 1px;
 }
-/* line 79, ../../src/scss/layouts/bmg.scss */
+/* line 80, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-elements {
   height: 100px;
 }
-/* line 84, ../../src/scss/layouts/bmg.scss */
+/* line 85, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-elements li a {
   background: white;
   border: 1px solid #cccccc;
@@ -519,64 +552,64 @@
   background-position: 3px 3px;
   padding-left: 24px;
 }
-/* line 99, ../../src/scss/layouts/bmg.scss */
+/* line 100, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-elements li a.active, .yat-timeline .yat-navigation .yat-elements li a:hover {
   border-color: #666666;
 }
-/* line 104, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-analyse a {
-  background-image: url("../categories/analyse.png");
-}
 /* line 105, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-ernaehrung a {
-  background-image: url("../categories/ernaehrung.png");
-}
-/* line 106, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-film a {
-  background-image: url("../categories/film.png");
-}
-/* line 107, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-gesundheitssystem a {
-  background-image: url("../categories/gesundheitssystem.png");
-}
-/* line 108, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-kriesenmanagement a {
-  background-image: url("../categories/kriesenmanagement.png");
-}
-/* line 109, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-presse a {
-  background-image: url("../categories/presse.png");
-}
-/* line 110, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-publikationen a {
-  background-image: url("../categories/publikationen.png");
-}
-/* line 111, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-rechtliches a {
+.yat-timeline .yat-navigation .yat-elements li.cat-rechtliches a, .yat-timeline .yat-navigation .yat-elements li.cat-1 a {
   background-image: url("../categories/rechtliches.png");
 }
-/* line 112, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-service a {
-  background-image: url("../categories/service.png");
+/* line 106, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-analyse a, .yat-timeline .yat-navigation .yat-elements li.cat-2 a {
+  background-image: url("../categories/analyse.png");
 }
-/* line 113, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-statistik a {
+/* line 107, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-ernaehrung a, .yat-timeline .yat-navigation .yat-elements li.cat-3 a {
+  background-image: url("../categories/ernaehrung.png");
+}
+/* line 108, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-film a, .yat-timeline .yat-navigation .yat-elements li.cat-4 a {
+  background-image: url("../categories/film.png");
+}
+/* line 109, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-gesundheitssystem a, .yat-timeline .yat-navigation .yat-elements li.cat-5 a {
+  background-image: url("../categories/gesundheitssystem.png");
+}
+/* line 110, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-kriesenmanagement a, .yat-timeline .yat-navigation .yat-elements li.cat-6 a {
+  background-image: url("../categories/kriesenmanagement.png");
+}
+/* line 111, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-statistik a, .yat-timeline .yat-navigation .yat-elements li.cat-7 a {
   background-image: url("../categories/statistik.png");
 }
+/* line 112, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-publikationen a, .yat-timeline .yat-navigation .yat-elements li.cat-8 a {
+  background-image: url("../categories/publikationen.png");
+}
+/* line 113, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-service a, .yat-timeline .yat-navigation .yat-elements li.cat-9 a {
+  background-image: url("../categories/service.png");
+}
 /* line 114, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-tiere a {
-  background-image: url("../categories/tiere.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-presse a, .yat-timeline .yat-navigation .yat-elements li.cat-10 a {
+  background-image: url("../categories/presse.png");
 }
 /* line 115, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-vermischtes a {
-  background-image: url("../categories/vermischtes.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-tiere a, .yat-timeline .yat-navigation .yat-elements li.cat-11 a {
+  background-image: url("../categories/tiere.png");
 }
 /* line 116, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-vorsorge a {
-  background-image: url("../categories/vorsorge.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-vermischtes a, .yat-timeline .yat-navigation .yat-elements li.cat-12 a {
+  background-image: url("../categories/vermischtes.png");
 }
 /* line 117, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-vernetzung a {
+.yat-timeline .yat-navigation .yat-elements li.cat-vorsorge a, .yat-timeline .yat-navigation .yat-elements li.cat-13 a {
+  background-image: url("../categories/vorsorge.png");
+}
+/* line 118, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-vernetzung a, .yat-timeline .yat-navigation .yat-elements li.cat-14 a {
   background-image: url("../categories/vernetzung.png");
 }
 /* line 122, ../../src/scss/layouts/bmg.scss */
@@ -586,7 +619,7 @@
 }
 
 /* fullscreen container */
-/* line 253, ../../src/scss/_yat.scss */
+/* line 265, ../../src/scss/_yat.scss */
 .yat-fullscreen {
   position: fixed;
   top: 0;
@@ -594,7 +627,7 @@
   left: 0;
   right: 0;
 }
-/* line 260, ../../src/scss/_yat.scss */
+/* line 272, ../../src/scss/_yat.scss */
 .yat-fullscreen .yat-timeline {
   margin-top: 100px;
   margin-left: 20px;
@@ -602,12 +635,12 @@
 }
 
 /* fallbacks for no-css3-browser */
-/* line 376, ../../src/scss/layouts/bmg.scss */
+/* line 399, ../../src/scss/layouts/bmg.scss */
 html.no-boxshadow .yat-timeline {
   border: 1px solid #cccccc;
 }
 
-/* line 382, ../../src/scss/layouts/bmg.scss */
+/* line 405, ../../src/scss/layouts/bmg.scss */
 .yat-fullscreen {
   background: url("../img/op40.png") repeat;
 }

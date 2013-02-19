@@ -115,6 +115,18 @@
 
         .yat-element-inner {
           overflow: hidden;
+
+          .yat-element-inner2 {
+            ul, ol {
+              li {
+                margin: 0;
+                padding: 0;
+                border: none;
+                height: auto;
+                width: auto;
+              }
+            }
+          }
         }
 
         .yat-readmore {
