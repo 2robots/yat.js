@@ -69,6 +69,8 @@
     _Class.prototype.registerEventListener = function() {
       var that;
       that = this;
+      this.yat_inner = this.$el.find('> .yat-inner');
+      this.yat_elements = this.$el.find('> .yat-inner > .yat-elements');
       this.$el.find('> .yat-inner').bind('touchmove', function() {
         return that.options.dispatcher.trigger('viewport_position_change', direction);
       });
@@ -119,6 +121,14 @@
         return that.close_open_element(arguments[0]);
       });
       that.options.dispatcher.on('viewport_position_change', function() {
+        if (that.yat_inner.scrollLeft() > (that.yat_elements.width() - that.yat_inner.width())) {
+          that.$el.find('.yat-navlinks .yat-right').addClass('inactive');
+        } else if (that.yat_inner.scrollLeft() <= 0) {
+          that.$el.find('.yat-navlinks .yat-left').addClass('inactive');
+        } else {
+          that.$el.find('.yat-navlinks .yat-right').removeClass('inactive');
+          that.$el.find('.yat-navlinks .yat-left').removeClass('inactive');
+        }
         return that.load_more(arguments[0]);
       });
       that.options.dispatcher.on('viewport_scrollstop', function() {

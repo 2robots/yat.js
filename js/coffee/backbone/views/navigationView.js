@@ -83,6 +83,8 @@
       var that;
       that = this;
       this.startEnd = that.model.getStartEnd();
+      this.yat_inner = this.$el.find('> .yat-inner');
+      this.yat_elements = this.$el.find('> .yat-inner > .yat-elements');
       this.mainElement.bind('touchmove', function() {
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.mainElement.scrollLeft()));
       });
@@ -109,6 +111,16 @@
         }
       });
       this.options.dispatcher.on('navigation_position_change', function() {
+        var percentage;
+        percentage = that.offset_to_percentage(that.mainElement.scrollLeft());
+        if (percentage >= 1) {
+          that.$el.find('.yat-navlinks .yat-right').addClass('inactive');
+        } else if (percentage <= 0) {
+          that.$el.find('.yat-navlinks .yat-left').addClass('inactive');
+        } else {
+          that.$el.find('.yat-navlinks .yat-right').removeClass('inactive');
+          that.$el.find('.yat-navlinks .yat-left').removeClass('inactive');
+        }
         return that._updateViewportPos();
       });
       this.options.dispatcher.on('overview_position_change', function(percentage) {

@@ -73,6 +73,8 @@ window.yat.ViewportView = class extends Backbone.View
   registerEventListener: ->
 
     that = @
+    @yat_inner = @$el.find('> .yat-inner')
+    @yat_elements = @$el.find('> .yat-inner > .yat-elements')
 
     # trigger events
 
@@ -139,6 +141,16 @@ window.yat.ViewportView = class extends Backbone.View
 
     # load more elements on scroll
     that.options.dispatcher.on 'viewport_position_change', ->
+      if that.yat_inner.scrollLeft() > ( that.yat_elements.width() - that.yat_inner.width() )
+        # we're at the right-most scroll position
+        that.$el.find('.yat-navlinks .yat-right').addClass('inactive')
+      else if that.yat_inner.scrollLeft() <= 0
+        # scrolled left
+        that.$el.find('.yat-navlinks .yat-left').addClass('inactive')
+      else
+        # we're scrolling somewhere
+        that.$el.find('.yat-navlinks .yat-right').removeClass('inactive')
+        that.$el.find('.yat-navlinks .yat-left').removeClass('inactive')
       that.load_more(arguments[0])
 
     # enable load more again after scroll-stops

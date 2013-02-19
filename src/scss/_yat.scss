@@ -85,6 +85,10 @@
       display: block;
       z-index: 50;
 
+      &.inactive {
+        opacity: 0.5;
+      }
+
       a {
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }

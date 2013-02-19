@@ -77,6 +77,8 @@ window.yat.NavigationView = class extends Backbone.View
   registerEventListener: ->
     that = @
     @startEnd = that.model.getStartEnd()
+    @yat_inner = @$el.find('> .yat-inner')
+    @yat_elements = @$el.find('> .yat-inner > .yat-elements')
 
     # trigger events
 
@@ -112,6 +114,17 @@ window.yat.NavigationView = class extends Backbone.View
         that.jump_to_cid arguments[0][index].model.cid, true
 
     @options.dispatcher.on 'navigation_position_change', ->
+      percentage = that.offset_to_percentage(that.mainElement.scrollLeft())
+      if percentage >= 1
+        # we're at the right-most scroll position
+        that.$el.find('.yat-navlinks .yat-right').addClass('inactive')
+      else if percentage <= 0
+        # scrolled left
+        that.$el.find('.yat-navlinks .yat-left').addClass('inactive')
+      else
+        # we're scrolling somewhere
+        that.$el.find('.yat-navlinks .yat-right').removeClass('inactive')
+        that.$el.find('.yat-navlinks .yat-left').removeClass('inactive')
       that._updateViewportPos()
 
     @options.dispatcher.on 'overview_position_change', (percentage) ->
