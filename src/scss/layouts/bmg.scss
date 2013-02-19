@@ -21,6 +21,7 @@ $blue: blue;
 
 $grey1: #ccc;
 $grey2: #666;
+$grey3: #aaa;
 
 /**
  * BASIC LAYOUT SETTINGS
@@ -101,21 +102,20 @@ $navigation-height: 150px;
         }
       }
 
-      &.cat-analyse a { background-image: url("../categories/analyse.png"); }
-      &.cat-ernaehrung a { background-image: url("../categories/ernaehrung.png"); }
-      &.cat-film a { background-image: url("../categories/film.png"); }
-      &.cat-gesundheitssystem a { background-image: url("../categories/gesundheitssystem.png"); }
-      &.cat-kriesenmanagement a { background-image: url("../categories/kriesenmanagement.png"); }
-      &.cat-presse a { background-image: url("../categories/presse.png"); }
-      &.cat-publikationen a { background-image: url("../categories/publikationen.png"); }
-      &.cat-rechtliches a { background-image: url("../categories/rechtliches.png"); }
-      &.cat-service a { background-image: url("../categories/service.png"); }
-      &.cat-statistik a { background-image: url("../categories/statistik.png"); }
-      &.cat-tiere a { background-image: url("../categories/tiere.png"); }
-      &.cat-vermischtes a { background-image: url("../categories/vermischtes.png"); }
-      &.cat-vorsorge a { background-image: url("../categories/vorsorge.png"); }
-      &.cat-vernetzung a { background-image: url("../categories/vernetzung.png"); }
-
+      &.cat-rechtliches a, &.cat-1 a { background-image: url("../categories/rechtliches.png"); }
+      &.cat-analyse a, &.cat-2 a { background-image: url("../categories/analyse.png"); }
+      &.cat-ernaehrung a, &.cat-3 a { background-image: url("../categories/ernaehrung.png"); }
+      &.cat-film a, &.cat-4 a { background-image: url("../categories/film.png"); }
+      &.cat-gesundheitssystem a, &.cat-5 a { background-image: url("../categories/gesundheitssystem.png"); }
+      &.cat-kriesenmanagement a, &.cat-6 a { background-image: url("../categories/kriesenmanagement.png"); }
+      &.cat-statistik a, &.cat-7 a { background-image: url("../categories/statistik.png"); }
+      &.cat-publikationen a, &.cat-8 a { background-image: url("../categories/publikationen.png"); }
+      &.cat-service a, &.cat-9 a { background-image: url("../categories/service.png"); }
+      &.cat-presse a, &.cat-10 a { background-image: url("../categories/presse.png"); }
+      &.cat-tiere a, &.cat-11 a { background-image: url("../categories/tiere.png"); }
+      &.cat-vermischtes a, &.cat-12 a { background-image: url("../categories/vermischtes.png"); }
+      &.cat-vorsorge a, &.cat-13 a { background-image: url("../categories/vorsorge.png"); }
+      &.cat-vernetzung a, &.cat-14 a { background-image: url("../categories/vernetzung.png"); }
     }
   }
 
@@ -229,7 +229,11 @@ $viewport-element-outer-height: 82px;
         height: 120px;
       }
 
-      .timeline_video, .timeline_image {
+      .timeline_video,
+      .timeline_image,
+      .image-size-1,
+      .image-size-2,
+      .image-size-3 {
         float:left;
         margin-right: 10px;
         width: 100%;
@@ -240,6 +244,14 @@ $viewport-element-outer-height: 82px;
         img {
           height: 120px;
           width: auto;
+        }
+      }
+
+      .timeline_video {
+        iframe {
+          width: auto !important;
+          height: 120px !important;
+          max-width: 100%;
         }
       }
     }
@@ -285,7 +297,7 @@ $viewport-element-outer-height: 82px;
 
   &.important {
     width: 40em;
-    border-color: $grey2;
+    border-color: $grey3;
     background: #eee;
 
     span.arrow {
@@ -297,8 +309,20 @@ $viewport-element-outer-height: 82px;
     }
 
     .yat-element-inner .yat-element-inner2 {
-      .timeline_video, .timeline_image {
+      .timeline_video,
+      .timeline_image,
+      .image-size-1,
+      .image-size-2,
+      .image-size-3 {
         width: auto;
+      }
+
+      .timeline_video {
+        iframe {
+          width: auto !important;
+          height: auto !important;
+          max-width: 100%;
+        }
       }
     }
   }
@@ -307,8 +331,20 @@ $viewport-element-outer-height: 82px;
     width: 40em;
 
     .yat-element-inner .yat-element-inner2 {
-      .timeline_video, .timeline_image {
+      .timeline_video,
+      .timeline_image,
+      .image-size-1,
+      .image-size-2,
+      .image-size-3 {
         width: auto;
+      }
+
+      .timeline_video {
+        iframe {
+          width: auto !important;
+          height: auto !important;
+          max-width: 100%;
+        }
       }
     }
 
@@ -325,6 +361,10 @@ $viewport-element-outer-height: 82px;
     position: absolute;
     right: 0;
     top: 0;
+
+    strong {
+      font-weight: normal;
+    }
   }
 }
 
