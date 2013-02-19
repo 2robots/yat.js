@@ -80,10 +80,12 @@ window.yat.OverviewView = class extends Backbone.View
     that = @
     _.each years, (y) ->
       year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y.start.year(), width: (100 * y.width) + '%'})
-      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: y.start.format(that.options.quarter_dateformat)})
+      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: ''})
       _.each y.quarters, (q)->
-        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: q.start.format(that.options.quarter_dateformat)})
+        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: ''})
       overview.append(year_view)
+      if year_view.width() < 37
+        year_view.find('span:first').empty()
 
   # jumps to a specific position expressed as percentage
   jump_to_percentage: (percentage, animate)->

@@ -209,6 +209,7 @@ window.yat.NavigationView = class extends Backbone.View
       current_year = null
       _.each quarters, (quarter) ->
         if current_year != quarter.start.year()
+          #if we already added a quarter of this quarter's year
           current_year = quarter.start.year()
           quarter.quarters = []
           years.push quarter

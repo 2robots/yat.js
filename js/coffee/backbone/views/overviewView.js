@@ -85,15 +85,18 @@
         }));
         year_view.append(window.yat.templates.timelineOverviewQuarter({
           offset: 100 * y.left,
-          title: y.start.format(that.options.quarter_dateformat)
+          title: ''
         }));
         _.each(y.quarters, function(q) {
           return year_view.append(window.yat.templates.timelineOverviewQuarter({
             offset: 100 * q.left,
-            title: q.start.format(that.options.quarter_dateformat)
+            title: ''
           }));
         });
-        return overview.append(year_view);
+        overview.append(year_view);
+        if (year_view.width() < 37) {
+          return year_view.find('span:first').empty();
+        }
       });
     };
 
