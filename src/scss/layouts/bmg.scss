@@ -263,6 +263,7 @@ $viewport-element-outer-height: 82px;
     height: 25px;
     padding-top: 7px;
     background: $white;
+    border-top: 1px solid $grey1;
 
     &:hover {
       color: #850D19;
@@ -306,6 +307,7 @@ $viewport-element-outer-height: 82px;
 
     .yat-readmore {
       background: #eee;
+      border-top: 1px solid $grey3;
     }
 
     .yat-element-inner .yat-element-inner2 {
@@ -355,6 +357,10 @@ $viewport-element-outer-height: 82px;
     .close {
       display: block;
     }
+
+    .datetime {
+      right: 15px;
+    }
   }
 
   .datetime {
@@ -400,6 +406,14 @@ $viewport-element-outer-height: 82px;
       background-image: url("../img/arrow_big_right.png");
       background-position: center right;
     }
+  }
+
+  .yat-left.inactive a {
+    background-image: url("../img/arrow_big_left_inactive.png");
+  }
+
+  .yat-right.inactive a {
+    background-image: url("../img/arrow_big_right_inactive.png");
   }
 }
 

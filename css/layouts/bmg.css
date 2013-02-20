@@ -177,14 +177,14 @@
   left: auto;
   right: 0;
 }
-/* line 373, ../../src/scss/layouts/bmg.scss */
+/* line 379, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   width: 50px;
   top: 30px;
   bottom: 30px;
   background: url("../img/grad_left.png") repeat-y;
 }
-/* line 379, ../../src/scss/layouts/bmg.scss */
+/* line 385, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   position: absolute;
   left: 0;
@@ -195,19 +195,27 @@
   overflow: hidden;
   background: url("../img/arrow_big_left.png") no-repeat left center;
 }
-/* line 391, ../../src/scss/layouts/bmg.scss */
+/* line 397, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-left {
   left: 25px;
 }
-/* line 395, ../../src/scss/layouts/bmg.scss */
+/* line 401, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right {
   right: 25px;
   background: url("../img/grad_right.png") repeat-y;
 }
-/* line 399, ../../src/scss/layouts/bmg.scss */
+/* line 405, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navlinks .yat-right a {
   background-image: url("../img/arrow_big_right.png");
   background-position: center right;
+}
+/* line 411, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navlinks .yat-left.inactive a {
+  background-image: url("../img/arrow_big_left_inactive.png");
+}
+/* line 415, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navlinks .yat-right.inactive a {
+  background-image: url("../img/arrow_big_right_inactive.png");
 }
 /* line 101, ../../src/scss/_yat.scss */
 .yat-timeline .yat-viewport {
@@ -317,12 +325,13 @@
   height: 25px;
   padding-top: 7px;
   background: white;
+  border-top: 1px solid #cccccc;
 }
-/* line 267, ../../src/scss/layouts/bmg.scss */
+/* line 268, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore:hover {
   color: #850D19;
 }
-/* line 272, ../../src/scss/layouts/bmg.scss */
+/* line 273, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li a.close {
   width: 16px;
   height: 16px;
@@ -334,11 +343,11 @@
   overflow: hidden;
   display: none;
 }
-/* line 283, ../../src/scss/layouts/bmg.scss */
+/* line 284, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li a.close:hover {
   background-position: left -16px;
 }
-/* line 288, ../../src/scss/layouts/bmg.scss */
+/* line 289, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li span.arrow {
   position: absolute;
   width: 28px;
@@ -348,21 +357,22 @@
   left: 50%;
   margin-left: -14px;
 }
-/* line 298, ../../src/scss/layouts/bmg.scss */
+/* line 299, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important {
   width: 40em;
   border-color: #aaaaaa;
   background: #eee;
 }
-/* line 303, ../../src/scss/layouts/bmg.scss */
+/* line 304, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important span.arrow {
   background-image: url("../img/entry_arrow_bottom_important.png");
 }
-/* line 307, ../../src/scss/layouts/bmg.scss */
+/* line 308, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important .yat-readmore {
   background: #eee;
+  border-top: 1px solid #aaaaaa;
 }
-/* line 316, ../../src/scss/layouts/bmg.scss */
+/* line 318, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_video,
 .yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_image,
 .yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .image-size-1,
@@ -370,17 +380,17 @@
 .yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .image-size-3 {
   width: auto;
 }
-/* line 321, ../../src/scss/layouts/bmg.scss */
+/* line 323, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.important .yat-element-inner .yat-element-inner2 .timeline_video iframe {
   width: auto !important;
   height: auto !important;
   max-width: 100%;
 }
-/* line 330, ../../src/scss/layouts/bmg.scss */
+/* line 332, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open {
   width: 40em;
 }
-/* line 338, ../../src/scss/layouts/bmg.scss */
+/* line 340, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_video,
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_image,
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .image-size-1,
@@ -388,27 +398,31 @@
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .image-size-3 {
   width: auto;
 }
-/* line 343, ../../src/scss/layouts/bmg.scss */
+/* line 345, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner .yat-element-inner2 .timeline_video iframe {
   width: auto !important;
   height: auto !important;
   max-width: 100%;
 }
-/* line 351, ../../src/scss/layouts/bmg.scss */
+/* line 353, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-element-inner {
   overflow-y: auto;
 }
-/* line 355, ../../src/scss/layouts/bmg.scss */
+/* line 357, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .close {
   display: block;
 }
-/* line 360, ../../src/scss/layouts/bmg.scss */
+/* line 361, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-viewport .yat-elements li.open .datetime {
+  right: 15px;
+}
+/* line 366, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .datetime {
   position: absolute;
   right: 0;
   top: 0;
 }
-/* line 365, ../../src/scss/layouts/bmg.scss */
+/* line 371, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .datetime strong {
   font-weight: normal;
 }
@@ -648,12 +662,12 @@
 }
 
 /* fallbacks for no-css3-browser */
-/* line 416, ../../src/scss/layouts/bmg.scss */
+/* line 430, ../../src/scss/layouts/bmg.scss */
 html.no-boxshadow .yat-timeline {
   border: 1px solid #cccccc;
 }
 
-/* line 422, ../../src/scss/layouts/bmg.scss */
+/* line 436, ../../src/scss/layouts/bmg.scss */
 .yat-fullscreen {
   background: url("../img/op40.png") repeat;
 }
