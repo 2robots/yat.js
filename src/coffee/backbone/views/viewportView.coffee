@@ -21,7 +21,8 @@ window.yat.ViewportView = class extends Backbone.View
     id_prefix: ''
   }
 
-  disable_load_more_till_scrollend = false;
+  disable_load_more_till_scrollend: false
+  current_direction: 'both'
 
   #rendered_elements: []
   not_rendered_yet: {}
@@ -112,6 +113,7 @@ window.yat.ViewportView = class extends Backbone.View
 
     # listen to jump_to events
     that.options.dispatcher.on 'viewport_jump_to', ->
+      that.disable_load_more_till_scrollend = true
       that.jump_to arguments[0], arguments[1]
 
     # trigger viewport_jump_to on click next and prev
@@ -151,11 +153,13 @@ window.yat.ViewportView = class extends Backbone.View
         # we're scrolling somewhere
         that.$el.find('.yat-navlinks .yat-right').removeClass('inactive')
         that.$el.find('.yat-navlinks .yat-left').removeClass('inactive')
+
       that.load_more(arguments[0])
 
     # enable load more again after scroll-stops
     that.options.dispatcher.on 'viewport_scrollstop', ->
       that.disable_load_more_till_scrollend = false;
+      that.current_direction = 'both'
 
     # listen to jump_to events
     that.options.dispatcher.on 'navigation_element_selected', (navigationView) ->
@@ -183,7 +187,15 @@ window.yat.ViewportView = class extends Backbone.View
 
           that.insert_element_at_position position, el, undefined
         else
-          that.insert_element_at_position position
+
+          index = that.find_next_not_rendered_element()
+
+          if index > 0
+            el = jQuery('#' + that.options.id_prefix + (that.model.at index-1).cid)
+          else
+            el = undefined
+
+          that.insert_element_at_position position, undefined, el
 
         that.insert_prev_element(that.getCurrentElements().length + 2)
         that.insert_next_element(that.getCurrentElements().length + 2)
@@ -337,7 +349,6 @@ window.yat.ViewportView = class extends Backbone.View
 
   # insert next element in collection
   insert_next_element: (count)->
-
     that = @
 
     if count == undefined
@@ -346,6 +357,7 @@ window.yat.ViewportView = class extends Backbone.View
     _(count).times ->
       index = that.find_next_not_rendered_element()
 
+      # if there is no rendered element
       if index > 0
         el = jQuery('#' + that.options.id_prefix + (that.model.at index-1).cid)
       else
@@ -353,9 +365,10 @@ window.yat.ViewportView = class extends Backbone.View
 
       that.insert_element_at_position index, undefined, el
 
+
+
   # insert prev element in collection
   insert_prev_element: (count)->
-
     that = @
 
     if count == undefined
@@ -368,7 +381,9 @@ window.yat.ViewportView = class extends Backbone.View
         el = jQuery('#' + that.options.id_prefix + (that.model.at index+1).cid)
       else
         el = undefined
+
       that.insert_element_at_position index, el, undefined
+
 
   # insert an element with given position
   insert_element_at_position: (position, before, after)->
@@ -415,9 +430,11 @@ window.yat.ViewportView = class extends Backbone.View
   load_more: (direction)->
 
     if rendered_count < @total_index && !@disable_load_more_till_scrollend
-      if direction == 'left'
+      if direction == 'left' && @current_direction != 'right'
+        @current_direction = 'left'
         @insert_prev_element()
-      else
+      else if  @current_direction != 'left'
+        @current_direction = 'right'
         @insert_next_element()
 
       return true

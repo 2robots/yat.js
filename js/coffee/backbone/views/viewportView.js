@@ -6,7 +6,7 @@
   window.yat = window.yat || {};
 
   window.yat.ViewportView = (function(_super) {
-    var disable_load_more_till_scrollend, rendered_count;
+    var rendered_count;
 
     __extends(_Class, _super);
 
@@ -26,7 +26,9 @@
       id_prefix: ''
     };
 
-    disable_load_more_till_scrollend = false;
+    _Class.prototype.disable_load_more_till_scrollend = false;
+
+    _Class.prototype.current_direction = 'both';
 
     _Class.prototype.not_rendered_yet = {};
 
@@ -98,6 +100,7 @@
         return that.options.dispatcher.trigger('viewport_item_deselect');
       });
       that.options.dispatcher.on('viewport_jump_to', function() {
+        that.disable_load_more_till_scrollend = true;
         return that.jump_to(arguments[0], arguments[1]);
       });
       that.options.dispatcher.on('viewport_prev', function() {
@@ -132,7 +135,8 @@
         return that.load_more(arguments[0]);
       });
       that.options.dispatcher.on('viewport_scrollstop', function() {
-        return that.disable_load_more_till_scrollend = false;
+        that.disable_load_more_till_scrollend = false;
+        return that.current_direction = 'both';
       });
       return that.options.dispatcher.on('navigation_element_selected', function(navigationView) {
         var el, index, position;
@@ -147,7 +151,13 @@
             }
             that.insert_element_at_position(position, el, void 0);
           } else {
-            that.insert_element_at_position(position);
+            index = that.find_next_not_rendered_element();
+            if (index > 0) {
+              el = jQuery('#' + that.options.id_prefix + (that.model.at(index - 1)).cid);
+            } else {
+              el = void 0;
+            }
+            that.insert_element_at_position(position, void 0, el);
           }
           that.insert_prev_element(that.getCurrentElements().length + 2);
           that.insert_next_element(that.getCurrentElements().length + 2);
@@ -326,9 +336,11 @@
 
     _Class.prototype.load_more = function(direction) {
       if (rendered_count < this.total_index && !this.disable_load_more_till_scrollend) {
-        if (direction === 'left') {
+        if (direction === 'left' && this.current_direction !== 'right') {
+          this.current_direction = 'left';
           this.insert_prev_element();
-        } else {
+        } else if (this.current_direction !== 'left') {
+          this.current_direction = 'right';
           this.insert_next_element();
         }
         return true;
