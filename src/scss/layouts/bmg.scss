@@ -254,6 +254,12 @@ $viewport-element-outer-height: 82px;
           max-width: 100%;
         }
       }
+
+      .timeline_text {
+        p {
+          max-width: none;
+        }
+      }
     }
   }
 
