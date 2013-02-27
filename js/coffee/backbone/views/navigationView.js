@@ -239,7 +239,7 @@
             return quarter.start <= moment(el.model.get('date'));
           });
           quarter_pos = (first_el.pos.left - that.options.margin_left) - that.viewManager.pixelPerDay * moment(first_el.model.get('date')).diff(quarter.start, 'days');
-          return quarter.left = quarter_pos / (full_width - that.$el.outerWidth() / 2);
+          return quarter.left = quarter_pos / full_width;
         });
         _.first(quarters).left = 0;
         years = [];
