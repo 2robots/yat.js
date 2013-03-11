@@ -21,6 +21,7 @@ $blue: blue;
 
 $grey1: #ccc;
 $grey2: #666;
+$grey2_lighter: #999;
 $grey3: #aaa;
 
 /**
@@ -205,7 +206,7 @@ $viewport-element-outer-height: 82px;
 
   &.overflow {
     &:hover {
-      border: 1px solid $grey2;
+      border: 1px solid $grey2_lighter;
     }
   }
 
