@@ -337,8 +337,8 @@
 }
 /* line 280, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li a.close {
-  width: 12px;
-  height: 12px;
+  width: 9px;
+  height: 9px;
   background: url("../img/close.png") no-repeat center top;
   position: absolute;
   left: 8px;
@@ -349,7 +349,7 @@
 }
 /* line 291, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li a.close:hover {
-  background-position: left -12px;
+  background-position: left -9px;
 }
 /* line 296, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li span.arrow {
