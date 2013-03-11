@@ -178,6 +178,7 @@
         left: 0;
         right: 0;
         overflow: none;
+        white-space: nowrap;
 
         li {
           float: left;
@@ -197,11 +198,15 @@
             padding: 0 0 0 2px;
             margin: 0;
             border: none;
-            border-left: 1px solid white;
+            border-left: 1px solid #EEEEEE;
             width: 50px;
             font-size: 11px;
             line-height: 11px;
             color: white;
+
+            &.first {
+              border-left: 2px solid white
+            }
           }
 
           &.last {

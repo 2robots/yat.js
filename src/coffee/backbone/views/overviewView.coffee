@@ -78,11 +78,13 @@ window.yat.OverviewView = class extends Backbone.View
 
   render_quarters: (overview, years) ->
     that = @
+    last_year = _.last(years)
+    last_year.width -= 0.002
     _.each years, (y) ->
-      year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y.start.year(), width: (100 * y.width) + '%'})
-      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: ''})
+      year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y.start.year(), width: Math.round(10000 * y.width) / 100 + '%'})
+      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: '', className: 'first'})
       _.each y.quarters, (q)->
-        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: ''})
+        year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: '', className: ''})
       overview.append(year_view)
       if year_view.width() < 37
         year_view.find('span:first').empty()

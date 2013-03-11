@@ -75,22 +75,26 @@
     };
 
     _Class.prototype.render_quarters = function(overview, years) {
-      var that;
+      var last_year, that;
       that = this;
+      last_year = _.last(years);
+      last_year.width -= 0.002;
       return _.each(years, function(y) {
         var year_view;
         year_view = jQuery(window.yat.templates.timelineOverviewYear({
           year: y.start.year(),
-          width: (100 * y.width) + '%'
+          width: Math.round(10000 * y.width) / 100 + '%'
         }));
         year_view.append(window.yat.templates.timelineOverviewQuarter({
           offset: 100 * y.left,
-          title: ''
+          title: '',
+          className: 'first'
         }));
         _.each(y.quarters, function(q) {
           return year_view.append(window.yat.templates.timelineOverviewQuarter({
             offset: 100 * q.left,
-            title: ''
+            title: '',
+            className: ''
           }));
         });
         overview.append(year_view);

@@ -215,7 +215,7 @@ window.yat.NavigationView = class extends Backbone.View
         first_el = _.find elements, (el) ->
           quarter.start <= moment(el.model.get('date'))
         quarter_pos = (first_el.pos.left - that.options.margin_left) - that.viewManager.pixelPerDay * moment(first_el.model.get('date')).diff(quarter.start, 'days')
-        quarter.left = quarter_pos / full_width
+        quarter.left = Math.round((quarter_pos / full_width) * 1000) / 1000
       _.first(quarters).left = 0
 
       years = []
@@ -232,10 +232,10 @@ window.yat.NavigationView = class extends Backbone.View
       previous_year = null
       _.each years, (y) ->
         if previous_year?
-          previous_year.width = y.left - previous_year.left
+          previous_year.width = Math.round((y.left - previous_year.left) * 1000) / 1000
         previous_year = y
       last_year = _.last(years)
-      last_year.width = 1 - last_year.left
+      last_year.width = Math.round((1 - last_year.left) * 1000) / 1000
       that.options.dispatcher.trigger 'navigation_elements_positioned', years
     , 10)
 
