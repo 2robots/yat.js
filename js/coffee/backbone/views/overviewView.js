@@ -80,15 +80,20 @@
       last_year = _.last(years);
       last_year.width -= 0.002;
       return _.each(years, function(y) {
-        var year_view;
+        var className, year_view;
         year_view = jQuery(window.yat.templates.timelineOverviewYear({
           year: y.start.year(),
           width: Math.round(10000 * y.width) / 100 + '%'
         }));
+        if (moment([y.start.year(), 0]).isSame(y.start, 'day')) {
+          className = 'first';
+        } else {
+          className = '';
+        }
         year_view.append(window.yat.templates.timelineOverviewQuarter({
           offset: 100 * y.left,
           title: '',
-          className: 'first'
+          className: className
         }));
         _.each(y.quarters, function(q) {
           return year_view.append(window.yat.templates.timelineOverviewQuarter({

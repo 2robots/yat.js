@@ -82,7 +82,13 @@ window.yat.OverviewView = class extends Backbone.View
     last_year.width -= 0.002
     _.each years, (y) ->
       year_view = jQuery(window.yat.templates.timelineOverviewYear {year: y.start.year(), width: Math.round(10000 * y.width) / 100 + '%'})
-      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: '', className: 'first'})
+
+      if moment([y.start.year(), 0]).isSame(y.start, 'day')
+        className = 'first'
+      else
+        className = ''
+
+      year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * y.left, title: '', className: className})
       _.each y.quarters, (q)->
         year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: '', className: ''})
       overview.append(year_view)
