@@ -92,7 +92,7 @@ window.yat.OverviewView = class extends Backbone.View
       _.each y.quarters, (q)->
         year_view.append(window.yat.templates.timelineOverviewQuarter {offset: 100 * q.left, title: '', className: ''})
       overview.append(year_view)
-      if year_view.width() < 37
+      if year_view.width() < 32
         year_view.find('span:first').empty()
 
   # jumps to a specific position expressed as percentage
