@@ -103,7 +103,7 @@
           }));
         });
         overview.append(year_view);
-        if (year_view.width() < 37) {
+        if (year_view.width() < 32) {
           return year_view.find('span:first').empty();
         }
       });
