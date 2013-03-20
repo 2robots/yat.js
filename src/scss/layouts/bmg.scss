@@ -103,20 +103,20 @@ $navigation-height: 150px;
         }
       }
 
-      &.cat-rechtliches a, &.cat-1 a { background-image: url("../categories/rechtliches.png"); }
-      &.cat-analyse a, &.cat-2 a { background-image: url("../categories/analyse.png"); }
-      &.cat-ernaehrung a, &.cat-3 a { background-image: url("../categories/ernaehrung.png"); }
-      &.cat-film a, &.cat-4 a { background-image: url("../categories/film.png"); }
-      &.cat-gesundheitssystem a, &.cat-5 a { background-image: url("../categories/gesundheitssystem.png"); }
-      &.cat-kriesenmanagement a, &.cat-6 a { background-image: url("../categories/kriesenmanagement.png"); }
-      &.cat-statistik a, &.cat-7 a { background-image: url("../categories/statistik.png"); }
-      &.cat-publikationen a, &.cat-8 a { background-image: url("../categories/publikationen.png"); }
-      &.cat-service a, &.cat-9 a { background-image: url("../categories/service.png"); }
-      &.cat-presse a, &.cat-10 a { background-image: url("../categories/presse.png"); }
-      &.cat-tiere a, &.cat-11 a { background-image: url("../categories/tiere.png"); }
-      &.cat-vermischtes a, &.cat-12 a { background-image: url("../categories/vermischtes.png"); }
-      &.cat-vorsorge a, &.cat-13 a { background-image: url("../categories/vorsorge.png"); }
-      &.cat-vernetzung a, &.cat-14 a { background-image: url("../categories/vernetzung.png"); }
+      &.cat-rechtliches a, &.cat-1 a, &.cat-Allgemein a { background-image: url("../categories/1.png"); }
+      &.cat-analyse a, &.cat-2 a { background-image: url("../categories/2.png"); }
+      &.cat-ernaehrung a, &.cat-3 a { background-image: url("../categories/3.png"); }
+      &.cat-film a, &.cat-4 a { background-image: url("../categories/4.png"); }
+      &.cat-gesundheitssystem a, &.cat-5 a { background-image: url("../categories/5.png"); }
+      &.cat-kriesenmanagement a, &.cat-6 a { background-image: url("../categories/6.png"); }
+      &.cat-statistik a, &.cat-7 a { background-image: url("../categories/7.png"); }
+      &.cat-publikationen a, &.cat-8 a { background-image: url("../categories/8.png"); }
+      &.cat-service a, &.cat-9 a { background-image: url("../categories/9.png"); }
+      &.cat-presse a, &.cat-10 a { background-image: url("../categories/10.png"); }
+      &.cat-tiere a, &.cat-11 a { background-image: url("../categories/11.png"); }
+      &.cat-vermischtes a, &.cat-12 a { background-image: url("../categories/12.png"); }
+      &.cat-vorsorge a, &.cat-13 a { background-image: url("../categories/13.png"); }
+      &.cat-vernetzung a, &.cat-14 a { background-image: url("../categories/14.png"); }
     }
   }
 
@@ -201,7 +201,6 @@ $viewport-element-outer-height: 82px;
   padding: 10px;
   margin: 30px 15px;
   border: 1px solid $grey1;
-  background: $white;
   position: relative;
 
   &.overflow {
@@ -222,7 +221,7 @@ $viewport-element-outer-height: 82px;
         line-height: 120%;
         padding: 1em 0 0.5em 0;
         margin-bottom: 0.35em;
-        font-weight: normal;
+        font-weight: bold;
         font-size: 1.08em;
       }
 
@@ -240,12 +239,12 @@ $viewport-element-outer-height: 82px;
         width: 100%;
         line-height: 1px;
         text-align: center;
-        background: $grey1;
+        //background: $grey1;
 
-        img {
-          height: 120px;
-          width: auto;
-        }
+//        img {
+//          height: 120px;
+//          width: auto;
+//        }
       }
 
       .timeline_video {
