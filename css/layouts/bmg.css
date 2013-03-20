@@ -21,10 +21,11 @@
 /**
  * NAVIGATION SETTINGS
  */
-/* line 130, ../../src/scss/layouts/bmg.scss */
+/*  line 130, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation {
   background: url("../img/navigation_bg.png") repeat-x center bottom;
 }
+
 /* line 134, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-navlinks .yat-left, .yat-timeline .yat-navigation .yat-navlinks .yat-right {
   top: 40px;
@@ -236,7 +237,6 @@
   padding: 10px;
   margin: 30px 15px;
   border: 1px solid #cccccc;
-  background: white;
   position: relative;
 }
 /* line 116, ../../src/scss/_yat.scss */
@@ -283,7 +283,7 @@
   line-height: 120%;
   padding: 1em 0 0.5em 0;
   margin-bottom: 0.35em;
-  font-weight: normal;
+  font-weight: bold;
   font-size: 1.08em;
 }
 /* line 229, ../../src/scss/layouts/bmg.scss */
@@ -301,9 +301,10 @@
   width: 100%;
   line-height: 1px;
   text-align: center;
-  background: #cccccc;
+ /* background: #cccccc; */
 }
 /* line 245, ../../src/scss/layouts/bmg.scss */
+/*
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_video img,
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_image img,
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .image-size-1 img,
@@ -312,6 +313,7 @@
   height: 120px;
   width: auto;
 }
+*/
 /* line 252, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 .timeline_video iframe {
   width: auto !important;
@@ -592,61 +594,57 @@
 .yat-timeline .yat-navigation .yat-elements li a.active, .yat-timeline .yat-navigation .yat-elements li a:hover {
   border-color: #666666;
 }
+/*
+.yat-timeline .yat-navigation .yat-elements li.cat-1 a, .yat-timeline .yat-navigation .yat-elements li.cat-Allgemein a {
+  background-image: url("../categories/1.png");
+}
+*/
+.yat-timeline .yat-navigation .yat-elements li.cat-1 a{
+  background-image: url("../categories/1.png");
+}
+/* line 105, ../../src/scss/layouts/bmg.scss */
+.yat-timeline .yat-navigation .yat-elements li.cat-2 a{
+  background-image: url("../categories/2.png");
+}
 /* line 106, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-rechtliches a, .yat-timeline .yat-navigation .yat-elements li.cat-1 a {
-  background-image: url("../categories/rechtliches.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-3 a {
+  background-image: url("../categories/3.png");
 }
 /* line 107, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-analyse a, .yat-timeline .yat-navigation .yat-elements li.cat-2 a {
-  background-image: url("../categories/analyse.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-4 a {
+  background-image: url("../categories/4.png");
 }
 /* line 108, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-ernaehrung a, .yat-timeline .yat-navigation .yat-elements li.cat-3 a {
-  background-image: url("../categories/ernaehrung.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-5 a{
+  background-image: url("../categories/5.png");
 }
 /* line 109, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-film a, .yat-timeline .yat-navigation .yat-elements li.cat-4 a {
-  background-image: url("../categories/film.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-6 a {
+  background-image: url("../categories/6.png");
 }
-/* line 110, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-gesundheitssystem a, .yat-timeline .yat-navigation .yat-elements li.cat-5 a {
-  background-image: url("../categories/gesundheitssystem.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-7 a {
+  background-image: url("../categories/7.png");
 }
-/* line 111, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-kriesenmanagement a, .yat-timeline .yat-navigation .yat-elements li.cat-6 a {
-  background-image: url("../categories/kriesenmanagement.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-8 a {
+  background-image: url("../categories/8.png");
 }
-/* line 112, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-statistik a, .yat-timeline .yat-navigation .yat-elements li.cat-7 a {
-  background-image: url("../categories/statistik.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-9 a {
+  background-image: url("../categories/9.png");
 }
-/* line 113, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-publikationen a, .yat-timeline .yat-navigation .yat-elements li.cat-8 a {
-  background-image: url("../categories/publikationen.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-10 a {
+  background-image: url("../categories/10.png");
 }
-/* line 114, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-service a, .yat-timeline .yat-navigation .yat-elements li.cat-9 a {
-  background-image: url("../categories/service.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-11 a {
+  background-image: url("../categories/11.png");
 }
-/* line 115, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-presse a, .yat-timeline .yat-navigation .yat-elements li.cat-10 a {
-  background-image: url("../categories/presse.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-12 a {
+  background-image: url("../categories/12.png");
 }
-/* line 116, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-tiere a, .yat-timeline .yat-navigation .yat-elements li.cat-11 a {
-  background-image: url("../categories/tiere.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-13 a {
+  background-image: url("../categories/13.png");
 }
-/* line 117, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-vermischtes a, .yat-timeline .yat-navigation .yat-elements li.cat-12 a {
-  background-image: url("../categories/vermischtes.png");
-}
-/* line 118, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-vorsorge a, .yat-timeline .yat-navigation .yat-elements li.cat-13 a {
-  background-image: url("../categories/vorsorge.png");
-}
-/* line 119, ../../src/scss/layouts/bmg.scss */
-.yat-timeline .yat-navigation .yat-elements li.cat-vernetzung a, .yat-timeline .yat-navigation .yat-elements li.cat-14 a {
-  background-image: url("../categories/vernetzung.png");
+.yat-timeline .yat-navigation .yat-elements li.cat-14 a {
+  background-image: url("../categories/14.png");
 }
 /* line 123, ../../src/scss/layouts/bmg.scss */
 .yat-timeline .yat-navigation .yat-inner {
@@ -680,3 +678,4 @@ html.no-boxshadow .yat-timeline {
 .yat-fullscreen {
   background: url("../img/op40.png") repeat;
 }
+
