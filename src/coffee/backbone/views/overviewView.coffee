@@ -34,9 +34,9 @@ window.yat.OverviewView = class extends Backbone.View
     setTimeout (->
       scroll_inner_width = parseInt(that.selection_element.find('.yat-position-inner').width(), 10)
       that.selection_element.find('.yat-position-container').css('width', '100%')
-      that.selection_element.find('.yat-position-container').css('padding-left', '100%')
-      that.selection_element.find('.yat-position-container').css('padding-right', scroll_inner_width/2)
-      that.selection_element.find('.yat-position-container').css('left', -scroll_inner_width/2)
+      that.selection_element.find('.yat-position-container').css('padding-left', that.$el.width() - scroll_inner_width + 'px')
+      that.selection_element.find('.yat-position-container').css('padding-right', 0)
+      that.selection_element.find('.yat-position-container').css('left', '1px')
 
       that.jump_to(moment(that.model.start))
     ), 10
@@ -100,35 +100,40 @@ window.yat.OverviewView = class extends Backbone.View
 
     left = @get_offset_for_percentage(percentage)
     width = $('.yat-current-position').width()
-    @scrollLeft = Math.floor(width - left)
+    slider_width = $('.yat-position-inner').width()
+    @scrollLeft = Math.floor(width - left) - slider_width
     if animate
       @$el.find('.yat-current-position').animate({
-        scrollLeft: (width - left)
+        scrollLeft: @scrollLeft
       }, @options.animation_duration)
     else
-      @$el.find('.yat-current-position').scrollLeft (width - left)
+      @$el.find('.yat-current-position').scrollLeft @scrollLeft
 
   # jumps to the date
   jump_to: (date, animate)->
     left = @get_offset_for_date(date)
     width = $('.yat-current-position').width()
+    slider_width = $('.yat-position-inner').width()
+    @scrollLeft = Math.floor(width - left - slider_width/2)
     if animate
       @$el.find('.yat-current-position').animate({
-        scrollLeft: (width - left)
+        scrollLeft: @scrollLeft
       }, @options.animation_duration)
     else
-      @$el.find('.yat-current-position').scrollLeft (width - left)
+      @$el.find('.yat-current-position').scrollLeft @scrollLeft
     @current_date = date
 
   # get pixel for a position expressed as percentage
   get_percentage_for_offset: (offset)->
     width = $('.yat-current-position').width()
-    1 - (offset / width)
+    slider_width = $('.yat-position-inner').width()
+    1 - (offset / (width - slider_width))
 
   # get pixel for a position expressed as percentage
   get_offset_for_percentage: (percentage)->
     width = $('.yat-current-position').width()
-    percentage * width
+    slider_width = $('.yat-position-inner').width()
+    percentage * (width - slider_width)
 
   # get pixel for date
   get_offset_for_date: (date)->
@@ -141,9 +146,8 @@ window.yat.OverviewView = class extends Backbone.View
 
   # get date for pixel
   get_date_for_offset: (offset)->
-
     width = $('.yat-current-position').width()
+    percentage = offset / width
     start = moment(@model.start)
     end = moment(@model.end)
-
-    moment(start).add( end.diff(start) * (offset / width) ).startOf('day')
+    moment(start).add( end.diff(start) * percentage ).startOf('day')

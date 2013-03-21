@@ -15,7 +15,7 @@ window.yat.NavigationViewManager = class
     @index = 0
 
   initialize: ->
-    @paneWidth =  @options.element_width * (@model.length / 2) + @options.margin_left + @options.margin_right
+    @paneWidth =  @options.element_width * (@model.length / 1.0) + @options.margin_left + @options.margin_right
     @startEnd = @model.getStartEnd()
     @interval = Math.abs(moment(@startEnd.start).diff(@startEnd.end, 'days'))
     @pixelPerDay = Math.round(@paneWidth / @interval)

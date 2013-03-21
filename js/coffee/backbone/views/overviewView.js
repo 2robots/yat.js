@@ -38,9 +38,9 @@
         var scroll_inner_width;
         scroll_inner_width = parseInt(that.selection_element.find('.yat-position-inner').width(), 10);
         that.selection_element.find('.yat-position-container').css('width', '100%');
-        that.selection_element.find('.yat-position-container').css('padding-left', '100%');
-        that.selection_element.find('.yat-position-container').css('padding-right', scroll_inner_width / 2);
-        that.selection_element.find('.yat-position-container').css('left', -scroll_inner_width / 2);
+        that.selection_element.find('.yat-position-container').css('padding-left', that.$el.width() - scroll_inner_width + 'px');
+        that.selection_element.find('.yat-position-container').css('padding-right', 0);
+        that.selection_element.find('.yat-position-container').css('left', '1px');
         return that.jump_to(moment(that.model.start));
       }), 10);
       that.selection_element.find('.yat-position-container').bind('resize', (function() {
@@ -110,43 +110,48 @@
     };
 
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
-      var left, width;
+      var left, slider_width, width;
       left = this.get_offset_for_percentage(percentage);
       width = $('.yat-current-position').width();
-      this.scrollLeft = Math.floor(width - left);
+      slider_width = $('.yat-position-inner').width();
+      this.scrollLeft = Math.floor(width - left) - slider_width;
       if (animate) {
         return this.$el.find('.yat-current-position').animate({
-          scrollLeft: width - left
+          scrollLeft: this.scrollLeft
         }, this.options.animation_duration);
       } else {
-        return this.$el.find('.yat-current-position').scrollLeft(width - left);
+        return this.$el.find('.yat-current-position').scrollLeft(this.scrollLeft);
       }
     };
 
     _Class.prototype.jump_to = function(date, animate) {
-      var left, width;
+      var left, slider_width, width;
       left = this.get_offset_for_date(date);
       width = $('.yat-current-position').width();
+      slider_width = $('.yat-position-inner').width();
+      this.scrollLeft = Math.floor(width - left - slider_width / 2);
       if (animate) {
         this.$el.find('.yat-current-position').animate({
-          scrollLeft: width - left
+          scrollLeft: this.scrollLeft
         }, this.options.animation_duration);
       } else {
-        this.$el.find('.yat-current-position').scrollLeft(width - left);
+        this.$el.find('.yat-current-position').scrollLeft(this.scrollLeft);
       }
       return this.current_date = date;
     };
 
     _Class.prototype.get_percentage_for_offset = function(offset) {
-      var width;
+      var slider_width, width;
       width = $('.yat-current-position').width();
-      return 1 - (offset / width);
+      slider_width = $('.yat-position-inner').width();
+      return 1 - (offset / (width - slider_width));
     };
 
     _Class.prototype.get_offset_for_percentage = function(percentage) {
-      var width;
+      var slider_width, width;
       width = $('.yat-current-position').width();
-      return percentage * width;
+      slider_width = $('.yat-position-inner').width();
+      return percentage * (width - slider_width);
     };
 
     _Class.prototype.get_offset_for_date = function(date) {
@@ -159,11 +164,12 @@
     };
 
     _Class.prototype.get_date_for_offset = function(offset) {
-      var end, start, width;
+      var end, percentage, start, width;
       width = $('.yat-current-position').width();
+      percentage = offset / width;
       start = moment(this.model.start);
       end = moment(this.model.end);
-      return moment(start).add(end.diff(start) * (offset / width)).startOf('day');
+      return moment(start).add(end.diff(start) * percentage).startOf('day');
     };
 
     return _Class;

@@ -13,7 +13,7 @@
     }
 
     _Class.prototype.initialize = function() {
-      this.paneWidth = this.options.element_width * (this.model.length / 2) + this.options.margin_left + this.options.margin_right;
+      this.paneWidth = this.options.element_width * (this.model.length / 1.0) + this.options.margin_left + this.options.margin_right;
       this.startEnd = this.model.getStartEnd();
       this.interval = Math.abs(moment(this.startEnd.start).diff(this.startEnd.end, 'days'));
       return this.pixelPerDay = Math.round(this.paneWidth / this.interval);
