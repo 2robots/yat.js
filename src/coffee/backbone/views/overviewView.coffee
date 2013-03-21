@@ -20,10 +20,23 @@ window.yat.OverviewView = class extends Backbone.View
 
   selection_element: undefined
   current_date: undefined
+  current_position: undefined
 
   initialize: ->
     @scrollLeft = 0
     @render()
+
+  resize: ->
+    scroll_inner_width = parseInt(@selection_element.find('.yat-position-inner').width(), 10)
+    @selection_element.find('.yat-position-container').css('width', '100%')
+    @selection_element.find('.yat-position-container').css('padding-left', @$el.width() - scroll_inner_width + 'px')
+    @selection_element.find('.yat-position-container').css('padding-right', 0)
+    @selection_element.find('.yat-position-container').css('left', '1px')
+    if @current_position?
+      if typeof @current_position == 'number'
+        @jump_to_percentage @current_position
+      else
+        @jump_to @current_position
 
   render: ->
     that = @
@@ -32,17 +45,12 @@ window.yat.OverviewView = class extends Backbone.View
     @selection_element = $(window.yat.templates.timelineOverviewSelection())
 
     setTimeout (->
-      scroll_inner_width = parseInt(that.selection_element.find('.yat-position-inner').width(), 10)
-      that.selection_element.find('.yat-position-container').css('width', '100%')
-      that.selection_element.find('.yat-position-container').css('padding-left', that.$el.width() - scroll_inner_width + 'px')
-      that.selection_element.find('.yat-position-container').css('padding-right', 0)
-      that.selection_element.find('.yat-position-container').css('left', '1px')
-
-      that.jump_to(moment(that.model.start))
+      that.resize()
     ), 10
 
     that.selection_element.find('.yat-position-container').bind 'resize', (->
-      that.jump_to that.current_date
+      if that.current_date?
+        that.jump_to that.current_date
     )
 
     @$el.html(overview)
@@ -51,6 +59,15 @@ window.yat.OverviewView = class extends Backbone.View
     # jump to the right position, when user clicks
     @selection_element.parent().bind 'mouseup', (event)->
       that.options.dispatcher.trigger 'overview_jump_to', that.get_date_for_offset (event.pageX - $('.yat-current-position').offset().left)
+
+    $(window).resize ->
+      setTimeout (-> 
+        that.resize()
+      ), 10
+    that.options.dispatcher.on 'fullscreen_start', ->
+      setTimeout (-> that.resize()), 10
+    that.options.dispatcher.on 'fullscreen_end', ->
+      setTimeout (-> that.resize()), 10
 
     # listen to jump to events
     that.options.dispatcher.on 'overview_jump_to', ->
@@ -97,7 +114,6 @@ window.yat.OverviewView = class extends Backbone.View
 
   # jumps to a specific position expressed as percentage
   jump_to_percentage: (percentage, animate)->
-
     left = @get_offset_for_percentage(percentage)
     width = $('.yat-current-position').width()
     slider_width = $('.yat-position-inner').width()
@@ -108,6 +124,7 @@ window.yat.OverviewView = class extends Backbone.View
       }, @options.animation_duration)
     else
       @$el.find('.yat-current-position').scrollLeft @scrollLeft
+    @current_position = percentage
 
   # jumps to the date
   jump_to: (date, animate)->
