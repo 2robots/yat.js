@@ -133,10 +133,28 @@
     */
 
     $.ajax({
-      url: "testcontent1.txt",
+      url: "testcontent.txt",
       success: function(content){
         $("#yat-table1 tbody").html(content);
 
+//        window.setTimeout(function () {
+//        $("#yat-table1").yat(
+//        {
+//          items:"tbody tr",
+//          category:"td.yat-category",
+//          content:"td.yat-content",
+//          date:"th.yat-date",
+//          shorttitle:"td.yat-title",
+//          tags:"td.yat-tags",
+//          important:"tr"
+//        },
+//        "#yat-table1-timeline",
+//        {
+//          alterImportant:function (element) {
+//            return element.hasClass("important");
+//        }
+//      });
+//      }, 2500);
         $("#yat-table1").yat(
         {
           items:"tbody tr",
@@ -153,6 +171,7 @@
             return element.hasClass("important");
         }
       });
+
       }
     });
   });

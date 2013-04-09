@@ -954,7 +954,7 @@ function Hammer(element, options, undefined)
     }
 }
 // moment.js
-// version : 1.7.2
+// version : 2.0.0
 // author : Tim Wood
 // license : MIT
 // momentjs.com
@@ -966,27 +966,20 @@ function Hammer(element, options, undefined)
     ************************************/
 
     var moment,
-        VERSION = "1.7.2",
+        VERSION = "2.0.0",
         round = Math.round, i,
         // internal storage for language config files
         languages = {},
-        currentLanguage = 'en',
 
         // check for nodeJS
         hasModule = (typeof module !== 'undefined' && module.exports),
-
-        // Parameters to check for on the lang config.  This list of properties
-        // will be inherited from English if not provided in a language
-        // definition.  monthsParse is also a lang config property, but it
-        // cannot be inherited and as such cannot be enumerated here.
-        langConfigProperties = 'months|monthsShort|weekdays|weekdaysShort|weekdaysMin|longDateFormat|calendar|relativeTime|ordinal|meridiem'.split('|'),
 
         // ASP.NET json date format regex
         aspNetJsonRegex = /^\/?Date\((\-?\d+)/i,
 
         // format tokens
-        formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|YYYY|YY|a|A|hh?|HH?|mm?|ss?|SS?S?|zz?|ZZ?|.)/g,
-        localFormattingTokens = /(\[[^\[]*\])|(\\)?(LT|LL?L?L?)/g,
+        formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|YYYYY|YYYY|YY|a|A|hh?|HH?|mm?|ss?|SS?S?|X|zz?|ZZ?|.)/g,
+        localFormattingTokens = /(\[[^\[]*\])|(\\)?(LT|LL?L?L?|l{1,4})/g,
 
         // parsing tokens
         parseMultipleFormatChunker = /([0-9a-zA-Z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)/gi,
@@ -996,21 +989,23 @@ function Hammer(element, options, undefined)
         parseTokenOneToThreeDigits = /\d{1,3}/, // 0 - 999
         parseTokenThreeDigits = /\d{3}/, // 000 - 999
         parseTokenFourDigits = /\d{1,4}/, // 0 - 9999
-        parseTokenWord = /[0-9a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/i, // any word characters or numbers
+        parseTokenSixDigits = /[+\-]?\d{1,6}/, // -999,999 - 999,999
+        parseTokenWord = /[0-9]*[a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF]+\s*?[\u0600-\u06FF]+/i, // any word (or two) characters or numbers including two word month in arabic.
         parseTokenTimezone = /Z|[\+\-]\d\d:?\d\d/i, // +00:00 -00:00 +0000 -0000 or Z
         parseTokenT = /T/i, // T (ISO seperator)
+        parseTokenTimestampMs = /[\+\-]?\d+(\.\d{1,3})?/, // 123456789 123456789.123
 
         // preliminary iso regex
         // 0000-00-00 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000
-        isoRegex = /^\s*\d{4}-\d\d-\d\d(T(\d\d(:\d\d(:\d\d(\.\d\d?\d?)?)?)?)?([\+\-]\d\d:?\d\d)?)?/,
+        isoRegex = /^\s*\d{4}-\d\d-\d\d((T| )(\d\d(:\d\d(:\d\d(\.\d\d?\d?)?)?)?)?([\+\-]\d\d:?\d\d)?)?/,
         isoFormat = 'YYYY-MM-DDTHH:mm:ssZ',
 
         // iso time formats and regexes
         isoTimes = [
-            ['HH:mm:ss.S', /T\d\d:\d\d:\d\d\.\d{1,3}/],
-            ['HH:mm:ss', /T\d\d:\d\d:\d\d/],
-            ['HH:mm', /T\d\d:\d\d/],
-            ['HH', /T\d\d/]
+            ['HH:mm:ss.S', /(T| )\d\d:\d\d:\d\d\.\d{1,3}/],
+            ['HH:mm:ss', /(T| )\d\d:\d\d:\d\d/],
+            ['HH:mm', /(T| )\d\d:\d\d/],
+            ['HH', /(T| )\d\d/]
         ],
 
         // timezone chunker "+10:00" > ["10", "00"] or "-1530" > ["-15", "30"]
@@ -1032,63 +1027,51 @@ function Hammer(element, options, undefined)
         formatFunctions = {},
 
         // tokens to ordinalize and pad
-        ordinalizeTokens = 'DDD w M D d'.split(' '),
-        paddedTokens = 'M D H h m s w'.split(' '),
+        ordinalizeTokens = 'DDD w W M D d'.split(' '),
+        paddedTokens = 'M D H h m s w W'.split(' '),
 
-        /*
-         * moment.fn.format uses new Function() to create an inlined formatting function.
-         * Results are a 3x speed boost
-         * http://jsperf.com/momentjs-cached-format-functions
-         *
-         * These strings are appended into a function using replaceFormatTokens and makeFormatFunction
-         */
         formatTokenFunctions = {
-            // a = placeholder
-            // b = placeholder
-            // t = the current moment being formatted
-            // v = getValueAtKey function
-            // o = language.ordinal function
-            // p = leftZeroFill function
-            // m = language.meridiem value or function
             M    : function () {
                 return this.month() + 1;
             },
             MMM  : function (format) {
-                return getValueFromArray("monthsShort", this.month(), this, format);
+                return this.lang().monthsShort(this, format);
             },
             MMMM : function (format) {
-                return getValueFromArray("months", this.month(), this, format);
+                return this.lang().months(this, format);
             },
             D    : function () {
                 return this.date();
             },
             DDD  : function () {
-                var a = new Date(this.year(), this.month(), this.date()),
-                    b = new Date(this.year(), 0, 1);
-                return ~~(((a - b) / 864e5) + 1.5);
+                return this.dayOfYear();
             },
             d    : function () {
                 return this.day();
             },
             dd   : function (format) {
-                return getValueFromArray("weekdaysMin", this.day(), this, format);
+                return this.lang().weekdaysMin(this, format);
             },
             ddd  : function (format) {
-                return getValueFromArray("weekdaysShort", this.day(), this, format);
+                return this.lang().weekdaysShort(this, format);
             },
             dddd : function (format) {
-                return getValueFromArray("weekdays", this.day(), this, format);
+                return this.lang().weekdays(this, format);
             },
             w    : function () {
-                var a = new Date(this.year(), this.month(), this.date() - this.day() + 5),
-                    b = new Date(a.getFullYear(), 0, 4);
-                return ~~((a - b) / 864e5 / 7 + 1.5);
+                return this.week();
+            },
+            W    : function () {
+                return this.isoWeek();
             },
             YY   : function () {
                 return leftZeroFill(this.year() % 100, 2);
             },
             YYYY : function () {
                 return leftZeroFill(this.year(), 4);
+            },
+            YYYYY : function () {
+                return leftZeroFill(this.year(), 5);
             },
             a    : function () {
                 return this.lang().meridiem(this.hours(), this.minutes(), true);
@@ -1134,13 +1117,11 @@ function Hammer(element, options, undefined)
                     b = "-";
                 }
                 return b + leftZeroFill(~~(10 * a / 6), 4);
+            },
+            X    : function () {
+                return this.unix();
             }
         };
-
-    function getValueFromArray(key, index, m, format) {
-        var lang = m.lang();
-        return lang[key].call ? lang[key](m, format) : lang[key][index];
-    }
 
     function padToken(func, count) {
         return function (a) {
@@ -1149,8 +1130,7 @@ function Hammer(element, options, undefined)
     }
     function ordinalizeToken(func) {
         return function (a) {
-            var b = func.call(this, a);
-            return b + this.lang().ordinal(b);
+            return this.lang().ordinal(func.call(this, a));
         };
     }
 
@@ -1169,26 +1149,26 @@ function Hammer(element, options, undefined)
         Constructors
     ************************************/
 
+    function Language() {
+
+    }
 
     // Moment prototype object
-    function Moment(date, isUTC, lang) {
-        this._d = date;
-        this._isUTC = !!isUTC;
-        this._a = date._a || null;
-        this._lang = lang || false;
+    function Moment(config) {
+        extend(this, config);
     }
 
     // Duration Constructor
     function Duration(duration) {
         var data = this._data = {},
-            years = duration.years || duration.y || 0,
-            months = duration.months || duration.M || 0,
-            weeks = duration.weeks || duration.w || 0,
-            days = duration.days || duration.d || 0,
-            hours = duration.hours || duration.h || 0,
-            minutes = duration.minutes || duration.m || 0,
-            seconds = duration.seconds || duration.s || 0,
-            milliseconds = duration.milliseconds || duration.ms || 0;
+            years = duration.years || duration.year || duration.y || 0,
+            months = duration.months || duration.month || duration.M || 0,
+            weeks = duration.weeks || duration.week || duration.w || 0,
+            days = duration.days || duration.day || duration.d || 0,
+            hours = duration.hours || duration.hour || duration.h || 0,
+            minutes = duration.minutes || duration.minute || duration.m || 0,
+            seconds = duration.seconds || duration.second || duration.s || 0,
+            milliseconds = duration.milliseconds || duration.millisecond || duration.ms || 0;
 
         // representation for dateAddRemove
         this._milliseconds = milliseconds +
@@ -1228,8 +1208,6 @@ function Hammer(element, options, undefined)
         years += absRound(months / 12);
 
         data.years = years;
-
-        this._lang = false;
     }
 
 
@@ -1237,6 +1215,15 @@ function Hammer(element, options, undefined)
         Helpers
     ************************************/
 
+
+    function extend(a, b) {
+        for (var i in b) {
+            if (b.hasOwnProperty(i)) {
+                a[i] = b[i];
+            }
+        }
+        return a;
+    }
 
     function absRound(number) {
         if (number < 0) {
@@ -1296,66 +1283,169 @@ function Hammer(element, options, undefined)
         return diffs + lengthDiff;
     }
 
-    // convert an array to a date.
-    // the array should mirror the parameters below
-    // note: all values past the year are optional and will default to the lowest possible value.
-    // [year, month, day , hour, minute, second, millisecond]
-    function dateFromArray(input, asUTC, hoursOffset, minutesOffset) {
-        var i, date, forValid = [];
-        for (i = 0; i < 7; i++) {
-            forValid[i] = input[i] = (input[i] == null) ? (i === 2 ? 1 : 0) : input[i];
+
+    /************************************
+        Languages
+    ************************************/
+
+
+    Language.prototype = {
+        set : function (config) {
+            var prop, i;
+            for (i in config) {
+                prop = config[i];
+                if (typeof prop === 'function') {
+                    this[i] = prop;
+                } else {
+                    this['_' + i] = prop;
+                }
+            }
+        },
+
+        _months : "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
+        months : function (m) {
+            return this._months[m.month()];
+        },
+
+        _monthsShort : "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+        monthsShort : function (m) {
+            return this._monthsShort[m.month()];
+        },
+
+        monthsParse : function (monthName) {
+            var i, mom, regex, output;
+
+            if (!this._monthsParse) {
+                this._monthsParse = [];
+            }
+
+            for (i = 0; i < 12; i++) {
+                // make the regex if we don't have it already
+                if (!this._monthsParse[i]) {
+                    mom = moment([2000, i]);
+                    regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
+                    this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
+                }
+                // test the regex
+                if (this._monthsParse[i].test(monthName)) {
+                    return i;
+                }
+            }
+        },
+
+        _weekdays : "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
+        weekdays : function (m) {
+            return this._weekdays[m.day()];
+        },
+
+        _weekdaysShort : "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+        weekdaysShort : function (m) {
+            return this._weekdaysShort[m.day()];
+        },
+
+        _weekdaysMin : "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+        weekdaysMin : function (m) {
+            return this._weekdaysMin[m.day()];
+        },
+
+        _longDateFormat : {
+            LT : "h:mm A",
+            L : "MM/DD/YYYY",
+            LL : "MMMM D YYYY",
+            LLL : "MMMM D YYYY LT",
+            LLLL : "dddd, MMMM D YYYY LT"
+        },
+        longDateFormat : function (key) {
+            var output = this._longDateFormat[key];
+            if (!output && this._longDateFormat[key.toUpperCase()]) {
+                output = this._longDateFormat[key.toUpperCase()].replace(/MMMM|MM|DD|dddd/g, function (val) {
+                    return val.slice(1);
+                });
+                this._longDateFormat[key] = output;
+            }
+            return output;
+        },
+
+        meridiem : function (hours, minutes, isLower) {
+            if (hours > 11) {
+                return isLower ? 'pm' : 'PM';
+            } else {
+                return isLower ? 'am' : 'AM';
+            }
+        },
+
+        _calendar : {
+            sameDay : '[Today at] LT',
+            nextDay : '[Tomorrow at] LT',
+            nextWeek : 'dddd [at] LT',
+            lastDay : '[Yesterday at] LT',
+            lastWeek : '[last] dddd [at] LT',
+            sameElse : 'L'
+        },
+        calendar : function (key, mom) {
+            var output = this._calendar[key];
+            return typeof output === 'function' ? output.apply(mom) : output;
+        },
+
+        _relativeTime : {
+            future : "in %s",
+            past : "%s ago",
+            s : "a few seconds",
+            m : "a minute",
+            mm : "%d minutes",
+            h : "an hour",
+            hh : "%d hours",
+            d : "a day",
+            dd : "%d days",
+            M : "a month",
+            MM : "%d months",
+            y : "a year",
+            yy : "%d years"
+        },
+        relativeTime : function (number, withoutSuffix, string, isFuture) {
+            var output = this._relativeTime[string];
+            return (typeof output === 'function') ?
+                output(number, withoutSuffix, string, isFuture) :
+                output.replace(/%d/i, number);
+        },
+        pastFuture : function (diff, output) {
+            var format = this._relativeTime[diff > 0 ? 'future' : 'past'];
+            return typeof format === 'function' ? format(output) : format.replace(/%s/i, output);
+        },
+
+        ordinal : function (number) {
+            return this._ordinal.replace("%d", number);
+        },
+        _ordinal : "%d",
+
+        preparse : function (string) {
+            return string;
+        },
+
+        postformat : function (string) {
+            return string;
+        },
+
+        week : function (mom) {
+            return weekOfYear(mom, this._week.dow, this._week.doy);
+        },
+        _week : {
+            dow : 0, // Sunday is the first day of the week.
+            doy : 6  // The week that contains Jan 1st is the first week of the year.
         }
-        // we store whether we used utc or not in the input array
-        input[7] = forValid[7] = asUTC;
-        // if the parser flagged the input as invalid, we pass the value along
-        if (input[8] != null) {
-            forValid[8] = input[8];
-        }
-        // add the offsets to the time to be parsed so that we can have a clean array
-        // for checking isValid
-        input[3] += hoursOffset || 0;
-        input[4] += minutesOffset || 0;
-        date = new Date(0);
-        if (asUTC) {
-            date.setUTCFullYear(input[0], input[1], input[2]);
-            date.setUTCHours(input[3], input[4], input[5], input[6]);
-        } else {
-            date.setFullYear(input[0], input[1], input[2]);
-            date.setHours(input[3], input[4], input[5], input[6]);
-        }
-        date._a = forValid;
-        return date;
-    }
+    };
 
     // Loads a language definition into the `languages` cache.  The function
     // takes a key and optionally values.  If not in the browser and no values
     // are provided, it will load the language file module.  As a convenience,
     // this function also returns the language values.
     function loadLang(key, values) {
-        var i, m,
-            parse = [];
-
-        if (!values && hasModule) {
-            values = require('./lang/' + key);
+        values.abbr = key;
+        if (!languages[key]) {
+            languages[key] = new Language();
         }
-
-        for (i = 0; i < langConfigProperties.length; i++) {
-            // If a language definition does not provide a value, inherit
-            // from English
-            values[langConfigProperties[i]] = values[langConfigProperties[i]] ||
-              languages.en[langConfigProperties[i]];
-        }
-
-        for (i = 0; i < 12; i++) {
-            m = moment([2000, i]);
-            parse[i] = new RegExp('^' + (values.months[i] || values.months(m, '')) +
-                '|^' + (values.monthsShort[i] || values.monthsShort(m, '')).replace('.', ''), 'i');
-        }
-        values.monthsParse = values.monthsParse || parse;
-
-        languages[key] = values;
-
-        return values;
+        languages[key].set(values);
+        return languages[key];
     }
 
     // Determines which language definition to use and returns it.
@@ -1363,15 +1453,15 @@ function Hammer(element, options, undefined)
     // With no parameters, it will return the global language.  If you
     // pass in a language key, such as 'en', it will return the
     // definition for 'en', so long as 'en' has already been loaded using
-    // moment.lang.  If you pass in a moment or duration instance, it
-    // will decide the language based on that, or default to the global
-    // language.
-    function getLangDefinition(m) {
-        var langKey = (typeof m === 'string') && m ||
-                      m && m._lang ||
-                      null;
-
-        return langKey ? (languages[langKey] || loadLang(langKey)) : moment;
+    // moment.lang.
+    function getLangDefinition(key) {
+        if (!key) {
+            return moment.fn._lang;
+        }
+        if (!languages[key] && hasModule) {
+            require('./lang/' + key);
+        }
+        return languages[key];
     }
 
 
@@ -1412,7 +1502,7 @@ function Hammer(element, options, undefined)
         var i = 5;
 
         function replaceLongDateFormatTokens(input) {
-            return m.lang().longDateFormat[input] || input;
+            return m.lang().longDateFormat(input) || input;
         }
 
         while (i-- && localFormattingTokens.test(format)) {
@@ -1439,6 +1529,8 @@ function Hammer(element, options, undefined)
             return parseTokenThreeDigits;
         case 'YYYY':
             return parseTokenFourDigits;
+        case 'YYYYY':
+            return parseTokenSixDigits;
         case 'S':
         case 'SS':
         case 'SSS':
@@ -1452,6 +1544,8 @@ function Hammer(element, options, undefined)
         case 'a':
         case 'A':
             return parseTokenWord;
+        case 'X':
+            return parseTokenTimestampMs;
         case 'Z':
         case 'ZZ':
             return parseTokenTimezone;
@@ -1478,8 +1572,9 @@ function Hammer(element, options, undefined)
     }
 
     // function to convert string input to date
-    function addTimeToArrayFromToken(token, input, datePartArray, config) {
-        var a, b;
+    function addTimeToArrayFromToken(token, input, config) {
+        var a, b,
+            datePartArray = config._a;
 
         switch (token) {
         // MONTH
@@ -1489,16 +1584,12 @@ function Hammer(element, options, undefined)
             break;
         case 'MMM' : // fall through to MMMM
         case 'MMMM' :
-            for (a = 0; a < 12; a++) {
-                if (getLangDefinition().monthsParse[a].test(input)) {
-                    datePartArray[1] = a;
-                    b = true;
-                    break;
-                }
-            }
+            a = getLangDefinition(config._l).monthsParse(input);
             // if we didn't find a month name, mark the date as invalid.
-            if (!b) {
-                datePartArray[8] = false;
+            if (a != null) {
+                datePartArray[1] = a;
+            } else {
+                config._isValid = false;
             }
             break;
         // DAY OF MONTH
@@ -1512,15 +1603,16 @@ function Hammer(element, options, undefined)
             break;
         // YEAR
         case 'YY' :
-            datePartArray[0] = ~~input + (~~input > 70 ? 1900 : 2000);
+            datePartArray[0] = ~~input + (~~input > 68 ? 1900 : 2000);
             break;
         case 'YYYY' :
-            datePartArray[0] = ~~Math.abs(input);
+        case 'YYYYY' :
+            datePartArray[0] = ~~input;
             break;
         // AM / PM
         case 'a' : // fall through to A
         case 'A' :
-            config.isPm = ((input + '').toLowerCase() === 'pm');
+            config._isPm = ((input + '').toLowerCase() === 'pm');
             break;
         // 24 HOUR
         case 'H' : // fall through to hh
@@ -1545,44 +1637,75 @@ function Hammer(element, options, undefined)
         case 'SSS' :
             datePartArray[6] = ~~ (('0.' + input) * 1000);
             break;
+        // UNIX TIMESTAMP WITH MS
+        case 'X':
+            config._d = new Date(parseFloat(input) * 1000);
+            break;
         // TIMEZONE
         case 'Z' : // fall through to ZZ
         case 'ZZ' :
-            config.isUTC = true;
+            config._useUTC = true;
             a = (input + '').match(parseTimezoneChunker);
             if (a && a[1]) {
-                config.tzh = ~~a[1];
+                config._tzh = ~~a[1];
             }
             if (a && a[2]) {
-                config.tzm = ~~a[2];
+                config._tzm = ~~a[2];
             }
             // reverse offsets
             if (a && a[0] === '+') {
-                config.tzh = -config.tzh;
-                config.tzm = -config.tzm;
+                config._tzh = -config._tzh;
+                config._tzm = -config._tzm;
             }
             break;
         }
 
         // if the input is null, the date is not valid
         if (input == null) {
-            datePartArray[8] = false;
+            config._isValid = false;
         }
     }
 
+    // convert an array to a date.
+    // the array should mirror the parameters below
+    // note: all values past the year are optional and will default to the lowest possible value.
+    // [year, month, day , hour, minute, second, millisecond]
+    function dateFromArray(config) {
+        var i, date, input = [];
+
+        if (config._d) {
+            return;
+        }
+
+        for (i = 0; i < 7; i++) {
+            config._a[i] = input[i] = (config._a[i] == null) ? (i === 2 ? 1 : 0) : config._a[i];
+        }
+
+        // add the offsets to the time to be parsed so that we can have a clean array for checking isValid
+        input[3] += config._tzh || 0;
+        input[4] += config._tzm || 0;
+
+        date = new Date(0);
+
+        if (config._useUTC) {
+            date.setUTCFullYear(input[0], input[1], input[2]);
+            date.setUTCHours(input[3], input[4], input[5], input[6]);
+        } else {
+            date.setFullYear(input[0], input[1], input[2]);
+            date.setHours(input[3], input[4], input[5], input[6]);
+        }
+
+        config._d = date;
+    }
+
     // date from string and format string
-    function makeDateFromStringAndFormat(string, format) {
+    function makeDateFromStringAndFormat(config) {
         // This array is used to make a Date, either with `new Date` or `Date.UTC`
-        // We store some additional data on the array for validation
-        // datePartArray[7] is true if the Date was created with `Date.UTC` and false if created with `new Date`
-        // datePartArray[8] is false if the Date is invalid, and undefined if the validity is unknown.
-        var datePartArray = [0, 0, 1, 0, 0, 0, 0],
-            config = {
-                tzh : 0, // timezone hour offset
-                tzm : 0  // timezone minute offset
-            },
-            tokens = format.match(formattingTokens),
+        var tokens = config._f.match(formattingTokens),
+            string = config._i,
             i, parsedInput;
+
+        config._a = [];
 
         for (i = 0; i < tokens.length; i++) {
             parsedInput = (getParseRegexForToken(tokens[i]).exec(string) || [])[0];
@@ -1591,58 +1714,91 @@ function Hammer(element, options, undefined)
             }
             // don't parse if its not a known token
             if (formatTokenFunctions[tokens[i]]) {
-                addTimeToArrayFromToken(tokens[i], parsedInput, datePartArray, config);
+                addTimeToArrayFromToken(tokens[i], parsedInput, config);
             }
         }
         // handle am pm
-        if (config.isPm && datePartArray[3] < 12) {
-            datePartArray[3] += 12;
+        if (config._isPm && config._a[3] < 12) {
+            config._a[3] += 12;
         }
         // if is 12 am, change hours to 0
-        if (config.isPm === false && datePartArray[3] === 12) {
-            datePartArray[3] = 0;
+        if (config._isPm === false && config._a[3] === 12) {
+            config._a[3] = 0;
         }
         // return
-        return dateFromArray(datePartArray, config.isUTC, config.tzh, config.tzm);
+        dateFromArray(config);
     }
 
     // date from string and array of format strings
-    function makeDateFromStringAndArray(string, formats) {
-        var output,
-            inputParts = string.match(parseMultipleFormatChunker) || [],
-            formattedInputParts,
+    function makeDateFromStringAndArray(config) {
+        var tempConfig,
+            tempMoment,
+            bestMoment,
+
             scoreToBeat = 99,
             i,
             currentDate,
             currentScore;
-        for (i = 0; i < formats.length; i++) {
-            currentDate = makeDateFromStringAndFormat(string, formats[i]);
-            formattedInputParts = formatMoment(new Moment(currentDate), formats[i]).match(parseMultipleFormatChunker) || [];
-            currentScore = compareArrays(inputParts, formattedInputParts);
+
+        while (config._f.length) {
+            tempConfig = extend({}, config);
+            tempConfig._f = config._f.pop();
+            makeDateFromStringAndFormat(tempConfig);
+            tempMoment = new Moment(tempConfig);
+
+            if (tempMoment.isValid()) {
+                bestMoment = tempMoment;
+                break;
+            }
+
+            currentScore = compareArrays(tempConfig._a, tempMoment.toArray());
+
             if (currentScore < scoreToBeat) {
                 scoreToBeat = currentScore;
-                output = currentDate;
+                bestMoment = tempMoment;
             }
         }
-        return output;
+
+        extend(config, bestMoment);
     }
 
     // date from iso format
-    function makeDateFromString(string) {
-        var format = 'YYYY-MM-DDT',
-            i;
+    function makeDateFromString(config) {
+        var i,
+            string = config._i;
         if (isoRegex.exec(string)) {
+            config._f = 'YYYY-MM-DDT';
             for (i = 0; i < 4; i++) {
                 if (isoTimes[i][1].exec(string)) {
-                    format += isoTimes[i][0];
+                    config._f += isoTimes[i][0];
                     break;
                 }
             }
-            return parseTokenTimezone.exec(string) ?
-                makeDateFromStringAndFormat(string, format + ' Z') :
-                makeDateFromStringAndFormat(string, format);
+            if (parseTokenTimezone.exec(string)) {
+                config._f += " Z";
+            }
+            makeDateFromStringAndFormat(config);
+        } else {
+            config._d = new Date(string);
         }
-        return new Date(string);
+    }
+
+    function makeDateFromInput(config) {
+        var input = config._i,
+            matched = aspNetJsonRegex.exec(input);
+
+        if (input === undefined) {
+            config._d = new Date();
+        } else if (matched) {
+            config._d = new Date(+matched[1]);
+        } else if (typeof input === 'string') {
+            makeDateFromString(config);
+        } else if (isArray(input)) {
+            config._a = input.slice(0);
+            dateFromArray(config);
+        } else {
+            config._d = input instanceof Date ? new Date(+input) : new Date(input);
+        }
     }
 
 
@@ -1653,10 +1809,7 @@ function Hammer(element, options, undefined)
 
     // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
     function substituteTimeAgo(string, number, withoutSuffix, isFuture, lang) {
-        var rt = lang.relativeTime[string];
-        return (typeof rt === 'function') ?
-            rt(number || 1, !!withoutSuffix, string, isFuture) :
-            rt.replace(/%d/i, number || 1);
+        return lang.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
     }
 
     function relativeTime(milliseconds, withoutSuffix, lang) {
@@ -1683,53 +1836,84 @@ function Hammer(element, options, undefined)
 
 
     /************************************
-        Top Level Functions
+        Week of Year
     ************************************/
 
 
-    moment = function (input, format) {
+    // firstDayOfWeek       0 = sun, 6 = sat
+    //                      the day of the week that starts the week
+    //                      (usually sunday or monday)
+    // firstDayOfWeekOfYear 0 = sun, 6 = sat
+    //                      the first week is the week that contains the first
+    //                      of this day of the week
+    //                      (eg. ISO weeks use thursday (4))
+    function weekOfYear(mom, firstDayOfWeek, firstDayOfWeekOfYear) {
+        var end = firstDayOfWeekOfYear - firstDayOfWeek,
+            daysToDayOfWeek = firstDayOfWeekOfYear - mom.day();
+
+
+        if (daysToDayOfWeek > end) {
+            daysToDayOfWeek -= 7;
+        }
+
+        if (daysToDayOfWeek < end - 7) {
+            daysToDayOfWeek += 7;
+        }
+
+        return Math.ceil(moment(mom).add('d', daysToDayOfWeek).dayOfYear() / 7);
+    }
+
+
+    /************************************
+        Top Level Functions
+    ************************************/
+
+    function makeMoment(config) {
+        var input = config._i,
+            format = config._f;
+
         if (input === null || input === '') {
             return null;
         }
-        var date,
-            matched;
-        // parse Moment object
-        if (moment.isMoment(input)) {
-            return new Moment(new Date(+input._d), input._isUTC, input._lang);
-        // parse string and format
-        } else if (format) {
-            if (isArray(format)) {
-                date = makeDateFromStringAndArray(input, format);
-            } else {
-                date = makeDateFromStringAndFormat(input, format);
-            }
-        // evaluate it as a JSON-encoded date
-        } else {
-            matched = aspNetJsonRegex.exec(input);
-            date = input === undefined ? new Date() :
-                matched ? new Date(+matched[1]) :
-                input instanceof Date ? input :
-                isArray(input) ? dateFromArray(input) :
-                typeof input === 'string' ? makeDateFromString(input) :
-                new Date(input);
+
+        if (typeof input === 'string') {
+            config._i = input = getLangDefinition().preparse(input);
         }
 
-        return new Moment(date);
+        if (moment.isMoment(input)) {
+            config = extend({}, input);
+            config._d = new Date(+input._d);
+        } else if (format) {
+            if (isArray(format)) {
+                makeDateFromStringAndArray(config);
+            } else {
+                makeDateFromStringAndFormat(config);
+            }
+        } else {
+            makeDateFromInput(config);
+        }
+
+        return new Moment(config);
+    }
+
+    moment = function (input, format, lang) {
+        return makeMoment({
+            _i : input,
+            _f : format,
+            _l : lang,
+            _isUTC : false
+        });
     };
 
     // creating with utc
-    moment.utc = function (input, format) {
-        if (isArray(input)) {
-            return new Moment(dateFromArray(input, true), true);
-        }
-        // if we don't have a timezone, we need to add one to trigger parsing into utc
-        if (typeof input === 'string' && !parseTokenTimezone.exec(input)) {
-            input += ' +0000';
-            if (format) {
-                format += ' Z';
-            }
-        }
-        return moment(input, format).utc();
+    moment.utc = function (input, format, lang) {
+        return makeMoment({
+            _useUTC : true,
+            _isUTC : true,
+            _l : lang,
+            _i : input,
+            _f : format
+        });
     };
 
     // creating with unix timestamp (in seconds)
@@ -1754,18 +1938,11 @@ function Hammer(element, options, undefined)
 
         ret = new Duration(duration);
 
-        if (isDuration) {
+        if (isDuration && input.hasOwnProperty('_lang')) {
             ret._lang = input._lang;
         }
 
         return ret;
-    };
-
-    // humanizeDuration
-    // This method is deprecated in favor of the new Duration object.  Please
-    // see the moment.duration method.
-    moment.humanizeDuration = function (num, type, withSuffix) {
-        return moment.duration(num, type === true ? null : type).humanize(type === true ? true : withSuffix);
     };
 
     // version number
@@ -1781,24 +1958,23 @@ function Hammer(element, options, undefined)
         var i;
 
         if (!key) {
-            return currentLanguage;
+            return moment.fn._lang._abbr;
         }
-        if (values || !languages[key]) {
+        if (values) {
             loadLang(key, values);
+        } else if (!languages[key]) {
+            getLangDefinition(key);
         }
-        if (languages[key]) {
-            // deprecated, to get the language definition variables, use the
-            // moment.fn.lang method or the getLangDefinition function.
-            for (i = 0; i < langConfigProperties.length; i++) {
-                moment[langConfigProperties[i]] = languages[key][langConfigProperties[i]];
-            }
-            moment.monthsParse = languages[key].monthsParse;
-            currentLanguage = key;
-        }
+        moment.duration.fn._lang = moment.fn._lang = getLangDefinition(key);
     };
 
     // returns language data
-    moment.langData = getLangDefinition;
+    moment.langData = function (key) {
+        if (key && key._lang && key._lang._abbr) {
+            key = key._lang._abbr;
+        }
+        return getLangDefinition(key);
+    };
 
     // compare moment object
     moment.isMoment = function (obj) {
@@ -1809,59 +1985,6 @@ function Hammer(element, options, undefined)
     moment.isDuration = function (obj) {
         return obj instanceof Duration;
     };
-
-    // Set default language, other languages will inherit from English.
-    moment.lang('en', {
-        months : "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-        monthsShort : "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
-        weekdays : "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
-        weekdaysShort : "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
-        weekdaysMin : "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
-        longDateFormat : {
-            LT : "h:mm A",
-            L : "MM/DD/YYYY",
-            LL : "MMMM D YYYY",
-            LLL : "MMMM D YYYY LT",
-            LLLL : "dddd, MMMM D YYYY LT"
-        },
-        meridiem : function (hours, minutes, isLower) {
-            if (hours > 11) {
-                return isLower ? 'pm' : 'PM';
-            } else {
-                return isLower ? 'am' : 'AM';
-            }
-        },
-        calendar : {
-            sameDay : '[Today at] LT',
-            nextDay : '[Tomorrow at] LT',
-            nextWeek : 'dddd [at] LT',
-            lastDay : '[Yesterday at] LT',
-            lastWeek : '[last] dddd [at] LT',
-            sameElse : 'L'
-        },
-        relativeTime : {
-            future : "in %s",
-            past : "%s ago",
-            s : "a few seconds",
-            m : "a minute",
-            mm : "%d minutes",
-            h : "an hour",
-            hh : "%d hours",
-            d : "a day",
-            dd : "%d days",
-            M : "a month",
-            MM : "%d months",
-            y : "a year",
-            yy : "%d years"
-        },
-        ordinal : function (number) {
-            var b = number % 10;
-            return (~~ (number % 100 / 10) === 1) ? 'th' :
-                (b === 1) ? 'st' :
-                (b === 2) ? 'nd' :
-                (b === 3) ? 'rd' : 'th';
-        }
-    });
 
 
     /************************************
@@ -1884,11 +2007,15 @@ function Hammer(element, options, undefined)
         },
 
         toString : function () {
-            return this._d.toString();
+            return this.format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ");
         },
 
         toDate : function () {
             return this._d;
+        },
+
+        toJSON : function () {
+            return moment.utc(this).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
         },
 
         toArray : function () {
@@ -1900,21 +2027,19 @@ function Hammer(element, options, undefined)
                 m.hours(),
                 m.minutes(),
                 m.seconds(),
-                m.milliseconds(),
-                !!this._isUTC
+                m.milliseconds()
             ];
         },
 
         isValid : function () {
-            if (this._a) {
-                // if the parser finds that the input is invalid, it sets
-                // the eighth item in the input array to false.
-                if (this._a[8] != null) {
-                    return !!this._a[8];
+            if (this._isValid == null) {
+                if (this._a) {
+                    this._isValid = !compareArrays(this._a, (this._isUTC ? moment.utc(this._a) : moment(this._a)).toArray());
+                } else {
+                    this._isValid = !isNaN(this._d.getTime());
                 }
-                return !compareArrays(this._a, (this._a[7] ? moment.utc(this._a) : moment(this._a)).toArray());
             }
-            return !isNaN(this._d.getTime());
+            return !!this._isValid;
         },
 
         utc : function () {
@@ -1928,46 +2053,65 @@ function Hammer(element, options, undefined)
         },
 
         format : function (inputString) {
-            return formatMoment(this, inputString ? inputString : moment.defaultFormat);
+            var output = formatMoment(this, inputString || moment.defaultFormat);
+            return this.lang().postformat(output);
         },
 
         add : function (input, val) {
-            var dur = val ? moment.duration(+val, input) : moment.duration(input);
+            var dur;
+            // switch args to support add('s', 1) and add(1, 's')
+            if (typeof input === 'string') {
+                dur = moment.duration(+val, input);
+            } else {
+                dur = moment.duration(input, val);
+            }
             addOrSubtractDurationFromMoment(this, dur, 1);
             return this;
         },
 
         subtract : function (input, val) {
-            var dur = val ? moment.duration(+val, input) : moment.duration(input);
+            var dur;
+            // switch args to support subtract('s', 1) and subtract(1, 's')
+            if (typeof input === 'string') {
+                dur = moment.duration(+val, input);
+            } else {
+                dur = moment.duration(input, val);
+            }
             addOrSubtractDurationFromMoment(this, dur, -1);
             return this;
         },
 
-        diff : function (input, val, asFloat) {
-            var inputMoment = this._isUTC ? moment(input).utc() : moment(input).local(),
-                zoneDiff = (this.zone() - inputMoment.zone()) * 6e4,
-                diff = this._d - inputMoment._d - zoneDiff,
-                year = this.year() - inputMoment.year(),
-                month = this.month() - inputMoment.month(),
-                date = this.date() - inputMoment.date(),
-                output;
-            if (val === 'months') {
-                output = year * 12 + month + date / 30;
-            } else if (val === 'years') {
-                output = year + (month + date / 30) / 12;
+        diff : function (input, units, asFloat) {
+            var that = this._isUTC ? moment(input).utc() : moment(input).local(),
+                zoneDiff = (this.zone() - that.zone()) * 6e4,
+                diff, output;
+
+            if (units) {
+                // standardize on singular form
+                units = units.replace(/s$/, '');
+            }
+
+            if (units === 'year' || units === 'month') {
+                diff = (this.daysInMonth() + that.daysInMonth()) * 432e5; // 24 * 60 * 60 * 1000 / 2
+                output = ((this.year() - that.year()) * 12) + (this.month() - that.month());
+                output += ((this - moment(this).startOf('month')) - (that - moment(that).startOf('month'))) / diff;
+                if (units === 'year') {
+                    output = output / 12;
+                }
             } else {
-                output = val === 'seconds' ? diff / 1e3 : // 1000
-                    val === 'minutes' ? diff / 6e4 : // 1000 * 60
-                    val === 'hours' ? diff / 36e5 : // 1000 * 60 * 60
-                    val === 'days' ? diff / 864e5 : // 1000 * 60 * 60 * 24
-                    val === 'weeks' ? diff / 6048e5 : // 1000 * 60 * 60 * 24 * 7
+                diff = (this - that) - zoneDiff;
+                output = units === 'second' ? diff / 1e3 : // 1000
+                    units === 'minute' ? diff / 6e4 : // 1000 * 60
+                    units === 'hour' ? diff / 36e5 : // 1000 * 60 * 60
+                    units === 'day' ? diff / 864e5 : // 1000 * 60 * 60 * 24
+                    units === 'week' ? diff / 6048e5 : // 1000 * 60 * 60 * 24 * 7
                     diff;
             }
-            return asFloat ? output : round(output);
+            return asFloat ? output : absRound(output);
         },
 
         from : function (time, withoutSuffix) {
-            return moment.duration(this.diff(time)).lang(this._lang).humanize(!withoutSuffix);
+            return moment.duration(this.diff(time)).lang(this.lang()._abbr).humanize(!withoutSuffix);
         },
 
         fromNow : function (withoutSuffix) {
@@ -1975,16 +2119,14 @@ function Hammer(element, options, undefined)
         },
 
         calendar : function () {
-            var diff = this.diff(moment().sod(), 'days', true),
-                calendar = this.lang().calendar,
-                allElse = calendar.sameElse,
-                format = diff < -6 ? allElse :
-                diff < -1 ? calendar.lastWeek :
-                diff < 0 ? calendar.lastDay :
-                diff < 1 ? calendar.sameDay :
-                diff < 2 ? calendar.nextDay :
-                diff < 7 ? calendar.nextWeek : allElse;
-            return this.format(typeof format === 'function' ? format.apply(this) : format);
+            var diff = this.diff(moment().startOf('day'), 'days', true),
+                format = diff < -6 ? 'sameElse' :
+                diff < -1 ? 'lastWeek' :
+                diff < 0 ? 'lastDay' :
+                diff < 1 ? 'sameDay' :
+                diff < 2 ? 'nextDay' :
+                diff < 7 ? 'nextWeek' : 'sameElse';
+            return this.format(this.lang().calendar(format, this));
         },
 
         isLeapYear : function () {
@@ -2003,16 +2145,18 @@ function Hammer(element, options, undefined)
                 this.add({ d : input - day });
         },
 
-        startOf: function (val) {
+        startOf: function (units) {
+            units = units.replace(/s$/, '');
             // the following switch intentionally omits break keywords
             // to utilize falling through the cases.
-            switch (val.replace(/s$/, '')) {
+            switch (units) {
             case 'year':
                 this.month(0);
                 /* falls through */
             case 'month':
                 this.date(1);
                 /* falls through */
+            case 'week':
             case 'day':
                 this.hours(0);
                 /* falls through */
@@ -2026,20 +2170,32 @@ function Hammer(element, options, undefined)
                 this.milliseconds(0);
                 /* falls through */
             }
+
+            // weeks are a special case
+            if (units === 'week') {
+                this.day(0);
+            }
+
             return this;
         },
 
-        endOf: function (val) {
-            return this.startOf(val).add(val.replace(/s?$/, 's'), 1).subtract('ms', 1);
+        endOf: function (units) {
+            return this.startOf(units).add(units.replace(/s?$/, 's'), 1).subtract('ms', 1);
         },
 
-        sod: function () {
-            return this.clone().startOf('day');
+        isAfter: function (input, units) {
+            units = typeof units !== 'undefined' ? units : 'millisecond';
+            return +this.clone().startOf(units) > +moment(input).startOf(units);
         },
 
-        eod: function () {
-            // end of day = start of day plus 1 day, minus 1 millisecond
-            return this.clone().endOf('day');
+        isBefore: function (input, units) {
+            units = typeof units !== 'undefined' ? units : 'millisecond';
+            return +this.clone().startOf(units) < +moment(input).startOf(units);
+        },
+
+        isSame: function (input, units) {
+            units = typeof units !== 'undefined' ? units : 'millisecond';
+            return +this.clone().startOf(units) === +moment(input).startOf(units);
         },
 
         zone : function () {
@@ -2050,14 +2206,29 @@ function Hammer(element, options, undefined)
             return moment.utc([this.year(), this.month() + 1, 0]).date();
         },
 
+        dayOfYear : function (input) {
+            var dayOfYear = round((moment(this).startOf('day') - moment(this).startOf('year')) / 864e5) + 1;
+            return input == null ? dayOfYear : this.add("d", (input - dayOfYear));
+        },
+
+        isoWeek : function (input) {
+            var week = weekOfYear(this, 1, 4);
+            return input == null ? week : this.add("d", (input - week) * 7);
+        },
+
+        week : function (input) {
+            var week = this.lang().week(this);
+            return input == null ? week : this.add("d", (input - week) * 7);
+        },
+
         // If passed a language key, it will set the language for this
         // instance.  Otherwise, it will return the language configuration
         // variables for this instance.
-        lang : function (lang) {
-            if (lang === undefined) {
-                return getLangDefinition(this);
+        lang : function (key) {
+            if (key === undefined) {
+                return this._lang;
             } else {
-                this._lang = lang;
+                this._lang = getLangDefinition(key);
                 return this;
             }
         }
@@ -2065,7 +2236,7 @@ function Hammer(element, options, undefined)
 
     // helper for adding shortcuts
     function makeGetterAndSetter(name, key) {
-        moment.fn[name] = function (input) {
+        moment.fn[name] = moment.fn[name + 's'] = function (input) {
             var utc = this._isUTC ? 'UTC' : '';
             if (input != null) {
                 this._d['set' + utc + key](input);
@@ -2078,12 +2249,16 @@ function Hammer(element, options, undefined)
 
     // loop through and add shortcuts (Month, Date, Hours, Minutes, Seconds, Milliseconds)
     for (i = 0; i < proxyGettersAndSetters.length; i ++) {
-        makeGetterAndSetter(proxyGettersAndSetters[i].toLowerCase(), proxyGettersAndSetters[i]);
+        makeGetterAndSetter(proxyGettersAndSetters[i].toLowerCase().replace(/s$/, ''), proxyGettersAndSetters[i]);
     }
 
     // add shortcut for year (uses different syntax than the getter/setter 'year' == 'FullYear')
     makeGetterAndSetter('year', 'FullYear');
 
+    // add plural methods
+    moment.fn.days = moment.fn.day;
+    moment.fn.weeks = moment.fn.week;
+    moment.fn.isoWeeks = moment.fn.isoWeek;
 
     /************************************
         Duration Prototype
@@ -2103,19 +2278,13 @@ function Hammer(element, options, undefined)
 
         humanize : function (withSuffix) {
             var difference = +this,
-                rel = this.lang().relativeTime,
-                output = relativeTime(difference, !withSuffix, this.lang()),
-                fromNow = difference <= 0 ? rel.past : rel.future;
+                output = relativeTime(difference, !withSuffix, this.lang());
 
             if (withSuffix) {
-                if (typeof fromNow === 'function') {
-                    output = fromNow(output);
-                } else {
-                    output = fromNow.replace(/%s/i, output);
-                }
+                output = this.lang().pastFuture(difference, output);
             }
 
-            return output;
+            return this.lang().postformat(output);
         },
 
         lang : moment.fn.lang
@@ -2141,6 +2310,24 @@ function Hammer(element, options, undefined)
     }
 
     makeDurationAsGetter('Weeks', 6048e5);
+
+
+    /************************************
+        Default Lang
+    ************************************/
+
+
+    // Set default language, other languages will inherit from English.
+    moment.lang('en', {
+        ordinal : function (number) {
+            var b = number % 10,
+                output = (~~ (number % 100 / 10) === 1) ? 'th' :
+                (b === 1) ? 'st' :
+                (b === 2) ? 'nd' :
+                (b === 3) ? 'rd' : 'th';
+            return number + output;
+        }
+    });
 
 
     /************************************
@@ -2305,7 +2492,7 @@ function Hammer(element, options, undefined)
     }
 
     _Class.prototype.initialize = function() {
-      this.paneWidth = this.options.element_width * (this.model.length / 2) + this.options.margin_left + this.options.margin_right;
+      this.paneWidth = this.options.element_width * (this.model.length / 1.0) + this.options.margin_left + this.options.margin_right;
       this.startEnd = this.model.getStartEnd();
       this.interval = Math.abs(moment(this.startEnd.start).diff(this.startEnd.end, 'days'));
       return this.pixelPerDay = Math.round(this.paneWidth / this.interval);
@@ -2382,12 +2569,13 @@ function Hammer(element, options, undefined)
     timelineFullScreen: _.template('<a class="yat-fullscreen-start">Zur Vollansicht wechseln.</a>'),
     timelineFullScreenEnd: _.template('<a class="yat-fullscreen-end">Zur Normalansicht wechseln.</a>'),
     timelineViewportElementList: _.template('<div class="yat-inner"><ol class="yat-elements"></ol></div>'),
-    timelineViewportElement: _.template('<div class="yat-element-inner"><div class="yat-element-inner2"><%= content %></div></div><span class="arrow"></span>'),
-    timelineViewportReadMore: _.template('<span class="yat-readmore">Mehr lesen</span>'),
+    timelineViewportElement: _.template('<div class="yat-element-inner"><div class="yat-element-inner2"><%= content %></div></div><span class="arrow"></span><a class="close" href="javascript:void(0);">Close</a>'),
+    timelineViewportReadMore: _.template('<span class="yat-readmore">weiterlesen</span>'),
     timelineViewportNavlinks: _.template('<div class="yat-navlinks"><span class="yat-left"><a href="javascript:void(0);">Nach links navigieren</a></span><span class="yat-right"><a href="javascript:void(0);">Nach rechts navigieren</a></span></div>'),
     timelineOverview: _.template('<ol class="yat-years"></ol>'),
     timelineOverviewYear: _.template('<li style="width: <%= width %>;"><span><%= year %></span></li>'),
     timelineOverviewSelection: _.template('<div class="yat-current-position"><div class="yat-position-container"><div class="yat-position-inner">Aktueller Ausschnitt</div></div></div>'),
+    timelineOverviewQuarter: _.template('<span style="left:<%= offset %>%;" class="quarter <%= className %>"><%= title %></span>'),
     timelineNavigation: _.template('<div class="yat-navigation"></div>'),
     timelineNavigationElementList: _.template('<ol class="yat-elements"></ol>'),
     timelineNavigationElement: _.template('<a href="<%= linkHref %>"><%= shorttitle %></a>'),
@@ -2414,60 +2602,69 @@ function Hammer(element, options, undefined)
     _Class.prototype.className = 'yat-timeline-overview';
 
     _Class.prototype.options = {
-      animation_duration: 200
+      animation_duration: 200,
+      quarter_dateformat: 'D.M.'
     };
 
     _Class.prototype.selection_element = void 0;
 
     _Class.prototype.current_date = void 0;
 
+    _Class.prototype.current_position = void 0;
+
     _Class.prototype.initialize = function() {
       this.scrollLeft = 0;
       return this.render();
     };
 
+    _Class.prototype.resize = function() {
+      var scroll_inner_width;
+      scroll_inner_width = parseInt(this.selection_element.find('.yat-position-inner').width(), 10);
+      this.selection_element.find('.yat-position-container').css('width', '100%');
+      this.selection_element.find('.yat-position-container').css('padding-left', this.$el.width() - scroll_inner_width + 'px');
+      this.selection_element.find('.yat-position-container').css('padding-right', 0);
+      this.selection_element.find('.yat-position-container').css('left', '1px');
+      if (this.current_position != null) {
+        if (typeof this.current_position === 'number') {
+          return this.jump_to_percentage(this.current_position);
+        } else {
+          return this.jump_to(this.current_position);
+        }
+      }
+    };
+
     _Class.prototype.render = function() {
-      var days, itemWidth, localDays, localEnd, localStart, overview, that, y, years, _i, _j, _len, _ref, _ref1, _results;
+      var overview, that;
       that = this;
       overview = $(window.yat.templates.timelineOverview());
-      years = (function() {
-        _results = [];
-        for (var _i = _ref = this.model.start.getFullYear(), _ref1 = this.model.end.getFullYear(); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; _ref <= _ref1 ? _i++ : _i--){ _results.push(_i); }
-        return _results;
-      }).apply(this);
-      days = moment(this.model.end).clone().diff(moment(this.model.start), 'days') + 1;
-      for (_j = 0, _len = years.length; _j < _len; _j++) {
-        y = years[_j];
-        localStart = _.max([moment([y]), moment(this.model.start)], function(moment) {
-          return moment.valueOf();
-        });
-        localEnd = _.min([moment([y, 11, 31]), moment(this.model.end)], function(moment) {
-          return moment.valueOf();
-        });
-        localDays = localEnd.diff(localStart, 'days') + 1;
-        itemWidth = 100 / (days / localDays);
-        overview.append(window.yat.templates.timelineOverviewYear({
-          year: y,
-          width: itemWidth + '%'
-        }));
-      }
       this.selection_element = $(window.yat.templates.timelineOverviewSelection());
       setTimeout((function() {
-        var scroll_inner_width;
-        scroll_inner_width = parseInt(that.selection_element.find('.yat-position-inner').width(), 10);
-        that.selection_element.find('.yat-position-container').css('width', '100%');
-        that.selection_element.find('.yat-position-container').css('padding-left', '100%');
-        that.selection_element.find('.yat-position-container').css('padding-right', scroll_inner_width / 2);
-        that.selection_element.find('.yat-position-container').css('left', -scroll_inner_width / 2);
-        return that.jump_to(moment(that.model.start));
+        return that.resize();
       }), 10);
       that.selection_element.find('.yat-position-container').bind('resize', (function() {
-        return that.jump_to(that.current_date);
+        if (that.current_date != null) {
+          return that.jump_to(that.current_date);
+        }
       }));
       this.$el.html(overview);
       this.$el.append(this.selection_element);
       this.selection_element.parent().bind('mouseup', function(event) {
         return that.options.dispatcher.trigger('overview_jump_to', that.get_date_for_offset(event.pageX - $('.yat-current-position').offset().left));
+      });
+      $(window).resize(function() {
+        return setTimeout((function() {
+          return that.resize();
+        }), 10);
+      });
+      that.options.dispatcher.on('fullscreen_start', function() {
+        return setTimeout((function() {
+          return that.resize();
+        }), 10);
+      });
+      that.options.dispatcher.on('fullscreen_end', function() {
+        return setTimeout((function() {
+          return that.resize();
+        }), 10);
       });
       that.options.dispatcher.on('overview_jump_to', function() {
         var animate;
@@ -2484,49 +2681,93 @@ function Hammer(element, options, undefined)
           return that.options.dispatcher.trigger('overview_position_change', offset);
         }
       });
-      return this.options.dispatcher.on('navigation_position_change', function(percentage) {
+      this.options.dispatcher.on('navigation_position_change', function(percentage) {
         return that.jump_to_percentage(percentage, false);
+      });
+      return this.options.dispatcher.on('navigation_elements_positioned', function(years) {
+        return that.render_quarters(overview, years);
+      });
+    };
+
+    _Class.prototype.render_quarters = function(overview, years) {
+      var last_year, that;
+      that = this;
+      last_year = _.last(years);
+      last_year.width -= 0.002;
+      return _.each(years, function(y) {
+        var className, year_view;
+        year_view = jQuery(window.yat.templates.timelineOverviewYear({
+          year: y.start.year(),
+          width: Math.round(10000 * y.width) / 100 + '%'
+        }));
+        if (moment([y.start.year(), 0]).isSame(y.start, 'day')) {
+          className = 'first';
+        } else {
+          className = '';
+        }
+        year_view.append(window.yat.templates.timelineOverviewQuarter({
+          offset: 100 * y.left,
+          title: '',
+          className: className
+        }));
+        _.each(y.quarters, function(q) {
+          return year_view.append(window.yat.templates.timelineOverviewQuarter({
+            offset: 100 * q.left,
+            title: '',
+            className: ''
+          }));
+        });
+        overview.append(year_view);
+        if (year_view.width() < 32) {
+          return year_view.find('span:first').empty();
+        }
       });
     };
 
     _Class.prototype.jump_to_percentage = function(percentage, animate) {
-      var left, width;
+      var left, slider_width, width;
       left = this.get_offset_for_percentage(percentage);
       width = $('.yat-current-position').width();
-      this.scrollLeft = Math.floor(width - left);
+      slider_width = $('.yat-position-inner').width();
+      this.scrollLeft = Math.floor(width - left) - slider_width;
       if (animate) {
-        return this.$el.find('.yat-current-position').animate({
-          scrollLeft: width - left
+        this.$el.find('.yat-current-position').animate({
+          scrollLeft: this.scrollLeft
         }, this.options.animation_duration);
       } else {
-        return this.$el.find('.yat-current-position').scrollLeft(width - left);
+        this.$el.find('.yat-current-position').scrollLeft(this.scrollLeft);
       }
+      return this.current_position = percentage;
     };
 
     _Class.prototype.jump_to = function(date, animate) {
-      var left, width;
+      var left, slider_width, width;
       left = this.get_offset_for_date(date);
       width = $('.yat-current-position').width();
+      slider_width = $('.yat-position-inner').width();
+      this.scrollLeft = Math.floor(width - left - slider_width / 2);
       if (animate) {
         this.$el.find('.yat-current-position').animate({
-          scrollLeft: width - left
+          scrollLeft: this.scrollLeft
         }, this.options.animation_duration);
       } else {
-        this.$el.find('.yat-current-position').scrollLeft(width - left);
+        this.$el.find('.yat-current-position').scrollLeft(this.scrollLeft);
       }
       return this.current_date = date;
     };
 
     _Class.prototype.get_percentage_for_offset = function(offset) {
-      var width;
+      var slider_width, width;
       width = $('.yat-current-position').width();
-      return 1 - (offset / width);
+      slider_width = $('.yat-position-inner').width();
+      return 1 - (offset / (width - slider_width));
     };
 
     _Class.prototype.get_offset_for_percentage = function(percentage) {
-      var width;
+      var slider_width, width;
       width = $('.yat-current-position').width();
-      return percentage * width;
+      slider_width = $('.yat-position-inner').width();
+      return percentage * (width - slider_width);
     };
 
     _Class.prototype.get_offset_for_date = function(date) {
@@ -2539,11 +2780,12 @@ function Hammer(element, options, undefined)
     };
 
     _Class.prototype.get_date_for_offset = function(offset) {
-      var end, start, width;
+      var end, percentage, start, width;
       width = $('.yat-current-position').width();
+      percentage = offset / width;
       start = moment(this.model.start);
       end = moment(this.model.end);
-      return moment(start).add(end.diff(start) * (offset / width)).startOf('day');
+      return moment(start).add(end.diff(start) * percentage).startOf('day');
     };
 
     return _Class;
@@ -2582,7 +2824,7 @@ function Hammer(element, options, undefined)
         that.$el.addClass('important');
       }
       return setTimeout((function() {
-        if ($(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 10)) {
+        if ($(that.$el).find('.yat-element-inner2').height() > ($(that.$el).find('.yat-element-inner').height() - 25)) {
           that.$el.addClass('overflow');
           return that.$el.append(window.yat.templates.timelineViewportReadMore);
         }
@@ -2602,7 +2844,7 @@ function Hammer(element, options, undefined)
   window.yat = window.yat || {};
 
   window.yat.ViewportView = (function(_super) {
-    var disable_load_more_till_scrollend, rendered_count;
+    var rendered_count;
 
     __extends(_Class, _super);
 
@@ -2622,7 +2864,9 @@ function Hammer(element, options, undefined)
       id_prefix: ''
     };
 
-    disable_load_more_till_scrollend = false;
+    _Class.prototype.disable_load_more_till_scrollend = false;
+
+    _Class.prototype.current_direction = 'both';
 
     _Class.prototype.not_rendered_yet = {};
 
@@ -2665,6 +2909,8 @@ function Hammer(element, options, undefined)
     _Class.prototype.registerEventListener = function() {
       var that;
       that = this;
+      this.yat_inner = this.$el.find('> .yat-inner');
+      this.yat_elements = this.$el.find('> .yat-inner > .yat-elements');
       this.$el.find('> .yat-inner').bind('touchmove', function() {
         return that.options.dispatcher.trigger('viewport_position_change', direction);
       });
@@ -2681,7 +2927,7 @@ function Hammer(element, options, undefined)
         return that.options.dispatcher.trigger('viewport_scrollstart');
       });
       this.$el.find('> .yat-inner').bind('scrollstop', function() {
-        return that.options.dispatcher.trigger('viewport_scrollstop', that.getCurrentElementModels());
+        return that.options.dispatcher.trigger('viewport_scrollstop', that.getCurrentElementModel());
       });
       this.$el.find('.yat-navlinks .yat-left a').click(function() {
         that.options.dispatcher.trigger('viewport_prev');
@@ -2692,6 +2938,7 @@ function Hammer(element, options, undefined)
         return that.options.dispatcher.trigger('viewport_item_deselect');
       });
       that.options.dispatcher.on('viewport_jump_to', function() {
+        that.disable_load_more_till_scrollend = true;
         return that.jump_to(arguments[0], arguments[1]);
       });
       that.options.dispatcher.on('viewport_prev', function() {
@@ -2715,16 +2962,41 @@ function Hammer(element, options, undefined)
         return that.close_open_element(arguments[0]);
       });
       that.options.dispatcher.on('viewport_position_change', function() {
+        if (that.yat_inner.scrollLeft() > (that.yat_elements.width() - that.yat_inner.width())) {
+          that.$el.find('.yat-navlinks .yat-right').addClass('inactive');
+        } else if (that.yat_inner.scrollLeft() <= 0) {
+          that.$el.find('.yat-navlinks .yat-left').addClass('inactive');
+        } else {
+          that.$el.find('.yat-navlinks .yat-right').removeClass('inactive');
+          that.$el.find('.yat-navlinks .yat-left').removeClass('inactive');
+        }
         return that.load_more(arguments[0]);
       });
       that.options.dispatcher.on('viewport_scrollstop', function() {
-        return that.disable_load_more_till_scrollend = false;
+        that.disable_load_more_till_scrollend = false;
+        return that.current_direction = 'both';
       });
       return that.options.dispatcher.on('navigation_element_selected', function(navigationView) {
-        var position;
+        var el, index, position;
         position = _.indexOf(that.model.models, navigationView.model);
         if (that.not_rendered_yet[position] === false) {
-          that.insert_element_at_position(position);
+          if (that.not_rendered_yet_position > position) {
+            index = that.find_prev_not_rendered_element();
+            if (index <= that.total_index) {
+              el = jQuery('#' + that.options.id_prefix + (that.model.at(index + 1)).cid);
+            } else {
+              el = void 0;
+            }
+            that.insert_element_at_position(position, el, void 0);
+          } else {
+            index = that.find_next_not_rendered_element();
+            if (index > 0) {
+              el = jQuery('#' + that.options.id_prefix + (that.model.at(index - 1)).cid);
+            } else {
+              el = void 0;
+            }
+            that.insert_element_at_position(position, void 0, el);
+          }
           that.insert_prev_element(that.getCurrentElements().length + 2);
           that.insert_next_element(that.getCurrentElements().length + 2);
         }
@@ -2762,9 +3034,16 @@ function Hammer(element, options, undefined)
     };
 
     _Class.prototype.getCurrentElement = function() {
-      var elements, index;
+      var center, elements, index, right_element;
       elements = this.getCurrentElements();
       index = parseInt(elements.length / 2, 10);
+      if (elements.length % 2 === 0) {
+        right_element = elements[parseInt(elements.length / 2, 10)];
+        center = this.$el.find('> .yat-inner').scrollLeft() + parseInt(this.$el.width() / 2);
+        if (right_element.position().left > center) {
+          index = index - 1;
+        }
+      }
       return elements[index];
     };
 
@@ -2779,6 +3058,17 @@ function Hammer(element, options, undefined)
         });
       }));
       return elements;
+    };
+
+    _Class.prototype.getCurrentElementModel = function() {
+      var element;
+      element = this.getCurrentElement();
+      return [
+        {
+          dom: element,
+          model: this.model.get(element.attr('id').substr(this.options.id_prefix.length))
+        }
+      ];
     };
 
     _Class.prototype.find_next_not_rendered_element = function() {
@@ -2853,16 +3143,18 @@ function Hammer(element, options, undefined)
         if (before !== void 0 && before[0] !== void 0) {
           before.before(element_view.$el);
           element = before.prev();
+          this.change_list_width(this.element_width(element));
           this.$el.find('> .yat-inner').scrollLeft(this.$el.find('> .yat-inner').scrollLeft() + this.element_width(element));
         } else if (after !== void 0 && after[0] !== void 0) {
           after.after(element_view.$el);
           element = after.next();
+          this.change_list_width(this.element_width(element));
         } else {
           all = this.$el.find('ol.yat-elements').append(element_view.$el);
           element = all.children().last();
+          this.change_list_width(this.element_width(element));
         }
         element.attr('id', this.options.id_prefix + model.cid);
-        this.change_list_width(this.element_width(element));
         element.click(function() {
           if ($(this).hasClass('overflow')) {
             if ($(this).hasClass('open')) {
@@ -2882,9 +3174,11 @@ function Hammer(element, options, undefined)
 
     _Class.prototype.load_more = function(direction) {
       if (rendered_count < this.total_index && !this.disable_load_more_till_scrollend) {
-        if (direction === 'left') {
+        if (direction === 'left' && this.current_direction !== 'right') {
+          this.current_direction = 'left';
           this.insert_prev_element();
-        } else {
+        } else if (this.current_direction !== 'left') {
+          this.current_direction = 'right';
           this.insert_next_element();
         }
         return true;
@@ -3087,9 +3381,11 @@ function Hammer(element, options, undefined)
     };
 
     _Class.prototype.registerEventListener = function() {
-      var startEnd, that;
+      var that;
       that = this;
-      startEnd = that.model.getStartEnd();
+      this.startEnd = that.model.getStartEnd();
+      this.yat_inner = this.$el.find('> .yat-inner');
+      this.yat_elements = this.$el.find('> .yat-inner > .yat-elements');
       this.mainElement.bind('touchmove', function() {
         return that.options.dispatcher.trigger('navigation_position_change', that.viewManager.get_date_for_offset(that.mainElement.scrollLeft()));
       });
@@ -3102,9 +3398,9 @@ function Hammer(element, options, undefined)
       this.options.dispatcher.on('viewport_scrollstop', function(elements) {
         var index;
         that.activate_elements(elements);
-        if (_.first(arguments[0]).model.get("date") === startEnd.start) {
+        if (_.first(arguments[0]).model.get("date") === that.startEnd.start) {
           return that.jump_to_cid(_.first(arguments[0]).model.cid, true);
-        } else if (_.last(arguments[0]).model.get("date") === startEnd.end) {
+        } else if (_.last(arguments[0]).model.get("date") === that.startEnd.end) {
           return that.jump_to_cid(_.last(arguments[0]).model.cid, true);
         } else {
           if (arguments[0].length % 2 !== 0) {
@@ -3116,6 +3412,16 @@ function Hammer(element, options, undefined)
         }
       });
       this.options.dispatcher.on('navigation_position_change', function() {
+        var percentage;
+        percentage = that.offset_to_percentage(that.mainElement.scrollLeft());
+        if (percentage >= 1) {
+          that.$el.find('.yat-navlinks .yat-right').addClass('inactive');
+        } else if (percentage <= 0) {
+          that.$el.find('.yat-navlinks .yat-left').addClass('inactive');
+        } else {
+          that.$el.find('.yat-navlinks .yat-right').removeClass('inactive');
+          that.$el.find('.yat-navlinks .yat-left').removeClass('inactive');
+        }
         return that._updateViewportPos();
       });
       this.options.dispatcher.on('overview_position_change', function(percentage) {
@@ -3164,7 +3470,7 @@ function Hammer(element, options, undefined)
       if (most_recent != null) {
         window.setTimeout(function() {
           return that.options.dispatcher.trigger('navigation_element_selected', most_recent.view);
-        }, 0);
+        }, 100);
       }
       return this.repositionElements(elements);
     };
@@ -3187,14 +3493,77 @@ function Hammer(element, options, undefined)
       this.line = this.options.margin_left;
       this.current_objects = [];
       return window.setTimeout(function() {
-        var el, _i, _len, _results;
-        _results = [];
+        var current_year, days, el, full_width, last_year, previous_year, quarters, years, _i, _j, _len, _ref, _ref1, _ref2, _ref3, _results;
         for (_i = 0, _len = elements.length; _i < _len; _i++) {
           el = elements[_i];
           this.callIndex = 0;
-          _results.push(that.arrange_element(el));
+          that.arrange_element(el);
         }
-        return _results;
+        years = (function() {
+          _results = [];
+          for (var _j = _ref = that.startEnd.start.getFullYear(), _ref1 = that.startEnd.end.getFullYear(); _ref <= _ref1 ? _j <= _ref1 : _j >= _ref1; _ref <= _ref1 ? _j++ : _j--){ _results.push(_j); }
+          return _results;
+        }).apply(this);
+        days = moment(that.startEnd.end).clone().diff(moment(that.startEnd.start), 'days') + 1;
+        quarters = [];
+        _.each(years, function(year) {
+          quarters.push({
+            start: moment([year, 0]),
+            end: moment([year, 3])
+          });
+          quarters.push({
+            start: moment([year, 3]),
+            end: moment([year, 6])
+          });
+          quarters.push({
+            start: moment([year, 6]),
+            end: moment([year, 9])
+          });
+          return quarters.push({
+            start: moment([year, 9]),
+            end: moment([year + 1, 0])
+          });
+        });
+        quarters = _.filter(quarters, function(quarter) {
+          return that.startEnd.start <= quarter.end && quarter.start <= that.startEnd.end;
+        });
+        if (((_ref2 = _.first(quarters)) != null ? _ref2.start : void 0) < moment(that.startEnd.start)) {
+          _.first(quarters).start = moment(that.startEnd.start);
+        }
+        if (((_ref3 = _.last(quarters)) != null ? _ref3.end : void 0) > moment(that.startEnd.end)) {
+          _.last(quarters).end = moment(that.startEnd.end);
+        }
+        full_width = that.navigation_width - that.options.horizontal_offset + that.options.margin_right;
+        _.each(quarters, function(quarter) {
+          var first_el, quarter_pos;
+          first_el = _.find(elements, function(el) {
+            return quarter.start <= moment(el.model.get('date'));
+          });
+          quarter_pos = (first_el.pos.left - that.options.margin_left) - that.viewManager.pixelPerDay * moment(first_el.model.get('date')).diff(quarter.start, 'days');
+          return quarter.left = Math.round((quarter_pos / full_width) * 1000) / 1000;
+        });
+        _.first(quarters).left = 0;
+        years = [];
+        current_year = null;
+        _.each(quarters, function(quarter) {
+          if (current_year !== quarter.start.year()) {
+            current_year = quarter.start.year();
+            quarter.quarters = [];
+            return years.push(quarter);
+          } else {
+            return _.last(years).quarters.push(quarter);
+          }
+        });
+        previous_year = null;
+        _.each(years, function(y) {
+          if (previous_year != null) {
+            previous_year.width = Math.round((y.left - previous_year.left) * 1000) / 1000;
+          }
+          return previous_year = y;
+        });
+        last_year = _.last(years);
+        last_year.width = Math.round((1 - last_year.left) * 1000) / 1000;
+        return that.options.dispatcher.trigger('navigation_elements_positioned', years);
       }, 10);
     };
 
