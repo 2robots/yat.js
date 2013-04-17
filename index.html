@@ -5,6 +5,10 @@
     <title>yat.js - the only touch-ready lightweight timeline</title>
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style type="text/css">
+      body { margin-top: 50px; margin-bottom: 100px; }
+      h3 { margin-top: 40px; }
+    </style>
   </head>
 
   <body>
@@ -14,13 +18,44 @@
           <h1>YAT.js</h1>
           <p>An easy to integrate timeline written in CoffeeScript and SCSS</p>
 
-          <h2>Yet Another Timeline?</h2>
           <p>yat.js is the only timeline that feels right on touch
             devices and on the desktop.</p>
 
-          <h2>Easy to integrate into existing webpages</h2>
+          <h3>Mobile and touch built right into it</h3>
+          <p>yat.js feels incredibly smooth on your smartphone or tablet</p>
+
+          <h3>Accessible and Search Engine Optimized</h3>
+          <p>yat.js was built with accessibility in mind. This is why yat.js reads all data from a table. The table is readable for screen readers and yat.js adds the timeline on top. That way everyone can access your information. Search engines too of course.</p>
+
+          <h3>Easy to integrate into existing webpages</h3>
           <p>yat.js is a jQuery plugin. All you have to do is output your data as a table and include this piece of code:</p>
-          <pre></pre>
+          <pre>
+$("#yat-table1").yat(
+  {
+    items:"tbody tr",
+    category:"td.yat-category",
+    content:"td.yat-content",
+    date:"td.yat-date",
+    shorttitle:"td.yat-title",
+    tags:"td.yat-tags",
+    important:"tr"
+  },
+  "#yat-table1-timeline",
+  {
+    alterImportant:function (element) {
+      return element.hasClass("important");
+  }
+});
+          </pre>
+
+          <h3>Open Source</h3>
+          <p>yat.js is distributed under the GNU-GPLv3</p>
+
+          <h3>Who's behind the project?</h3>
+          <p>The timeline was built by <a href="http://twitter.com/benfreu">Ben Freundorfer</a> and <a href="http://twitter.com/franzwilding">Franz Wilding</a> for the <a href="http://bmg.gv.at/">Austrian Ministry of Health</a> (German website) who agreed to releasing it as open source after the project's end. Just one sign of how open-minded and cool the people are who work there.</p>
+
+          <h3>Download</h3>
+          <p>To download the sourcecode and get started, head over to the <a href="https://github.com/2robots/yat.js">yat.js timeline</a> GitHub project.</p>
         </div>
       </div>
     </div>
