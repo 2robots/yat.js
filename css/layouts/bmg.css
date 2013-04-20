@@ -55,7 +55,7 @@
  * Licence: GPL v3
  */
 /* General Layout */
-/* line 12, ../../src/scss/_yat.scss */
+/* line 12, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline {
   height: 500px;
   position: relative;
@@ -68,18 +68,18 @@
   -moz-box-shadow: 0 0 5px 0 #cccccc;
   box-shadow: 0 0 5px 0 #cccccc;
 }
-/* line 18, ../../src/scss/_yat.scss */
+/* line 18, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline a {
   outline: none;
 }
-/* line 22, ../../src/scss/_yat.scss */
+/* line 22, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-fullscreen-start, .yat-timeline .yat-fullscreen-end {
   position: absolute;
   right: 2px;
   top: 2px;
   cursor: pointer;
 }
-/* line 29, ../../src/scss/_yat.scss */
+/* line 29, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-timeline-inner1 {
   position: absolute;
   left: 0;
@@ -121,7 +121,7 @@
   -moz-box-shadow: inset 0px 0px 50px 0px #d9d9d9;
   box-shadow: inset 0px 0px 50px 0px #d9d9d9;
 }
-/* line 39, ../../src/scss/_yat.scss */
+/* line 39, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport, .yat-timeline .yat-navigation {
   position: absolute;
   left: 0;
@@ -130,7 +130,7 @@
   top: 0;
   overflow: hidden;
 }
-/* line 48, ../../src/scss/_yat.scss */
+/* line 48, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-inner {
   position: absolute;
   top: 0;
@@ -141,7 +141,7 @@
   overflow-x: scroll;
   overflow-y: hidden;
 }
-/* line 58, ../../src/scss/_yat.scss */
+/* line 58, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-inner .yat-elements {
   width: 200%;
   margin: 0;
@@ -152,13 +152,13 @@
   position: absolute;
   overflow: visible;
 }
-/* line 71, ../../src/scss/_yat.scss */
+/* line 71, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-inner {
   overflow: hidden;
   overflow-x: scroll;
   overflow-y: hidden;
 }
-/* line 79, ../../src/scss/_yat.scss */
+/* line 79, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navlinks .yat-left, .yat-timeline .yat-navlinks .yat-right {
   position: absolute;
   top: 0;
@@ -168,11 +168,11 @@
   display: block;
   z-index: 50;
 }
-/* line 88, ../../src/scss/_yat.scss */
+/* line 88, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navlinks .yat-left a, .yat-timeline .yat-navlinks .yat-right a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-/* line 93, ../../src/scss/_yat.scss */
+/* line 93, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navlinks .yat-right {
   left: auto;
   right: 0;
@@ -217,17 +217,17 @@
 .yat-timeline .yat-navlinks .yat-right.inactive a {
   background-image: url("../img/arrow_big_right_inactive.png");
 }
-/* line 101, ../../src/scss/_yat.scss */
+/* line 101, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport {
   bottom: 150px;
 }
-/* line 104, ../../src/scss/_yat.scss */
+/* line 104, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements {
   top: 0;
   bottom: 0;
   overflow: hidden;
 }
-/* line 110, ../../src/scss/_yat.scss */
+/* line 110, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li {
   height: 258px;
   float: left;
@@ -238,19 +238,25 @@
   border: 1px solid #cccccc;
   position: relative;
 }
-/* line 116, ../../src/scss/_yat.scss */
+/* line 116, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner {
   overflow: hidden;
 }
-/* line 121, ../../src/scss/_yat.scss */
+/* line 120, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
+.yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 ul, .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 ol {
+  float: none;
+}
+/* line 123, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 ul li, .yat-timeline .yat-viewport .yat-elements li .yat-element-inner .yat-element-inner2 ol li {
   margin: 0;
   padding: 0;
   border: none;
   height: auto;
   width: auto;
+  float: none;
+  position: static;
 }
-/* line 132, ../../src/scss/_yat.scss */
+/* line 136, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li .yat-readmore {
   position: absolute;
   left: 0;
@@ -419,7 +425,7 @@
 .yat-timeline .yat-viewport .yat-elements li .datetime strong {
   font-weight: normal;
 }
-/* line 148, ../../src/scss/_yat.scss */
+/* line 152, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-viewport .yat-elements li.open .yat-readmore {
   display: none;
 }
@@ -432,14 +438,14 @@
 .yat-timeline .yat-viewport .yat-inner .yat-elements {
   margin-left: 8px;
 }
-/* line 158, ../../src/scss/_yat.scss */
+/* line 162, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation {
   top: auto;
   height: 150px;
   overflow: visible;
   z-index: 10;
 }
-/* line 164, ../../src/scss/_yat.scss */
+/* line 168, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview {
   position: absolute;
   left: 0;
@@ -449,7 +455,7 @@
   padding-top: 20px;
   overflow: hidden;
 }
-/* line 173, ../../src/scss/_yat.scss */
+/* line 177, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol {
   margin: 0;
   padding: 0;
@@ -460,18 +466,18 @@
   overflow: none;
   white-space: nowrap;
 }
-/* line 183, ../../src/scss/_yat.scss */
+/* line 187, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li {
   float: left;
   margin: 0;
   padding: 0;
 }
-/* line 189, ../../src/scss/_yat.scss */
+/* line 193, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span {
   display: block;
   height: 60px;
 }
-/* line 194, ../../src/scss/_yat.scss */
+/* line 198, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span.quarter {
   position: absolute;
   height: 10px;
@@ -485,11 +491,11 @@
   line-height: 11px;
   color: white;
 }
-/* line 207, ../../src/scss/_yat.scss */
+/* line 211, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li span.quarter.first {
   border-left: 2px solid white;
 }
-/* line 213, ../../src/scss/_yat.scss */
+/* line 217, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview ol li.last span {
   margin-right: 0;
 }
@@ -515,7 +521,7 @@
   cursor: col-resize;
   background: url("../img/current_position.png") no-repeat center top;
 }
-/* line 222, ../../src/scss/_yat.scss */
+/* line 226, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position {
   position: absolute;
   z-index: 20;
@@ -528,32 +534,32 @@
   overflow-y: hidden;
   height: 80px;
 }
-/* line 235, ../../src/scss/_yat.scss */
+/* line 239, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container {
   width: 100%;
   padding-left: 100%;
   position: absolute;
   margin-top: 20px;
 }
-/* line 241, ../../src/scss/_yat.scss */
+/* line 245, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-timeline-overview .yat-current-position .yat-position-container .yat-position-inner {
   width: 150px;
 }
-/* line 248, ../../src/scss/_yat.scss */
+/* line 252, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner {
   top: 40px;
 }
-/* line 251, ../../src/scss/_yat.scss */
+/* line 255, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li {
   position: absolute;
   display: block;
 }
-/* line 254, ../../src/scss/_yat.scss */
+/* line 258, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements li a {
   display: block;
   /*white-space: nowrap;*/
 }
-/* line 259, ../../src/scss/_yat.scss */
+/* line 263, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-timeline .yat-navigation .yat-inner .yat-elements .yat-navigation-placeholder-right {
   height: 1px;
 }
@@ -644,7 +650,7 @@
 }
 
 /* fullscreen container */
-/* line 270, ../../src/scss/_yat.scss */
+/* line 274, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-fullscreen {
   position: fixed;
   top: 0;
@@ -652,7 +658,7 @@
   left: 0;
   right: 0;
 }
-/* line 277, ../../src/scss/_yat.scss */
+/* line 281, /Users/franzwilding/Sites/yat.js/src/scss/layouts/../_yat.scss */
 .yat-fullscreen .yat-timeline {
   margin-top: 100px;
   margin-left: 20px;
