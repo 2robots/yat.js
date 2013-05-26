@@ -1,12 +1,6 @@
 #!/bin/bash
 
 files=( \
-  js/libs/underscore-min.js \
-  js/libs/backbone-min.js \
-  js/libs/jquery.event.scroll.js \
-  js/libs/jquery.ba-resize.min.js \
-  js/libs/hammer.js \
-  js/libs/moment.js \
   js/coffee/wrapper/yat.js \
   js/coffee/backbone/models/navigationViewManager.js \
   js/coffee/backbone/views/templates.js \
@@ -31,14 +25,16 @@ done
 
 if [ -z "$1" ]
   then
-    minified=yat.js
+    normal=yat.js
+    minified=yat.min.js
   else
-    minified=$1
+    normal=$1
 fi
 
-if [ -a $minified ]
+if [ -a $normal ]
   then
-    rm $minified
+    rm $normal
 fi
 
-cat ${files[*]} >> $minified
+cat ${files[*]} >> $normal
+jsmin < "$normal" > "$minified"

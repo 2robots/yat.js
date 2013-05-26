@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>yat.js - the only touch-ready lightweight timeline</title>
+
+    <link rel="stylesheet" type="text/css" href="css/layouts/fresh.css" />
+  </head>
+
+  <body>
+
+    <table id="source">
+      <tbody>
+        <tr>
+          <td>Hello World</td>
+          <td>2013-01-03</td>
+          <td>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>general</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Hello World ksldjaslkdj alk</td>
+          <td>2012-12-24</td>
+          <td>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>general</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Hello World</td>
+          <td>2012-12-30</td>
+          <td>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>general</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Hello World</td>
+          <td>2013-01-03</td>
+          <td>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>general</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Hello World ksldjaslkdj alk</td>
+          <td>2012-12-20</td>
+          <td>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>general</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Hello World</td>
+          <td>2012-12-28</td>
+          <td>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper.</td>
+          <td>general</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="timeline_container"></div>
+
+    <script type="text/javascript" src="js/libs/modernizr.custom.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+    <script type="text/javascript" src="js/libs/underscore-min.js"></script>
+    <script type="text/javascript" src="js/libs/backbone-min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.event.scroll.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.ba-resize.min.js"></script>
+    <script type="text/javascript" src="js/libs/hammer.js"></script>
+    <script type="text/javascript" src="js/libs/moment.js"></script>
+    <script src="yat.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      $("#source").yat(
+        {
+          items:"tbody tr",
+          content:"td:nth-child(3)",
+          date:"td:nth-child(2)",
+          shorttitle:"td:nth-child(1)",
+          category:"td:nth-child(4)",
+          tags:"td:nth-child(4)",
+          important:"tr"
+        },
+        "#timeline_container",
+        {
+          alterImportant:function (element) {
+            return element.hasClass("important");
+          }
+        }
+      );
+    </script>
+  </body>
+</html>
